@@ -1,5 +1,5 @@
 {
-  "entry": "assets/index-hFKiEYw_.js",
+  "entry": "assets/index-LEzSzBjc.js",
   "bootChunks": [
     {
       "fileName": "assets/AppCommandProvider-C77Hafdu.js",
@@ -230,7 +230,7 @@
       "packages": []
     },
     {
-      "fileName": "assets/index-hFKiEYw_.js",
+      "fileName": "assets/index-LEzSzBjc.js",
       "bytes": 725284,
       "packages": [
         "@radix-ui/react-context-menu",
@@ -296,7 +296,7 @@
       "packages": []
     },
     {
-      "fileName": "assets/plugin-frontend-lazy-C818oBGN.js",
+      "fileName": "assets/plugin-frontend-lazy-Cl9ttVuo.js",
       "bytes": 44695,
       "packages": [
         "fzf"
@@ -546,56 +546,56 @@
       "facade": null
     },
     {
-      "fileName": "assets/BbDiff-D7u_k6ii.js",
+      "fileName": "assets/BbDiff-BHBsG10O.js",
       "bytes": 4093,
       "packages": [],
       "imports": [
-        "assets/FileDiff-8oxlEYWd.js",
-        "assets/PierreLineSelectionActions-BLECyaUn.js",
+        "assets/FileDiff-Cix1cXau.js",
+        "assets/PierreLineSelectionActions-BuR8vR3z.js",
         "assets/code-theme-DiWOP-n4.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
         "assets/icon-DOznhrNf.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
+        "assets/pierre-strict-mode-recovery-CTv_Rolx.js",
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/skeleton-B2h_l9Tx.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/useTheme-BE-aNg6s.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": "src/components/code/BbDiff.tsx"
     },
     {
-      "fileName": "assets/BbSourceCode-B7P-zJd2.js",
+      "fileName": "assets/BbSourceCode-Cbpl5_WW.js",
       "bytes": 9878,
       "packages": [],
       "imports": [
-        "assets/File-CVseCEwl.js",
-        "assets/PierreLineSelectionActions-BLECyaUn.js",
+        "assets/File-Dhze-NPV.js",
+        "assets/PierreLineSelectionActions-BuR8vR3z.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/cleanLastNewline-Cc4xc9M-.js",
         "assets/code-theme-DiWOP-n4.js",
         "assets/icon-DOznhrNf.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
+        "assets/pierre-strict-mode-recovery-CTv_Rolx.js",
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/skeleton-B2h_l9Tx.js",
         "assets/source-code-budget-BBnk-4nX.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/useTheme-BE-aNg6s.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": "src/components/code/BbSourceCode.tsx"
     },
     {
-      "fileName": "assets/BrowserTabDeck-BAbPuuB3.js",
+      "fileName": "assets/BrowserTabDeck-DM7aFN8t.js",
       "bytes": 82,
       "packages": [],
       "imports": [
-        "assets/SplitWorkspaceRoute-B1kzC6T_.js"
+        "assets/SplitWorkspaceRoute-Bl8gOVkA.js"
       ],
       "facade": "src/components/secondary-panel/BrowserTabDeck.tsx"
     },
@@ -654,14 +654,14 @@
       "facade": null
     },
     {
-      "fileName": "assets/DiffHost-D_ERHD3K.js",
+      "fileName": "assets/DiffHost-DcolepEt.js",
       "bytes": 5473,
       "packages": [],
       "imports": [
         "assets/code-rendering-Cvn1d5_T.js",
-        "assets/codeRendererProvider-B7xv5E-y.js",
+        "assets/codeRendererProvider-D6YWVv55.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/preload-helper-Czpn1I53.js",
         "assets/react-C21x__mS.js",
@@ -671,13 +671,13 @@
       "facade": null
     },
     {
-      "fileName": "assets/ExperimentalFileLinkMenu-wS_96sgK.js",
+      "fileName": "assets/ExperimentalFileLinkMenu-BmQRUD9K.js",
       "bytes": 4350,
       "packages": [],
       "imports": [
         "assets/browser-storage-3_3AlpVD.js",
         "assets/clipboard-pGbgGkSC.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/live-file-navigation-CVt9D2M5.js",
         "assets/plugin-slots-BRp8b7WX.js",
@@ -689,7 +689,7 @@
       "facade": "src/components/plugin/ExperimentalFileLinkMenu.tsx"
     },
     {
-      "fileName": "assets/File-CVseCEwl.js",
+      "fileName": "assets/File-Dhze-NPV.js",
       "bytes": 51299,
       "packages": [
         "@pierre/diffs"
@@ -698,7 +698,7 @@
         "assets/cleanLastNewline-Cc4xc9M-.js",
         "assets/computeVirtualFileMetrics-xcXBef4Y.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
+        "assets/pierre-strict-mode-recovery-CTv_Rolx.js",
         "assets/react-C21x__mS.js",
         "assets/renderFileWithHighlighter-DRmauPJn.js",
         "assets/rolldown-runtime-C0FnF6B9.js"
@@ -706,7 +706,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/FileDiff-8oxlEYWd.js",
+      "fileName": "assets/FileDiff-Cix1cXau.js",
       "bytes": 129473,
       "packages": [
         "@pierre/diffs"
@@ -716,7 +716,7 @@
         "assets/computeVirtualFileMetrics-xcXBef4Y.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
+        "assets/pierre-strict-mode-recovery-CTv_Rolx.js",
         "assets/react-C21x__mS.js",
         "assets/renderDiffWithHighlighter-DwgyqKWn.js",
         "assets/rolldown-runtime-C0FnF6B9.js"
@@ -724,13 +724,13 @@
       "facade": null
     },
     {
-      "fileName": "assets/FilePreview-IQSUSnym.js",
+      "fileName": "assets/FilePreview-Czd0L1Cw.js",
       "bytes": 25754,
       "packages": [],
       "imports": [
         "assets/AppCommandProvider-C77Hafdu.js",
         "assets/AppCommandShortcutHint-VLstEqhX.js",
-        "assets/SourceCodeHost-BtwaWjdB.js",
+        "assets/SourceCodeHost-CLR4Zy8Q.js",
         "assets/TimelineSelectionMenu-g1FDiP25.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
@@ -739,7 +739,7 @@
         "assets/empty-state-CjWZ2SjB.js",
         "assets/esm-C0Ek_cf3.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/open-in-editor-button-CUmJpr4s.js",
         "assets/react-C21x__mS.js",
@@ -749,22 +749,22 @@
         "assets/truncate-start-DDCMHnjz.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/use-pointer-coarse-wlmNW7st.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/GitDiffCardHeader-Sq0kNHFk.js",
+      "fileName": "assets/GitDiffCardHeader-iPOzKhkH.js",
       "bytes": 20226,
       "packages": [],
       "imports": [
-        "assets/DiffHost-D_ERHD3K.js",
+        "assets/DiffHost-DcolepEt.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/dist-DrjW-kAp.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/open-in-editor-button-CUmJpr4s.js",
         "assets/react-C21x__mS.js",
@@ -773,12 +773,12 @@
         "assets/truncate-start-DDCMHnjz.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/use-pointer-coarse-wlmNW7st.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/MachineSettingsView-CsUtG-0W.js",
+      "fileName": "assets/MachineSettingsView-Cw1A2-5w.js",
       "bytes": 16337,
       "packages": [],
       "imports": [
@@ -792,9 +792,9 @@
         "assets/host-mutations-BIxc87Wu.js",
         "assets/host-queries-SIdWVewG.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/page-shell-BVJXPgfG.js",
+        "assets/page-shell-Cz6tSFmf.js",
         "assets/permission-mode-options-BmlnlW27.js",
         "assets/pill-DbPNWwBN.js",
         "assets/provider-icon-DdbMuhty.js",
@@ -810,19 +810,19 @@
       "facade": "src/views/MachineSettingsView.tsx"
     },
     {
-      "fileName": "assets/NewTabPage-BX-I3Azo.js",
+      "fileName": "assets/NewTabPage-Bimf5rkq.js",
       "bytes": 23272,
       "packages": [],
       "imports": [
         "assets/AppCommandProvider-C77Hafdu.js",
         "assets/AppCommandShortcutHint-VLstEqhX.js",
         "assets/PluginIcon-DpZEtMVP.js",
-        "assets/SplitWorkspaceRoute-B1kzC6T_.js",
+        "assets/SplitWorkspaceRoute-Bl8gOVkA.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/coarse-pointer-sizing-DphQ_rvo.js",
         "assets/empty-state-CjWZ2SjB.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/input-CWz54HHW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/motion-CVOLgB-v.js",
@@ -833,12 +833,12 @@
         "assets/truncate-start-DDCMHnjz.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/use-pointer-coarse-wlmNW7st.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": "src/components/secondary-panel/NewTabPage.tsx"
     },
     {
-      "fileName": "assets/PierreLineSelectionActions-BLECyaUn.js",
+      "fileName": "assets/PierreLineSelectionActions-BuR8vR3z.js",
       "bytes": 6039,
       "packages": [],
       "imports": [
@@ -848,7 +848,7 @@
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": null
     },
@@ -866,13 +866,13 @@
       "facade": null
     },
     {
-      "fileName": "assets/PluginPanelRightPanelHost-VMcknfUy.js",
+      "fileName": "assets/PluginPanelRightPanelHost-CTmlXV0J.js",
       "bytes": 14567,
       "packages": [],
       "imports": [
         "assets/AppCommandProvider-C77Hafdu.js",
         "assets/PluginIcon-DpZEtMVP.js",
-        "assets/SplitWorkspaceRoute-B1kzC6T_.js",
+        "assets/SplitWorkspaceRoute-Bl8gOVkA.js",
         "assets/atomFamily-4pdqqxg5.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/browser-url-BbbaxsxH.js",
@@ -880,10 +880,10 @@
         "assets/chrome-style-tokens-3RReC8vt.js",
         "assets/coarse-pointer-sizing-DphQ_rvo.js",
         "assets/dist-DS5_IV6-.js",
-        "assets/fixed-panel-tabs-state-D5PDnx_N.js",
+        "assets/fixed-panel-tabs-state-B_yC_wfN.js",
         "assets/host-queries-SIdWVewG.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/json-value-BVczGopW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/live-file-navigation-CVt9D2M5.js",
@@ -896,11 +896,11 @@
         "assets/route-paths-Dn_4Laii.js",
         "assets/src-CKndvrih.js",
         "assets/system-queries-CTnkvEq0.js",
-        "assets/thread-terminal-queries-CLUqi3Ri.js",
+        "assets/thread-terminal-queries-DQwUk_Oz.js",
         "assets/tooltip-Y54dFZVi.js",
         "assets/use-compact-viewport-D7M0fxNt.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": "src/components/plugin/PluginPanelRightPanelHost.tsx"
     },
@@ -928,7 +928,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/ProjectSettingsView-kHaYf8Rz.js",
+      "fileName": "assets/ProjectSettingsView-l3b_GAsQ.js",
       "bytes": 10291,
       "packages": [],
       "imports": [
@@ -943,9 +943,9 @@
         "assets/host-queries-SIdWVewG.js",
         "assets/icon-DOznhrNf.js",
         "assets/icon-extended-D4M1rwAx.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/page-shell-BVJXPgfG.js",
+        "assets/page-shell-Cz6tSFmf.js",
         "assets/pill-DbPNWwBN.js",
         "assets/project-mutations-CzEdjEwe.js",
         "assets/react-C21x__mS.js",
@@ -987,7 +987,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/SettingsView-Br3OaOWk.js",
+      "fileName": "assets/SettingsView-GK87ae46.js",
       "bytes": 233672,
       "packages": [
         "@radix-ui/react-checkbox"
@@ -1005,7 +1005,7 @@
         "assets/button-B51Kq5q2.js",
         "assets/clipboard-pGbgGkSC.js",
         "assets/coarse-pointer-sizing-DphQ_rvo.js",
-        "assets/codeRendererProvider-B7xv5E-y.js",
+        "assets/codeRendererProvider-D6YWVv55.js",
         "assets/dialog-BUbbCk5Y.js",
         "assets/dist-D8jraPnA.js",
         "assets/dist-DS5_IV6-.js",
@@ -1016,13 +1016,13 @@
         "assets/i18next-DJO5zU0T.js",
         "assets/icon-DOznhrNf.js",
         "assets/icon-extended-D4M1rwAx.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/input-CWz54HHW.js",
         "assets/json-value-BVczGopW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/loopback-hostname-CTShFYx5.js",
         "assets/motion-CVOLgB-v.js",
-        "assets/page-shell-BVJXPgfG.js",
+        "assets/page-shell-Cz6tSFmf.js",
         "assets/permission-mode-options-BmlnlW27.js",
         "assets/pill-DbPNWwBN.js",
         "assets/plugin-catalog-queries-CaZ1wtaD.js",
@@ -1052,13 +1052,13 @@
       "facade": "src/views/SettingsView.tsx"
     },
     {
-      "fileName": "assets/SourceCodeHost-BtwaWjdB.js",
+      "fileName": "assets/SourceCodeHost-CLR4Zy8Q.js",
       "bytes": 5270,
       "packages": [],
       "imports": [
         "assets/code-rendering-Cvn1d5_T.js",
-        "assets/codeRendererProvider-B7xv5E-y.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/codeRendererProvider-D6YWVv55.js",
+        "assets/index-LEzSzBjc.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/preload-helper-Czpn1I53.js",
         "assets/react-C21x__mS.js",
@@ -1068,7 +1068,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/SplitWorkspaceRoute-B1kzC6T_.js",
+      "fileName": "assets/SplitWorkspaceRoute-Bl8gOVkA.js",
       "bytes": 346181,
       "packages": [
         "@tanstack/react-query"
@@ -1096,21 +1096,21 @@
         "assets/dropdown-menu-TLnAz-ej.js",
         "assets/empty-state-CjWZ2SjB.js",
         "assets/environment-queries-CWeABHcQ.js",
-        "assets/fixed-panel-tabs-state-D5PDnx_N.js",
+        "assets/fixed-panel-tabs-state-B_yC_wfN.js",
         "assets/host-queries-SIdWVewG.js",
         "assets/i18next-DJO5zU0T.js",
         "assets/icon-DOznhrNf.js",
         "assets/icon-extended-D4M1rwAx.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/input-CWz54HHW.js",
         "assets/json-value-BVczGopW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/live-file-navigation-CVt9D2M5.js",
         "assets/loopback-hostname-CTShFYx5.js",
-        "assets/page-shell-BVJXPgfG.js",
+        "assets/page-shell-Cz6tSFmf.js",
         "assets/panelTransitionTokens-CpzNg6if.js",
         "assets/pill-DbPNWwBN.js",
-        "assets/plugin-frontend-lazy-C818oBGN.js",
+        "assets/plugin-frontend-lazy-Cl9ttVuo.js",
         "assets/plugin-homepage-section-CE_0tVF8.js",
         "assets/plugin-slot-resolvers-DtzkivrT.js",
         "assets/plugin-slots-BRp8b7WX.js",
@@ -1130,7 +1130,7 @@
         "assets/system-queries-CTnkvEq0.js",
         "assets/thread-queries-XSMz7_DC.js",
         "assets/thread-state-mutations-Cu9XO0xw.js",
-        "assets/thread-terminal-queries-CLUqi3Ri.js",
+        "assets/thread-terminal-queries-DQwUk_Oz.js",
         "assets/thread-title-1-b_HvXO.js",
         "assets/threadSecondaryPanelAtoms-ufWq5sJY.js",
         "assets/tooltip-Y54dFZVi.js",
@@ -1140,21 +1140,21 @@
         "assets/useHostDaemon-BiGb8I0a.js",
         "assets/useLocalOpenTargets-CYEAYR5z.js",
         "assets/vozen-logo-DKt4ffrM.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": "src/views/SplitWorkspaceRoute.tsx"
     },
     {
-      "fileName": "assets/ThreadSecondaryPanel-DVyPirOG.js",
+      "fileName": "assets/ThreadSecondaryPanel-CS2iP0zr.js",
       "bytes": 61473,
       "packages": [],
       "imports": [
         "assets/AppCommandProvider-C77Hafdu.js",
         "assets/AppCommandShortcutHint-VLstEqhX.js",
         "assets/AppPageHeader-C2sph1PI.js",
-        "assets/FilePreview-IQSUSnym.js",
-        "assets/SplitWorkspaceRoute-B1kzC6T_.js",
-        "assets/ThreadSecondaryPanelTabContent-DrFBPqj5.js",
+        "assets/FilePreview-Czd0L1Cw.js",
+        "assets/SplitWorkspaceRoute-Bl8gOVkA.js",
+        "assets/ThreadSecondaryPanelTabContent-CTB2Tk3q.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/chrome-style-tokens-3RReC8vt.js",
@@ -1164,9 +1164,9 @@
         "assets/dropdown-menu-TLnAz-ej.js",
         "assets/empty-state-CjWZ2SjB.js",
         "assets/environment-queries-CWeABHcQ.js",
-        "assets/fixed-panel-tabs-state-D5PDnx_N.js",
+        "assets/fixed-panel-tabs-state-B_yC_wfN.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/json-value-BVczGopW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/panelTransitionTokens-CpzNg6if.js",
@@ -1179,19 +1179,19 @@
         "assets/threadSecondaryPanelAtoms-ufWq5sJY.js",
         "assets/tooltip-Y54dFZVi.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": "src/components/secondary-panel/ThreadSecondaryPanel.tsx"
     },
     {
-      "fileName": "assets/ThreadSecondaryPanelTabContent-DrFBPqj5.js",
+      "fileName": "assets/ThreadSecondaryPanelTabContent-CTB2Tk3q.js",
       "bytes": 42707,
       "packages": [
         "jotai"
       ],
       "imports": [
-        "assets/FilePreview-IQSUSnym.js",
-        "assets/GitDiffCardHeader-Sq0kNHFk.js",
+        "assets/FilePreview-Czd0L1Cw.js",
+        "assets/GitDiffCardHeader-iPOzKhkH.js",
         "assets/atomFamily-4pdqqxg5.js",
         "assets/base64-bytes-o0utlzEU.js",
         "assets/browser-storage-3_3AlpVD.js",
@@ -1202,7 +1202,7 @@
         "assets/esm-C0Ek_cf3.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/query-helpers-CqXFk8uG.js",
         "assets/react-C21x__mS.js",
@@ -1213,7 +1213,7 @@
         "assets/src-CKndvrih.js",
         "assets/thread-queries-XSMz7_DC.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": "src/components/secondary-panel/ThreadSecondaryPanelTabContent.tsx"
     },
@@ -1236,18 +1236,18 @@
       "facade": "src/components/secondary-panel/ThreadStorageFileTree.tsx"
     },
     {
-      "fileName": "assets/ThreadTerminalPanel-Dz2RrI__.js",
+      "fileName": "assets/ThreadTerminalPanel-DqlJrIXG.js",
       "bytes": 21627,
       "packages": [
         "@xterm/xterm"
       ],
       "imports": [
-        "assets/SplitWorkspaceRoute-B1kzC6T_.js",
+        "assets/SplitWorkspaceRoute-Bl8gOVkA.js",
         "assets/TimelineSelectionMenu-g1FDiP25.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/preload-helper-Czpn1I53.js",
         "assets/query-helpers-CqXFk8uG.js",
@@ -1260,11 +1260,11 @@
       "facade": "src/components/thread/terminal/ThreadTerminalPanel.tsx"
     },
     {
-      "fileName": "assets/TimelineFileDiffBlock-bmjMDaIq.js",
+      "fileName": "assets/TimelineFileDiffBlock-5L9ClQJq.js",
       "bytes": 5706,
       "packages": [],
       "imports": [
-        "assets/GitDiffCardHeader-Sq0kNHFk.js",
+        "assets/GitDiffCardHeader-iPOzKhkH.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/dist-DrjW-kAp.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
@@ -1274,7 +1274,7 @@
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/src-CKndvrih.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": "src/components/thread/timeline/TimelineFileDiffBlock.tsx"
     },
@@ -1315,12 +1315,12 @@
       "facade": "src/components/thread/timeline/TimelineWindowedItems.tsx"
     },
     {
-      "fileName": "assets/ToolsView-cgyRJeel.js",
+      "fileName": "assets/ToolsView-BIoHrwK-.js",
       "bytes": 203059,
       "packages": [],
       "imports": [
         "assets/ConfirmDeleteDialog-FKibiV2h.js",
-        "assets/FilePreview-IQSUSnym.js",
+        "assets/FilePreview-Czd0L1Cw.js",
         "assets/PluginIcon-DpZEtMVP.js",
         "assets/ProviderIconMark-BUvleAxV.js",
         "assets/app-toast-xfdseYvr.js",
@@ -1335,13 +1335,13 @@
         "assets/i18next-DJO5zU0T.js",
         "assets/icon-DOznhrNf.js",
         "assets/icon-extended-D4M1rwAx.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/input-CWz54HHW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/pill-DbPNWwBN.js",
         "assets/plugin-catalog-queries-CaZ1wtaD.js",
-        "assets/plugin-frontend-B9szaPXp.js",
-        "assets/plugin-frontend-lazy-C818oBGN.js",
+        "assets/plugin-frontend-CJEwYhNA.js",
+        "assets/plugin-frontend-lazy-Cl9ttVuo.js",
         "assets/plugin-homepage-section-CE_0tVF8.js",
         "assets/plugin-slots-BRp8b7WX.js",
         "assets/provider-icon-DdbMuhty.js",
@@ -1357,7 +1357,7 @@
         "assets/useLocalOpenTargets-CYEAYR5z.js",
         "assets/useMutation-CveUiEmp.js",
         "assets/useTheme-BE-aNg6s.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": "src/views/ToolsView.tsx"
     },
@@ -2536,11 +2536,11 @@
       "facade": null
     },
     {
-      "fileName": "assets/codeRendererProvider-B7xv5E-y.js",
+      "fileName": "assets/codeRendererProvider-D6YWVv55.js",
       "bytes": 573,
       "packages": [],
       "imports": [
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/plugin-slots-BRp8b7WX.js",
         "assets/src-CKndvrih.js",
         "assets/use-media-query-CQCemZ5B.js"
@@ -3334,13 +3334,13 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/fish.mjs"
     },
     {
-      "fileName": "assets/fixed-panel-tabs-state-D5PDnx_N.js",
+      "fileName": "assets/fixed-panel-tabs-state-B_yC_wfN.js",
       "bytes": 499,
       "packages": [],
       "imports": [
         "assets/browser-storage-3_3AlpVD.js",
         "assets/src-CKndvrih.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": null
     },
@@ -4075,7 +4075,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/imba.mjs"
     },
     {
-      "fileName": "assets/index-hFKiEYw_.js",
+      "fileName": "assets/index-LEzSzBjc.js",
       "bytes": 725284,
       "packages": [
         "@radix-ui/react-context-menu",
@@ -4116,7 +4116,7 @@
         "assets/menu-item-hover-By6MLDrs.js",
         "assets/motion-CVOLgB-v.js",
         "assets/plugin-context-Cgi6OOfm.js",
-        "assets/plugin-frontend-lazy-C818oBGN.js",
+        "assets/plugin-frontend-lazy-Cl9ttVuo.js",
         "assets/plugin-slot-resolvers-DtzkivrT.js",
         "assets/plugin-slots-BRp8b7WX.js",
         "assets/plugin-thread-panel-navigation-B9GbeRjz.js",
@@ -5212,14 +5212,14 @@
       "facade": "../../../node_modules/.bun/@mermaid-js+parser@1.2.1/node_modules/@mermaid-js/parser/dist/chunks/mermaid-parser.core/packet-AYTQ26CC.mjs"
     },
     {
-      "fileName": "assets/page-shell-BVJXPgfG.js",
+      "fileName": "assets/page-shell-Cz6tSFmf.js",
       "bytes": 14132,
       "packages": [],
       "imports": [
         "assets/atomFamily-4pdqqxg5.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
@@ -5442,7 +5442,7 @@
       "facade": "../../../node_modules/.bun/@pierre+theme@2.0.0/node_modules/@pierre/theme/dist/pierre-light-vibrant.mjs"
     },
     {
-      "fileName": "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
+      "fileName": "assets/pierre-strict-mode-recovery-CTv_Rolx.js",
       "bytes": 106046,
       "packages": [
         "@pierre/diffs"
@@ -5454,7 +5454,7 @@
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": null
     },
@@ -5551,7 +5551,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/plugin-frontend-B9szaPXp.js",
+      "fileName": "assets/plugin-frontend-CJEwYhNA.js",
       "bytes": 228428,
       "packages": [
         "@pierre/diffs",
@@ -5566,11 +5566,11 @@
       ],
       "imports": [
         "assets/Combination-0Nn_Gmmk.js",
-        "assets/DiffHost-D_ERHD3K.js",
-        "assets/File-CVseCEwl.js",
-        "assets/FileDiff-8oxlEYWd.js",
+        "assets/DiffHost-DcolepEt.js",
+        "assets/File-Dhze-NPV.js",
+        "assets/FileDiff-Cix1cXau.js",
         "assets/PluginIcon-DpZEtMVP.js",
-        "assets/SourceCodeHost-BtwaWjdB.js",
+        "assets/SourceCodeHost-CLR4Zy8Q.js",
         "assets/TimelineSelectionMenu-g1FDiP25.js",
         "assets/app-toast-xfdseYvr.js",
         "assets/browser-storage-3_3AlpVD.js",
@@ -5588,12 +5588,12 @@
         "assets/git-diff-patch-text-DbTxL1ge.js",
         "assets/host-queries-SIdWVewG.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/menu-item-hover-By6MLDrs.js",
-        "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
+        "assets/pierre-strict-mode-recovery-CTv_Rolx.js",
         "assets/plugin-context-Cgi6OOfm.js",
-        "assets/plugin-frontend-lazy-C818oBGN.js",
+        "assets/plugin-frontend-lazy-Cl9ttVuo.js",
         "assets/plugin-slot-resolvers-DtzkivrT.js",
         "assets/plugin-slots-BRp8b7WX.js",
         "assets/plugin-thread-panel-navigation-B9GbeRjz.js",
@@ -5616,12 +5616,12 @@
         "assets/use-compact-viewport-D7M0fxNt.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/useHostDaemon-BiGb8I0a.js",
-        "assets/workspace-checkout-display-CBvFpG3o.js"
+        "assets/workspace-checkout-display-Cdwe9Mur.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/plugin-frontend-lazy-C818oBGN.js",
+      "fileName": "assets/plugin-frontend-lazy-Cl9ttVuo.js",
       "bytes": 44695,
       "packages": [
         "fzf"
@@ -6990,14 +6990,14 @@
       "facade": null
     },
     {
-      "fileName": "assets/thread-terminal-queries-CLUqi3Ri.js",
+      "fileName": "assets/thread-terminal-queries-DQwUk_Oz.js",
       "bytes": 12816,
       "packages": [],
       "imports": [
         "assets/app-toast-xfdseYvr.js",
         "assets/atomFamily-4pdqqxg5.js",
         "assets/browser-storage-3_3AlpVD.js",
-        "assets/fixed-panel-tabs-state-D5PDnx_N.js",
+        "assets/fixed-panel-tabs-state-B_yC_wfN.js",
         "assets/query-helpers-CqXFk8uG.js",
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
@@ -7642,7 +7642,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/wolfram.mjs"
     },
     {
-      "fileName": "assets/workspace-checkout-display-CBvFpG3o.js",
+      "fileName": "assets/workspace-checkout-display-Cdwe9Mur.js",
       "bytes": 1285417,
       "packages": [
         "@tiptap/core",
@@ -7752,18 +7752,18 @@
         "assets/host-queries-SIdWVewG.js",
         "assets/i18next-DJO5zU0T.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-hFKiEYw_.js",
+        "assets/index-LEzSzBjc.js",
         "assets/input-CWz54HHW.js",
         "assets/json-value-BVczGopW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/menu-item-hover-By6MLDrs.js",
         "assets/motion-CVOLgB-v.js",
         "assets/overlay-trigger-B_B3u-UY.js",
-        "assets/page-shell-BVJXPgfG.js",
+        "assets/page-shell-Cz6tSFmf.js",
         "assets/permission-mode-options-BmlnlW27.js",
         "assets/pill-DbPNWwBN.js",
         "assets/plugin-context-Cgi6OOfm.js",
-        "assets/plugin-frontend-lazy-C818oBGN.js",
+        "assets/plugin-frontend-lazy-Cl9ttVuo.js",
         "assets/plugin-slot-resolvers-DtzkivrT.js",
         "assets/plugin-slots-BRp8b7WX.js",
         "assets/plugin-thread-panel-navigation-B9GbeRjz.js",
@@ -7882,7 +7882,7 @@
   ],
   "routeClosures": {
     "SplitWorkspaceRoute": {
-      "entry": "assets/SplitWorkspaceRoute-B1kzC6T_.js",
+      "entry": "assets/SplitWorkspaceRoute-Bl8gOVkA.js",
       "chunks": [
         {
           "fileName": "assets/ProjectMachineSetupDialog-D7q6SndZ.js",
@@ -7890,7 +7890,7 @@
           "packages": []
         },
         {
-          "fileName": "assets/SplitWorkspaceRoute-B1kzC6T_.js",
+          "fileName": "assets/SplitWorkspaceRoute-Bl8gOVkA.js",
           "bytes": 346181,
           "packages": [
             "@tanstack/react-query"
@@ -7996,7 +7996,7 @@
           "packages": []
         },
         {
-          "fileName": "assets/fixed-panel-tabs-state-D5PDnx_N.js",
+          "fileName": "assets/fixed-panel-tabs-state-B_yC_wfN.js",
           "bytes": 499,
           "packages": []
         },
@@ -8018,7 +8018,7 @@
           "packages": []
         },
         {
-          "fileName": "assets/page-shell-BVJXPgfG.js",
+          "fileName": "assets/page-shell-Cz6tSFmf.js",
           "bytes": 14132,
           "packages": []
         },
@@ -8043,7 +8043,7 @@
           "packages": []
         },
         {
-          "fileName": "assets/thread-terminal-queries-CLUqi3Ri.js",
+          "fileName": "assets/thread-terminal-queries-DQwUk_Oz.js",
           "bytes": 12816,
           "packages": []
         },
@@ -8068,7 +8068,7 @@
           "packages": []
         },
         {
-          "fileName": "assets/workspace-checkout-display-CBvFpG3o.js",
+          "fileName": "assets/workspace-checkout-display-Cdwe9Mur.js",
           "bytes": 1285417,
           "packages": [
             "@tiptap/core",
