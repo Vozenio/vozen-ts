@@ -13,7 +13,8 @@
   },
   "scripts": {
     "test": "bun test src/apps/server src/packages src/plugins",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "bun run --cwd src/apps/web build && rm -rf web-vozen && cp -R src/apps/web/dist web-vozen && bun build --compile src/main.ts --outfile vozen"
   },
   "dependencies": {
     "@bb/domain": "workspace:*",

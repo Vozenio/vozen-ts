@@ -54,7 +54,8 @@ describe("surfaces that stay over the timeline do not blur their backdrop", () =
   it("keeps the shared overlay backdrops free of blur", () => {
     const sharedUiRoot = join(
       dirname(fileURLToPath(import.meta.url)),
-      "../../../../../packages/shared-ui",
+      // bb-packages/, not bb's packages/ — see tailwind-has-variants.test.ts.
+      "../../../../../../bb-packages/shared-ui",
     );
     for (const file of [
       "src/components/ui/dialog.tsx",

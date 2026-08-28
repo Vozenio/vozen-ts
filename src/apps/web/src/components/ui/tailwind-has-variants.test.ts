@@ -15,7 +15,10 @@ const FORBIDDEN_VARIANT = /\b(?:group|peer)-has-(?:\[|[a-z])/u;
 const here = dirname(fileURLToPath(import.meta.url));
 const roots = [
   join(here, "..", ".."),
-  join(here, "..", "..", "..", "..", "..", "packages", "shared-ui", "src"),
+  // vozen vendors the package at bb-packages/ (repo root), one level deeper
+  // than bb's packages/ — the upstream path scanned nothing and this guard
+  // silently went blind (which is how the @source purge bug got through).
+  join(here, "..", "..", "..", "..", "..", "..", "bb-packages", "shared-ui", "src"),
 ];
 
 function* sourceFiles(dir: string): Generator<string> {
