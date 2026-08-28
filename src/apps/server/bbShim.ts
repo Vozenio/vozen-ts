@@ -226,7 +226,11 @@ const BB_STATUS: Record<string, ThreadResponse["status"]> = {
   interrupted: "idle",
 };
 
-export function toBbThread(thread: ThreadRow, _hasPendingInteraction: boolean): ThreadResponse {
+export function toBbThread(
+  thread: ThreadRow,
+  _hasPendingInteraction: boolean,
+  pin: { pinned_at: number; sort_key: string | null } | null = null,
+): ThreadResponse {
   const createdMs = thread.created_at * 1000;
   const updatedMs = thread.updated_at * 1000;
   const bbStatus = BB_STATUS[thread.status]!;
@@ -245,7 +249,7 @@ export function toBbThread(thread: ThreadRow, _hasPendingInteraction: boolean): 
     originPluginId: null,
     visibility: "visible",
     archivedAt: thread.archived_at ? thread.archived_at * 1000 : null,
-    pinnedAt: null,
+    pinnedAt: pin?.pinned_at ?? null,
     deletedAt: null,
     lastReadAt: updatedMs,
     latestAttentionAt: updatedMs,
@@ -257,9 +261,13 @@ export function toBbThread(thread: ThreadRow, _hasPendingInteraction: boolean): 
   };
 }
 
-export function toBbThreadListEntry(thread: ThreadRow, hasPendingInteraction: boolean) {
+export function toBbThreadListEntry(
+  thread: ThreadRow,
+  hasPendingInteraction: boolean,
+  pin: { pinned_at: number; sort_key: string | null } | null = null,
+) {
   return {
-    ...toBbThread(thread, hasPendingInteraction),
+    ...toBbThread(thread, hasPendingInteraction, pin),
     activity: {
       activeWorkflowCount: 0,
       activeBackgroundAgentCount: 0,
@@ -267,7 +275,7 @@ export function toBbThreadListEntry(thread: ThreadRow, hasPendingInteraction: bo
       activePlanModeCount: 0,
       activeGoalCount: 0,
     },
-    pinSortKey: null,
+    pinSortKey: pin?.sort_key ?? null,
     hasPendingInteraction,
     environmentHostId: null,
     environmentName: "vozen",
@@ -447,12 +455,12 @@ export function toBbProject(project: ProjectRow) {
 }
 
 export function toBbProjectWithThreads(engine: ThreadManager, project: ProjectRow) {
-  const threads = engine.listThreadsByProject(project.id).map((t) => toBbThreadListEntry(t, engine.hasPendingInteraction(t.id)));
+  const threads = engine.listThreadsByProject(project.id).map((t) => toBbThreadListEntry(t, engine.hasPendingInteraction(t.id), engine.threadPin(t.id)));
   return { ...toBbProject(project), threads, defaultExecutionOptions: DEFAULT_EXECUTION_OPTIONS };
 }
 
 export function sidebarBootstrap(engine: ThreadManager) {
-  const personalThreads = engine.listThreadsByProject(null).map((t) => toBbThreadListEntry(t, engine.hasPendingInteraction(t.id)));
+  const personalThreads = engine.listThreadsByProject(null).map((t) => toBbThreadListEntry(t, engine.hasPendingInteraction(t.id), engine.threadPin(t.id)));
   const personalProject = {
     id: PERSONAL_PROJECT_ID,
     kind: "personal",

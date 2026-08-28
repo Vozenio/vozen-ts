@@ -468,6 +468,56 @@ export class ThreadManager {
     return this.herdrRegistry.resolveInteraction(threadId, interactionId, resolution);
   }
 
+  threadPin(threadId: string): sqlite.ThreadPinRow | null {
+    return sqlite.getThreadPin(this.db, threadId);
+  }
+
+  pin(threadId: string): ThreadRow {
+    const thread = this.show(threadId);
+    if (!thread) throw new Error(`Unknown thread ${threadId}`);
+    sqlite.setThreadPin(this.db, threadId, Date.now(), null);
+    this.broadcastChanged("thread", threadId, ["pinned-changed"]);
+    return thread;
+  }
+
+  unpin(threadId: string): ThreadRow {
+    const thread = this.show(threadId);
+    if (!thread) throw new Error(`Unknown thread ${threadId}`);
+    sqlite.deleteThreadPin(this.db, threadId);
+    this.broadcastChanged("thread", threadId, ["pinned-changed"]);
+    return thread;
+  }
+
+  /** Moves one pinned thread between two neighbors (bb's pin-order PATCH).
+   * Rewrites every pin's sort key as a zero-padded index — pins number in
+   * the single digits, so recomputing all of them beats fractional-key
+   * bookkeeping (ponytail: revisit if someone pins hundreds of threads). */
+  reorderPinned(threadId: string, previousThreadId: string | null, nextThreadId: string | null): void {
+    const pins = sqlite.listThreadPins(this.db);
+    if (!pins.some((pin) => pin.thread_id === threadId)) throw new Error(`Thread ${threadId} is not pinned`);
+    // Same effective order the frontend renders: sort_key (codepoint) first,
+    // newest pinned first among unkeyed rows.
+    const ordered = pins
+      .sort((a, b) => {
+        if (a.sort_key !== null && b.sort_key !== null && a.sort_key !== b.sort_key) {
+          return a.sort_key < b.sort_key ? -1 : 1;
+        }
+        if (a.sort_key !== b.sort_key) return a.sort_key !== null ? -1 : 1;
+        return b.pinned_at - a.pinned_at;
+      })
+      .map((pin) => pin.thread_id)
+      .filter((id) => id !== threadId);
+    const anchor = nextThreadId !== null ? ordered.indexOf(nextThreadId)
+      : previousThreadId !== null ? ordered.indexOf(previousThreadId) + 1
+      : ordered.length;
+    ordered.splice(anchor === -1 ? ordered.length : anchor, 0, threadId);
+    const byId = new Map(pins.map((pin) => [pin.thread_id, pin]));
+    ordered.forEach((id, index) => {
+      sqlite.setThreadPin(this.db, id, byId.get(id)!.pinned_at, String(index).padStart(6, "0"));
+    });
+    this.broadcastChanged("thread", threadId, ["pinned-changed"]);
+  }
+
   rename(threadId: string, title: string): ThreadRow {
     if (this.isHerdrThread(threadId)) {
       throw new Error(`Herdr threads cannot be renamed — title tracks the terminal automatically`);

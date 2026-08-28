@@ -426,8 +426,46 @@ export function createApp(engine: ThreadManager, connectManager?: ConnectManager
     return c.json(shim.toBbProjectWithThreads(engine, project));
   });
 
-  app.get("/api/v1/threads", (c) =>
-    c.json(engine.list().map((t) => shim.toBbThreadListEntry(t, engine.hasPendingInteraction(t.id)))));
+  const bbThreadList = () =>
+    engine.list().map((t) => shim.toBbThreadListEntry(t, engine.hasPendingInteraction(t.id), engine.threadPin(t.id)));
+
+  app.get("/api/v1/threads", (c) => c.json(bbThreadList()));
+
+  app.post("/api/v1/threads/:id/pin", (c) => {
+    const threadId = c.req.param("id");
+    let thread;
+    try {
+      thread = engine.pin(threadId);
+    } catch (error) {
+      return c.json({ error: errorMessage(error) }, 404);
+    }
+    return c.json(shim.toBbThread(thread, engine.hasPendingInteraction(threadId), engine.threadPin(threadId)));
+  });
+
+  app.post("/api/v1/threads/:id/unpin", (c) => {
+    const threadId = c.req.param("id");
+    let thread;
+    try {
+      thread = engine.unpin(threadId);
+    } catch (error) {
+      return c.json({ error: errorMessage(error) }, 404);
+    }
+    return c.json(shim.toBbThread(thread, engine.hasPendingInteraction(threadId), null));
+  });
+
+  app.patch("/api/v1/threads/:id/pin-order", async (c) => {
+    const threadId = c.req.param("id");
+    const body = await readJsonBody(c);
+    if (body === null) return c.json({ error: "invalid JSON body" }, 400);
+    const previousThreadId = typeof body.previousThreadId === "string" ? body.previousThreadId : null;
+    const nextThreadId = typeof body.nextThreadId === "string" ? body.nextThreadId : null;
+    try {
+      engine.reorderPinned(threadId, previousThreadId, nextThreadId);
+    } catch (error) {
+      return c.json({ error: errorMessage(error) }, 400);
+    }
+    return c.json(bbThreadList());
+  });
 
   app.get("/api/v1/threads/:id/interactions", async (c) =>
     c.json(await engine.pendingInteractions(c.req.param("id"))));
@@ -554,7 +592,7 @@ export function createApp(engine: ThreadManager, connectManager?: ConnectManager
   app.get("/api/v1/threads/:id", (c) => {
     const thread = engine.show(c.req.param("id"));
     if (!thread) return c.json({ error: "not found" }, 404);
-    return c.json(shim.toBbThread(thread, engine.hasPendingInteraction(thread.id)));
+    return c.json(shim.toBbThread(thread, engine.hasPendingInteraction(thread.id), engine.threadPin(thread.id)));
   });
 
   // Backs the @-mention / "New tab" file search — fuzzy-matches files under
@@ -785,10 +823,10 @@ export function createApp(engine: ThreadManager, connectManager?: ConnectManager
     const body = await readJsonBody(c);
     if (body === null) return c.json({ error: "invalid JSON body" }, 400);
     const title = body.title as string | undefined;
-    if (!title) return c.json(shim.toBbThread(thread, engine.hasPendingInteraction(threadId)));
+    if (!title) return c.json(shim.toBbThread(thread, engine.hasPendingInteraction(threadId), engine.threadPin(threadId)));
     try {
       const updated = engine.rename(threadId, title);
-      return c.json(shim.toBbThread(updated, engine.hasPendingInteraction(threadId)));
+      return c.json(shim.toBbThread(updated, engine.hasPendingInteraction(threadId), engine.threadPin(threadId)));
     } catch (error) {
       return c.json({ error: errorMessage(error) }, 404);
     }

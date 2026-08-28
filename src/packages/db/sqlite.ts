@@ -55,6 +55,12 @@ CREATE TABLE IF NOT EXISTS timeline_rows (
     payload TEXT
 );
 CREATE INDEX IF NOT EXISTS timeline_rows_thread ON timeline_rows (thread_id, source_seq_start);
+
+CREATE TABLE IF NOT EXISTS thread_pins (
+    thread_id TEXT PRIMARY KEY,
+    pinned_at INTEGER NOT NULL,
+    sort_key TEXT
+);
 `;
 
 export interface ThreadRow {
@@ -273,6 +279,35 @@ export function getThread(db: Database, threadId: string): ThreadRow | null {
 
 export function listThreads(db: Database): ThreadRow[] {
   return db.query("SELECT * FROM threads ORDER BY created_at DESC").all() as ThreadRow[];
+}
+
+// --- thread pins (own table, not a threads column: herdr threads are
+// virtual and have no threads row, but their pins must still persist) ---
+
+export interface ThreadPinRow {
+  thread_id: string;
+  pinned_at: number; // epoch ms — bb's pinnedAt wire unit
+  sort_key: string | null; // codepoint-compared; null = "sort by pinnedAt"
+}
+
+export function getThreadPin(db: Database, threadId: string): ThreadPinRow | null {
+  return (db.query("SELECT * FROM thread_pins WHERE thread_id = ?").get(threadId) as ThreadPinRow | null) ?? null;
+}
+
+export function listThreadPins(db: Database): ThreadPinRow[] {
+  return db.query("SELECT * FROM thread_pins").all() as ThreadPinRow[];
+}
+
+export function setThreadPin(db: Database, threadId: string, pinnedAt: number, sortKey: string | null): void {
+  db.run(
+    `INSERT INTO thread_pins (thread_id, pinned_at, sort_key) VALUES (?, ?, ?)
+     ON CONFLICT(thread_id) DO UPDATE SET pinned_at = excluded.pinned_at, sort_key = excluded.sort_key`,
+    [threadId, pinnedAt, sortKey],
+  );
+}
+
+export function deleteThreadPin(db: Database, threadId: string): void {
+  db.run("DELETE FROM thread_pins WHERE thread_id = ?", [threadId]);
 }
 
 export function threadMaxSeq(db: Database, threadId: string): number {

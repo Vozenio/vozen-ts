@@ -283,3 +283,36 @@ describe("GET /api/v1/threads/:id/timeline pagination", () => {
     expect(body.timelinePage.returnedSegmentCount).toBe(0);
   });
 });
+
+describe("thread pin/unpin/pin-order", () => {
+  test("pin persists, unpin clears, reorder assigns sort keys", async () => {
+    const dbPath = `/tmp/vozen-http-test-${crypto.randomUUID()}.db`;
+    dbPaths.push(dbPath);
+    const engine = new ThreadManager(dbPath);
+    const now = Math.floor(Date.now() / 1000);
+    sqlite.insertThread(engine.db, "thr_a", "/tmp", "a", "idle", now);
+    sqlite.insertThread(engine.db, "thr_b", "/tmp", "b", "idle", now);
+    const { app } = createApp(engine);
+
+    const pinned = await app.request("/api/v1/threads/thr_a/pin", { method: "POST" });
+    expect(pinned.status).toBe(200);
+    expect(((await pinned.json()) as { pinnedAt: number | null }).pinnedAt).not.toBeNull();
+    await app.request("/api/v1/threads/thr_b/pin", { method: "POST" });
+
+    const reordered = await app.request("/api/v1/threads/thr_a/pin-order", {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ previousThreadId: "thr_b", nextThreadId: null }),
+    });
+    expect(reordered.status).toBe(200);
+    const list = (await reordered.json()) as { id: string; pinSortKey: string | null }[];
+    const keys = new Map(list.map((entry) => [entry.id, entry.pinSortKey]));
+    expect(keys.get("thr_b")! < keys.get("thr_a")!).toBe(true);
+
+    const unpinned = await app.request("/api/v1/threads/thr_a/unpin", { method: "POST" });
+    expect(((await unpinned.json()) as { pinnedAt: number | null }).pinnedAt).toBeNull();
+
+    const missing = await app.request("/api/v1/threads/thr_nope/pin", { method: "POST" });
+    expect(missing.status).toBe(404);
+  });
+});
