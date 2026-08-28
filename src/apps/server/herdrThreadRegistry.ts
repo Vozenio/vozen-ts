@@ -28,6 +28,7 @@ import {
   type ToolActivity,
 } from "../../plugins/provider_herdr/sessionLog.ts";
 import { claudeTranscriptToTimelineRows } from "../../plugins/provider_herdr/claudeTranscriptToTimelineRows.ts";
+import { subagentTranscriptsFingerprint } from "../../plugins/provider_herdr/claudeTranscriptToSdkMessages.ts";
 import { claudeAskUserQuestionAnswers, claudeAskUserQuestionToBbQuestions } from "../../plugins/provider_herdr/askUserQuestion.ts";
 
 const DEFAULT_POLL_INTERVAL_MS = 2000;
@@ -276,7 +277,17 @@ export class HerdrThreadRegistry {
   start(): void {
     if (this.timer) return;
     void this.pollOnce();
-    this.timer = setInterval(() => void this.pollOnce(), this.pollIntervalMs);
+    // Each tick spawns a `herdr agent list` subprocess. While the event
+    // socket is pushing pane updates, the poll is only needed for topology
+    // discovery (new panes — the push channel has no "list everything"), so
+    // it relaxes to every 5th tick; with the push channel down it resumes
+    // being the sole refresh path at full cadence.
+    let tick = 0;
+    this.timer = setInterval(() => {
+      tick += 1;
+      if (this.eventClient.connected && tick % 5 !== 0) return;
+      void this.pollOnce();
+    }, this.pollIntervalMs);
     this.eventClient.start();
   }
 
@@ -405,11 +416,14 @@ export class HerdrThreadRegistry {
       if (logPath) {
         // Session logs are tens of MB and this runs every poll tick while
         // the agent is active — an unchanged mtime+size means the previous
-        // parse is still exact, so skip the whole re-read + re-parse.
+        // parse is still exact, so skip the whole re-read + re-parse. The
+        // subagent-sidechain fingerprint rides along because a sidechain can
+        // grow while the main log doesn't.
         let logStat: string | null = null;
         try {
           const stats = await fs.stat(logPath);
-          logStat = `${stats.mtimeMs}:${stats.size}`;
+          const sidechains = await subagentTranscriptsFingerprint(logPath);
+          logStat = `${stats.mtimeMs}:${stats.size}:${sidechains}`;
         } catch {
           // stat failing is fine — fall through to the read paths below,
           // which have their own fallbacks.

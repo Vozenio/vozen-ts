@@ -63,7 +63,15 @@ export class HerdrEventClient {
   private buffer = "";
   private started = false;
   private stopping = false;
+  private subscribedNow = false;
   private readonly listeners: EventListener[] = [];
+
+  /** True while a live, successfully-subscribed connection is up — the
+   * registry uses this to relax its CLI polling cadence when herdr is
+   * pushing pane events anyway. */
+  get connected(): boolean {
+    return this.subscribedNow;
+  }
 
   constructor(options?: HerdrEventClientOptions) {
     this.socketPath = resolveSocketPath(options);
@@ -83,6 +91,7 @@ export class HerdrEventClient {
   stop(): void {
     this.stopping = true;
     this.started = false;
+    this.subscribedNow = false;
     this.socket?.end();
     this.socket = null;
   }
@@ -148,6 +157,7 @@ export class HerdrEventClient {
                 const result = parsed.result as Record<string, unknown> | undefined;
                 if (result?.type === "subscription_started") {
                   subscribed = true;
+                  this.subscribedNow = true;
                 } else {
                   socket.end();
                   reject(new Error(parsed.error ? JSON.stringify(parsed.error) : "herdr event subscription failed"));
@@ -167,6 +177,7 @@ export class HerdrEventClient {
           },
           close: () => {
             this.socket = null;
+            this.subscribedNow = false;
             if (subscribed) resolve();
             else reject(new Error("herdr event socket closed before subscribing"));
           },

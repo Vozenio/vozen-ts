@@ -35,7 +35,7 @@
  * later phase.
  */
 
-import { readdir } from "node:fs/promises";
+import { readdir, stat } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 
 export type JsonRecord = Record<string, unknown>;
@@ -819,6 +819,33 @@ export function parseTranscriptRecords(text: string): TranscriptEntry[] {
 export async function readClaudeTranscriptFile(path: string): Promise<TranscriptEntry[]> {
   const text = await Bun.file(path).text();
   return parseTranscriptRecords(text);
+}
+
+/** Cheap change fingerprint over a session's subagent sidechains: sorted
+ * `name:size:mtime` of every file in the subagents dir, "" when there is
+ * none. A sidechain can grow while the main session log stays untouched, so
+ * refresh gates that stat only the main log would miss live subagent
+ * progress — this closes that hole at readdir+stat cost, not parse cost. */
+export async function subagentTranscriptsFingerprint(sessionPath: string): Promise<string> {
+  const sessionId = basename(sessionPath, ".jsonl");
+  const dir = join(dirname(sessionPath), sessionId, "subagents");
+  let names: string[];
+  try {
+    names = (await readdir(dir)).sort();
+  } catch {
+    return "";
+  }
+  const parts = await Promise.all(
+    names.map(async (name) => {
+      try {
+        const stats = await stat(join(dir, name));
+        return `${name}:${stats.size}:${stats.mtimeMs}`;
+      } catch {
+        return name;
+      }
+    }),
+  );
+  return parts.join(",");
 }
 
 /** Reads a session's `<session>/subagents/agent-*.jsonl` sidechains plus

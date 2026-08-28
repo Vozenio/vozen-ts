@@ -62,7 +62,21 @@ const WORKSPACE_FILE_WALK_CAP = 5000;
  * `/` separators for fuzzyMatchPaths to rank. Stops at `cap` files so a huge
  * repo can't hang the request — ponytail: no .gitignore awareness, add if a
  * real repo's node_modules-adjacent noise turns out to matter. */
+// The @-mention search re-queries on every keystroke; a short-TTL memo per
+// root turns that burst into one real walk (bb proper keeps a live index via
+// @parcel/watcher — a TTL is the cheap stand-in until that's ever needed).
+const workspaceFilesCache = new Map<string, { at: number; result: { files: { path: string; name: string }[]; truncated: boolean } }>();
+const WORKSPACE_FILES_CACHE_TTL_MS = 5_000;
+
 async function listWorkspaceFiles(root: string, cap: number): Promise<{ files: { path: string; name: string }[]; truncated: boolean }> {
+  const cached = workspaceFilesCache.get(root);
+  if (cached && Date.now() - cached.at < WORKSPACE_FILES_CACHE_TTL_MS) return cached.result;
+  const result = await walkWorkspaceFiles(root, cap);
+  workspaceFilesCache.set(root, { at: Date.now(), result });
+  return result;
+}
+
+async function walkWorkspaceFiles(root: string, cap: number): Promise<{ files: { path: string; name: string }[]; truncated: boolean }> {
   const files: { path: string; name: string }[] = [];
   let truncated = false;
   async function walk(dir: string, rel: string): Promise<void> {
@@ -780,7 +794,10 @@ export function createApp(engine: ThreadManager, connectManager?: ConnectManager
           afterSeq = event.seq;
           await stream.writeSSE({ data: JSON.stringify(event) });
         }
-        await stream.sleep(1000);
+        // Push-driven: wakes on the thread's next broadcastChanged instead
+        // of re-querying sqlite every second; the timeout is only a liveness
+        // backstop (and keeps the connection exercised for proxies).
+        await engine.waitForThreadChange(threadId, 15_000);
       }
     });
   });

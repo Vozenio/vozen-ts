@@ -250,6 +250,34 @@ export class ThreadManager {
       }
     }
     for (const sock of dead) this.wsSubscriptions.delete(sock);
+    if (entity === "thread" && entityId) {
+      const waiters = this.threadChangeWaiters.get(entityId);
+      if (waiters) {
+        this.threadChangeWaiters.delete(entityId);
+        for (const wake of waiters) wake();
+      }
+    }
+  }
+
+  private readonly threadChangeWaiters = new Map<string, Set<() => void>>();
+
+  /** Resolves on the next broadcastChanged for this thread, or after
+   * timeoutMs — lets long-poll consumers (the CLI's SSE events route) sleep
+   * on the push signal instead of re-querying sqlite on a fixed tick. */
+  waitForThreadChange(threadId: string, timeoutMs: number): Promise<void> {
+    return new Promise((resolve) => {
+      const waiters = this.threadChangeWaiters.get(threadId) ?? new Set();
+      this.threadChangeWaiters.set(threadId, waiters);
+      const timer = setTimeout(() => {
+        waiters.delete(wake);
+        resolve();
+      }, timeoutMs);
+      const wake = () => {
+        clearTimeout(timer);
+        resolve();
+      };
+      waiters.add(wake);
+    });
   }
 
   spawn(
