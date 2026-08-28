@@ -1,5 +1,5 @@
 {
-  "entry": "assets/index-jxTdb72G.js",
+  "entry": "assets/index-hFKiEYw_.js",
   "bootChunks": [
     {
       "fileName": "assets/AppCommandProvider-C77Hafdu.js",
@@ -230,8 +230,8 @@
       "packages": []
     },
     {
-      "fileName": "assets/index-jxTdb72G.js",
-      "bytes": 725245,
+      "fileName": "assets/index-hFKiEYw_.js",
+      "bytes": 725284,
       "packages": [
         "@radix-ui/react-context-menu",
         "@tanstack/query-core",
@@ -296,15 +296,15 @@
       "packages": []
     },
     {
-      "fileName": "assets/plugin-frontend-lazy-EqrTy_L-.js",
+      "fileName": "assets/plugin-frontend-lazy-C818oBGN.js",
       "bytes": 44695,
       "packages": [
         "fzf"
       ]
     },
     {
-      "fileName": "assets/plugin-slot-resolvers-BXKz4dr-.js",
-      "bytes": 7529,
+      "fileName": "assets/plugin-slot-resolvers-DtzkivrT.js",
+      "bytes": 7532,
       "packages": []
     },
     {
@@ -313,7 +313,7 @@
       "packages": []
     },
     {
-      "fileName": "assets/plugin-thread-panel-navigation-CDIIyLpU.js",
+      "fileName": "assets/plugin-thread-panel-navigation-B9GbeRjz.js",
       "bytes": 19078,
       "packages": []
     },
@@ -411,8 +411,8 @@
       ]
     },
     {
-      "fileName": "assets/thread-queries-C0EmfG-U.js",
-      "bytes": 17532,
+      "fileName": "assets/thread-queries-XSMz7_DC.js",
+      "bytes": 18008,
       "packages": [
         "@tanstack/query-core",
         "@tanstack/react-query"
@@ -508,7 +508,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/AppFileExternalNavigationDispatcher-CU-MVyLC.js",
+      "fileName": "assets/AppFileExternalNavigationDispatcher-BukpumSX.js",
       "bytes": 1713,
       "packages": [],
       "imports": [
@@ -519,7 +519,7 @@
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/useLocalOpenTargets-CYEAYR5z.js",
-        "assets/useResolvedLiveFileTarget-D33W_7vi.js"
+        "assets/useResolvedLiveFileTarget-Bd3nokZO.js"
       ],
       "facade": "src/components/plugin/AppFileExternalNavigationDispatcher.tsx"
     },
@@ -546,56 +546,56 @@
       "facade": null
     },
     {
-      "fileName": "assets/BbDiff-Bli1qkd9.js",
+      "fileName": "assets/BbDiff-D7u_k6ii.js",
       "bytes": 4093,
       "packages": [],
       "imports": [
-        "assets/FileDiff-DmiW76oU.js",
-        "assets/PierreLineSelectionActions-CfaeDxJv.js",
+        "assets/FileDiff-8oxlEYWd.js",
+        "assets/PierreLineSelectionActions-BLECyaUn.js",
         "assets/code-theme-DiWOP-n4.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
         "assets/icon-DOznhrNf.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/pierre-strict-mode-recovery-DATsHQ5d.js",
+        "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/skeleton-B2h_l9Tx.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/useTheme-BE-aNg6s.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": "src/components/code/BbDiff.tsx"
     },
     {
-      "fileName": "assets/BbSourceCode-B8pCs8sf.js",
+      "fileName": "assets/BbSourceCode-B7P-zJd2.js",
       "bytes": 9878,
       "packages": [],
       "imports": [
-        "assets/File-QFVBgUbi.js",
-        "assets/PierreLineSelectionActions-CfaeDxJv.js",
+        "assets/File-CVseCEwl.js",
+        "assets/PierreLineSelectionActions-BLECyaUn.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/cleanLastNewline-Cc4xc9M-.js",
         "assets/code-theme-DiWOP-n4.js",
         "assets/icon-DOznhrNf.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/pierre-strict-mode-recovery-DATsHQ5d.js",
+        "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/skeleton-B2h_l9Tx.js",
         "assets/source-code-budget-BBnk-4nX.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/useTheme-BE-aNg6s.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": "src/components/code/BbSourceCode.tsx"
     },
     {
-      "fileName": "assets/BrowserTabDeck-Q_86O8vG.js",
+      "fileName": "assets/BrowserTabDeck-BAbPuuB3.js",
       "bytes": 82,
       "packages": [],
       "imports": [
-        "assets/SplitWorkspaceRoute-DiXcrali.js"
+        "assets/SplitWorkspaceRoute-B1kzC6T_.js"
       ],
       "facade": "src/components/secondary-panel/BrowserTabDeck.tsx"
     },
@@ -654,14 +654,14 @@
       "facade": null
     },
     {
-      "fileName": "assets/DiffHost-BZb2RfiK.js",
+      "fileName": "assets/DiffHost-D_ERHD3K.js",
       "bytes": 5473,
       "packages": [],
       "imports": [
         "assets/code-rendering-Cvn1d5_T.js",
-        "assets/codeRendererProvider-IJoemRjn.js",
+        "assets/codeRendererProvider-B7xv5E-y.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/preload-helper-Czpn1I53.js",
         "assets/react-C21x__mS.js",
@@ -671,66 +671,66 @@
       "facade": null
     },
     {
-      "fileName": "assets/ExperimentalFileLinkMenu-Bb5sddgx.js",
+      "fileName": "assets/ExperimentalFileLinkMenu-wS_96sgK.js",
       "bytes": 4350,
       "packages": [],
       "imports": [
         "assets/browser-storage-3_3AlpVD.js",
         "assets/clipboard-pGbgGkSC.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/live-file-navigation-CVt9D2M5.js",
         "assets/plugin-slots-BRp8b7WX.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/useLocalOpenTargets-CYEAYR5z.js",
-        "assets/useResolvedLiveFileTarget-D33W_7vi.js"
+        "assets/useResolvedLiveFileTarget-Bd3nokZO.js"
       ],
       "facade": "src/components/plugin/ExperimentalFileLinkMenu.tsx"
     },
     {
-      "fileName": "assets/File-QFVBgUbi.js",
+      "fileName": "assets/File-CVseCEwl.js",
       "bytes": 51299,
       "packages": [
         "@pierre/diffs"
       ],
       "imports": [
         "assets/cleanLastNewline-Cc4xc9M-.js",
-        "assets/computeVirtualFileMetrics-Bk9xCiIw.js",
+        "assets/computeVirtualFileMetrics-xcXBef4Y.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/pierre-strict-mode-recovery-DATsHQ5d.js",
+        "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
         "assets/react-C21x__mS.js",
-        "assets/renderFileWithHighlighter-BIoKlhQY.js",
+        "assets/renderFileWithHighlighter-DRmauPJn.js",
         "assets/rolldown-runtime-C0FnF6B9.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/FileDiff-DmiW76oU.js",
+      "fileName": "assets/FileDiff-8oxlEYWd.js",
       "bytes": 129473,
       "packages": [
         "@pierre/diffs"
       ],
       "imports": [
         "assets/cleanLastNewline-Cc4xc9M-.js",
-        "assets/computeVirtualFileMetrics-Bk9xCiIw.js",
+        "assets/computeVirtualFileMetrics-xcXBef4Y.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/pierre-strict-mode-recovery-DATsHQ5d.js",
+        "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
         "assets/react-C21x__mS.js",
-        "assets/renderDiffWithHighlighter-DaXjVEcO.js",
+        "assets/renderDiffWithHighlighter-DwgyqKWn.js",
         "assets/rolldown-runtime-C0FnF6B9.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/FilePreview-CSazo9Gl.js",
+      "fileName": "assets/FilePreview-IQSUSnym.js",
       "bytes": 25754,
       "packages": [],
       "imports": [
         "assets/AppCommandProvider-C77Hafdu.js",
         "assets/AppCommandShortcutHint-VLstEqhX.js",
-        "assets/SourceCodeHost-DsvFrA31.js",
+        "assets/SourceCodeHost-BtwaWjdB.js",
         "assets/TimelineSelectionMenu-g1FDiP25.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
@@ -739,7 +739,7 @@
         "assets/empty-state-CjWZ2SjB.js",
         "assets/esm-C0Ek_cf3.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/open-in-editor-button-CUmJpr4s.js",
         "assets/react-C21x__mS.js",
@@ -749,22 +749,22 @@
         "assets/truncate-start-DDCMHnjz.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/use-pointer-coarse-wlmNW7st.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/GitDiffCardHeader-CeUAdYSn.js",
+      "fileName": "assets/GitDiffCardHeader-Sq0kNHFk.js",
       "bytes": 20226,
       "packages": [],
       "imports": [
-        "assets/DiffHost-BZb2RfiK.js",
+        "assets/DiffHost-D_ERHD3K.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/dist-DrjW-kAp.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/open-in-editor-button-CUmJpr4s.js",
         "assets/react-C21x__mS.js",
@@ -773,12 +773,12 @@
         "assets/truncate-start-DDCMHnjz.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/use-pointer-coarse-wlmNW7st.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/MachineSettingsView-O8s_4gcH.js",
+      "fileName": "assets/MachineSettingsView-CsUtG-0W.js",
       "bytes": 16337,
       "packages": [],
       "imports": [
@@ -792,9 +792,9 @@
         "assets/host-mutations-BIxc87Wu.js",
         "assets/host-queries-SIdWVewG.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/page-shell-BmBTmqBY.js",
+        "assets/page-shell-BVJXPgfG.js",
         "assets/permission-mode-options-BmlnlW27.js",
         "assets/pill-DbPNWwBN.js",
         "assets/provider-icon-DdbMuhty.js",
@@ -810,19 +810,19 @@
       "facade": "src/views/MachineSettingsView.tsx"
     },
     {
-      "fileName": "assets/NewTabPage-CqDTgDKO.js",
+      "fileName": "assets/NewTabPage-BX-I3Azo.js",
       "bytes": 23272,
       "packages": [],
       "imports": [
         "assets/AppCommandProvider-C77Hafdu.js",
         "assets/AppCommandShortcutHint-VLstEqhX.js",
         "assets/PluginIcon-DpZEtMVP.js",
-        "assets/SplitWorkspaceRoute-DiXcrali.js",
+        "assets/SplitWorkspaceRoute-B1kzC6T_.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/coarse-pointer-sizing-DphQ_rvo.js",
         "assets/empty-state-CjWZ2SjB.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/input-CWz54HHW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/motion-CVOLgB-v.js",
@@ -833,12 +833,12 @@
         "assets/truncate-start-DDCMHnjz.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/use-pointer-coarse-wlmNW7st.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": "src/components/secondary-panel/NewTabPage.tsx"
     },
     {
-      "fileName": "assets/PierreLineSelectionActions-CfaeDxJv.js",
+      "fileName": "assets/PierreLineSelectionActions-BLECyaUn.js",
       "bytes": 6039,
       "packages": [],
       "imports": [
@@ -848,7 +848,7 @@
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": null
     },
@@ -866,13 +866,13 @@
       "facade": null
     },
     {
-      "fileName": "assets/PluginPanelRightPanelHost-Bq6meESY.js",
+      "fileName": "assets/PluginPanelRightPanelHost-VMcknfUy.js",
       "bytes": 14567,
       "packages": [],
       "imports": [
         "assets/AppCommandProvider-C77Hafdu.js",
         "assets/PluginIcon-DpZEtMVP.js",
-        "assets/SplitWorkspaceRoute-DiXcrali.js",
+        "assets/SplitWorkspaceRoute-B1kzC6T_.js",
         "assets/atomFamily-4pdqqxg5.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/browser-url-BbbaxsxH.js",
@@ -880,15 +880,15 @@
         "assets/chrome-style-tokens-3RReC8vt.js",
         "assets/coarse-pointer-sizing-DphQ_rvo.js",
         "assets/dist-DS5_IV6-.js",
-        "assets/fixed-panel-tabs-state-DrVMNKxC.js",
+        "assets/fixed-panel-tabs-state-D5PDnx_N.js",
         "assets/host-queries-SIdWVewG.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/json-value-BVczGopW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/live-file-navigation-CVt9D2M5.js",
         "assets/panelTransitionTokens-CpzNg6if.js",
-        "assets/plugin-slot-resolvers-BXKz4dr-.js",
+        "assets/plugin-slot-resolvers-DtzkivrT.js",
         "assets/plugin-slots-BRp8b7WX.js",
         "assets/query-helpers-CqXFk8uG.js",
         "assets/react-C21x__mS.js",
@@ -896,11 +896,11 @@
         "assets/route-paths-Dn_4Laii.js",
         "assets/src-CKndvrih.js",
         "assets/system-queries-CTnkvEq0.js",
-        "assets/thread-terminal-queries-B0oEPVHm.js",
+        "assets/thread-terminal-queries-CLUqi3Ri.js",
         "assets/tooltip-Y54dFZVi.js",
         "assets/use-compact-viewport-D7M0fxNt.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": "src/components/plugin/PluginPanelRightPanelHost.tsx"
     },
@@ -928,7 +928,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/ProjectSettingsView-_6zH2asa.js",
+      "fileName": "assets/ProjectSettingsView-kHaYf8Rz.js",
       "bytes": 10291,
       "packages": [],
       "imports": [
@@ -943,9 +943,9 @@
         "assets/host-queries-SIdWVewG.js",
         "assets/icon-DOznhrNf.js",
         "assets/icon-extended-D4M1rwAx.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/page-shell-BmBTmqBY.js",
+        "assets/page-shell-BVJXPgfG.js",
         "assets/pill-DbPNWwBN.js",
         "assets/project-mutations-CzEdjEwe.js",
         "assets/react-C21x__mS.js",
@@ -987,8 +987,8 @@
       "facade": null
     },
     {
-      "fileName": "assets/SettingsView-Czsv8lHf.js",
-      "bytes": 232443,
+      "fileName": "assets/SettingsView-Br3OaOWk.js",
+      "bytes": 233672,
       "packages": [
         "@radix-ui/react-checkbox"
       ],
@@ -1000,12 +1000,12 @@
         "assets/PluginIcon-DpZEtMVP.js",
         "assets/ProviderIconMark-BUvleAxV.js",
         "assets/app-toast-xfdseYvr.js",
-        "assets/audio-input-device-preference-Do-2WjWn.js",
+        "assets/audio-input-device-preference-CZAasjWN.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/clipboard-pGbgGkSC.js",
         "assets/coarse-pointer-sizing-DphQ_rvo.js",
-        "assets/codeRendererProvider-IJoemRjn.js",
+        "assets/codeRendererProvider-B7xv5E-y.js",
         "assets/dialog-BUbbCk5Y.js",
         "assets/dist-D8jraPnA.js",
         "assets/dist-DS5_IV6-.js",
@@ -1016,17 +1016,17 @@
         "assets/i18next-DJO5zU0T.js",
         "assets/icon-DOznhrNf.js",
         "assets/icon-extended-D4M1rwAx.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/input-CWz54HHW.js",
         "assets/json-value-BVczGopW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/loopback-hostname-CTShFYx5.js",
         "assets/motion-CVOLgB-v.js",
-        "assets/page-shell-BmBTmqBY.js",
+        "assets/page-shell-BVJXPgfG.js",
         "assets/permission-mode-options-BmlnlW27.js",
         "assets/pill-DbPNWwBN.js",
         "assets/plugin-catalog-queries-CaZ1wtaD.js",
-        "assets/plugin-slot-resolvers-BXKz4dr-.js",
+        "assets/plugin-slot-resolvers-DtzkivrT.js",
         "assets/plugin-slots-BRp8b7WX.js",
         "assets/provider-icon-DdbMuhty.js",
         "assets/query-helpers-CqXFk8uG.js",
@@ -1039,7 +1039,7 @@
         "assets/sortable.esm-Cni9uM9o.js",
         "assets/src-CKndvrih.js",
         "assets/system-queries-CTnkvEq0.js",
-        "assets/thread-queries-C0EmfG-U.js",
+        "assets/thread-queries-XSMz7_DC.js",
         "assets/thread-state-mutations-Cu9XO0xw.js",
         "assets/thread-title-1-b_HvXO.js",
         "assets/tooltip-Y54dFZVi.js",
@@ -1052,13 +1052,13 @@
       "facade": "src/views/SettingsView.tsx"
     },
     {
-      "fileName": "assets/SourceCodeHost-DsvFrA31.js",
+      "fileName": "assets/SourceCodeHost-BtwaWjdB.js",
       "bytes": 5270,
       "packages": [],
       "imports": [
         "assets/code-rendering-Cvn1d5_T.js",
-        "assets/codeRendererProvider-IJoemRjn.js",
-        "assets/index-jxTdb72G.js",
+        "assets/codeRendererProvider-B7xv5E-y.js",
+        "assets/index-hFKiEYw_.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/preload-helper-Czpn1I53.js",
         "assets/react-C21x__mS.js",
@@ -1068,8 +1068,8 @@
       "facade": null
     },
     {
-      "fileName": "assets/SplitWorkspaceRoute-DiXcrali.js",
-      "bytes": 346178,
+      "fileName": "assets/SplitWorkspaceRoute-B1kzC6T_.js",
+      "bytes": 346181,
       "packages": [
         "@tanstack/react-query"
       ],
@@ -1096,25 +1096,25 @@
         "assets/dropdown-menu-TLnAz-ej.js",
         "assets/empty-state-CjWZ2SjB.js",
         "assets/environment-queries-CWeABHcQ.js",
-        "assets/fixed-panel-tabs-state-DrVMNKxC.js",
+        "assets/fixed-panel-tabs-state-D5PDnx_N.js",
         "assets/host-queries-SIdWVewG.js",
         "assets/i18next-DJO5zU0T.js",
         "assets/icon-DOznhrNf.js",
         "assets/icon-extended-D4M1rwAx.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/input-CWz54HHW.js",
         "assets/json-value-BVczGopW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/live-file-navigation-CVt9D2M5.js",
         "assets/loopback-hostname-CTShFYx5.js",
-        "assets/page-shell-BmBTmqBY.js",
+        "assets/page-shell-BVJXPgfG.js",
         "assets/panelTransitionTokens-CpzNg6if.js",
         "assets/pill-DbPNWwBN.js",
-        "assets/plugin-frontend-lazy-EqrTy_L-.js",
+        "assets/plugin-frontend-lazy-C818oBGN.js",
         "assets/plugin-homepage-section-CE_0tVF8.js",
-        "assets/plugin-slot-resolvers-BXKz4dr-.js",
+        "assets/plugin-slot-resolvers-DtzkivrT.js",
         "assets/plugin-slots-BRp8b7WX.js",
-        "assets/plugin-thread-panel-navigation-CDIIyLpU.js",
+        "assets/plugin-thread-panel-navigation-B9GbeRjz.js",
         "assets/preload-helper-Czpn1I53.js",
         "assets/project-mutations-CzEdjEwe.js",
         "assets/query-helpers-CqXFk8uG.js",
@@ -1128,9 +1128,9 @@
         "assets/splitDragSession-DpTFUABk.js",
         "assets/src-CKndvrih.js",
         "assets/system-queries-CTnkvEq0.js",
-        "assets/thread-queries-C0EmfG-U.js",
+        "assets/thread-queries-XSMz7_DC.js",
         "assets/thread-state-mutations-Cu9XO0xw.js",
-        "assets/thread-terminal-queries-B0oEPVHm.js",
+        "assets/thread-terminal-queries-CLUqi3Ri.js",
         "assets/thread-title-1-b_HvXO.js",
         "assets/threadSecondaryPanelAtoms-ufWq5sJY.js",
         "assets/tooltip-Y54dFZVi.js",
@@ -1140,21 +1140,21 @@
         "assets/useHostDaemon-BiGb8I0a.js",
         "assets/useLocalOpenTargets-CYEAYR5z.js",
         "assets/vozen-logo-DKt4ffrM.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": "src/views/SplitWorkspaceRoute.tsx"
     },
     {
-      "fileName": "assets/ThreadSecondaryPanel-BSRyyRHC.js",
+      "fileName": "assets/ThreadSecondaryPanel-DVyPirOG.js",
       "bytes": 61473,
       "packages": [],
       "imports": [
         "assets/AppCommandProvider-C77Hafdu.js",
         "assets/AppCommandShortcutHint-VLstEqhX.js",
         "assets/AppPageHeader-C2sph1PI.js",
-        "assets/FilePreview-CSazo9Gl.js",
-        "assets/SplitWorkspaceRoute-DiXcrali.js",
-        "assets/ThreadSecondaryPanelTabContent-C_HD69tt.js",
+        "assets/FilePreview-IQSUSnym.js",
+        "assets/SplitWorkspaceRoute-B1kzC6T_.js",
+        "assets/ThreadSecondaryPanelTabContent-DrFBPqj5.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/chrome-style-tokens-3RReC8vt.js",
@@ -1164,9 +1164,9 @@
         "assets/dropdown-menu-TLnAz-ej.js",
         "assets/empty-state-CjWZ2SjB.js",
         "assets/environment-queries-CWeABHcQ.js",
-        "assets/fixed-panel-tabs-state-DrVMNKxC.js",
+        "assets/fixed-panel-tabs-state-D5PDnx_N.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/json-value-BVczGopW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/panelTransitionTokens-CpzNg6if.js",
@@ -1179,19 +1179,19 @@
         "assets/threadSecondaryPanelAtoms-ufWq5sJY.js",
         "assets/tooltip-Y54dFZVi.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": "src/components/secondary-panel/ThreadSecondaryPanel.tsx"
     },
     {
-      "fileName": "assets/ThreadSecondaryPanelTabContent-C_HD69tt.js",
+      "fileName": "assets/ThreadSecondaryPanelTabContent-DrFBPqj5.js",
       "bytes": 42707,
       "packages": [
         "jotai"
       ],
       "imports": [
-        "assets/FilePreview-CSazo9Gl.js",
-        "assets/GitDiffCardHeader-CeUAdYSn.js",
+        "assets/FilePreview-IQSUSnym.js",
+        "assets/GitDiffCardHeader-Sq0kNHFk.js",
         "assets/atomFamily-4pdqqxg5.js",
         "assets/base64-bytes-o0utlzEU.js",
         "assets/browser-storage-3_3AlpVD.js",
@@ -1202,7 +1202,7 @@
         "assets/esm-C0Ek_cf3.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/query-helpers-CqXFk8uG.js",
         "assets/react-C21x__mS.js",
@@ -1211,15 +1211,15 @@
         "assets/skeleton-B2h_l9Tx.js",
         "assets/source-code-budget-BBnk-4nX.js",
         "assets/src-CKndvrih.js",
-        "assets/thread-queries-C0EmfG-U.js",
+        "assets/thread-queries-XSMz7_DC.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": "src/components/secondary-panel/ThreadSecondaryPanelTabContent.tsx"
     },
     {
-      "fileName": "assets/ThreadStorageFileTree-BnRaQIqk.js",
-      "bytes": 243821,
+      "fileName": "assets/ThreadStorageFileTree-cFCIeK5i.js",
+      "bytes": 243815,
       "packages": [
         "@pierre/trees",
         "preact",
@@ -1236,18 +1236,18 @@
       "facade": "src/components/secondary-panel/ThreadStorageFileTree.tsx"
     },
     {
-      "fileName": "assets/ThreadTerminalPanel-BgPyCfPc.js",
+      "fileName": "assets/ThreadTerminalPanel-Dz2RrI__.js",
       "bytes": 21627,
       "packages": [
         "@xterm/xterm"
       ],
       "imports": [
-        "assets/SplitWorkspaceRoute-DiXcrali.js",
+        "assets/SplitWorkspaceRoute-B1kzC6T_.js",
         "assets/TimelineSelectionMenu-g1FDiP25.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/preload-helper-Czpn1I53.js",
         "assets/query-helpers-CqXFk8uG.js",
@@ -1260,11 +1260,11 @@
       "facade": "src/components/thread/terminal/ThreadTerminalPanel.tsx"
     },
     {
-      "fileName": "assets/TimelineFileDiffBlock-Bd5qibhT.js",
+      "fileName": "assets/TimelineFileDiffBlock-bmjMDaIq.js",
       "bytes": 5706,
       "packages": [],
       "imports": [
-        "assets/GitDiffCardHeader-CeUAdYSn.js",
+        "assets/GitDiffCardHeader-Sq0kNHFk.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/dist-DrjW-kAp.js",
         "assets/git-diff-patch-text-DbTxL1ge.js",
@@ -1274,7 +1274,7 @@
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/src-CKndvrih.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": "src/components/thread/timeline/TimelineFileDiffBlock.tsx"
     },
@@ -1315,16 +1315,16 @@
       "facade": "src/components/thread/timeline/TimelineWindowedItems.tsx"
     },
     {
-      "fileName": "assets/ToolsView-DDqgepa8.js",
-      "bytes": 203014,
+      "fileName": "assets/ToolsView-cgyRJeel.js",
+      "bytes": 203059,
       "packages": [],
       "imports": [
         "assets/ConfirmDeleteDialog-FKibiV2h.js",
-        "assets/FilePreview-CSazo9Gl.js",
+        "assets/FilePreview-IQSUSnym.js",
         "assets/PluginIcon-DpZEtMVP.js",
         "assets/ProviderIconMark-BUvleAxV.js",
         "assets/app-toast-xfdseYvr.js",
-        "assets/audio-input-device-preference-Do-2WjWn.js",
+        "assets/audio-input-device-preference-CZAasjWN.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/clipboard-pGbgGkSC.js",
@@ -1335,13 +1335,13 @@
         "assets/i18next-DJO5zU0T.js",
         "assets/icon-DOznhrNf.js",
         "assets/icon-extended-D4M1rwAx.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/input-CWz54HHW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/pill-DbPNWwBN.js",
         "assets/plugin-catalog-queries-CaZ1wtaD.js",
-        "assets/plugin-frontend-CkGMidn-.js",
-        "assets/plugin-frontend-lazy-EqrTy_L-.js",
+        "assets/plugin-frontend-B9szaPXp.js",
+        "assets/plugin-frontend-lazy-C818oBGN.js",
         "assets/plugin-homepage-section-CE_0tVF8.js",
         "assets/plugin-slots-BRp8b7WX.js",
         "assets/provider-icon-DdbMuhty.js",
@@ -1357,7 +1357,7 @@
         "assets/useLocalOpenTargets-CYEAYR5z.js",
         "assets/useMutation-CveUiEmp.js",
         "assets/useTheme-BE-aNg6s.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": "src/views/ToolsView.tsx"
     },
@@ -1371,7 +1371,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/abap.mjs"
     },
     {
-      "fileName": "assets/abnfDiagram-VCTEODGH-CBuzvVBt.js",
+      "fileName": "assets/abnfDiagram-VCTEODGH-CHqqNuO0.js",
       "bytes": 1846,
       "packages": [
         "mermaid"
@@ -1379,10 +1379,10 @@
       "imports": [
         "assets/chunk-DU6HZSFF-B59p-OvT.js",
         "assets/chunk-JWPE2WC7-DVXcaiue.js",
-        "assets/chunk-SVP7TREG-C_zRtcXg.js",
+        "assets/chunk-SVP7TREG-Cw66xrfR.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/abnfDiagram-VCTEODGH.mjs"
@@ -1433,8 +1433,8 @@
       "facade": "../../../node_modules/.bun/@xterm+addon-web-links@0.13.0-beta.292+853883b376b5919f/node_modules/@xterm/addon-web-links/lib/addon-web-links.mjs"
     },
     {
-      "fileName": "assets/addon-webgl-DPUK_1mr.js",
-      "bytes": 250394,
+      "fileName": "assets/addon-webgl-BQCMdgbs.js",
+      "bytes": 250354,
       "packages": [
         "@xterm/addon-webgl"
       ],
@@ -1585,7 +1585,7 @@
       "facade": "../../../node_modules/.bun/@mermaid-js+parser@1.2.1/node_modules/@mermaid-js/parser/dist/chunks/mermaid-parser.core/architecture-7GRP2DOG.mjs"
     },
     {
-      "fileName": "assets/architectureDiagram-5GKGNRK7-DFsxdMUh.js",
+      "fileName": "assets/architectureDiagram-5GKGNRK7-CYVmoBeS.js",
       "bytes": 148918,
       "packages": [
         "cose-base",
@@ -1602,7 +1602,7 @@
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/cytoscape.esm-CGd-uY3x.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/src-CllyRBe0.js"
       ],
@@ -1661,8 +1661,8 @@
       "facade": null
     },
     {
-      "fileName": "assets/audio-input-device-preference-Do-2WjWn.js",
-      "bytes": 147571,
+      "fileName": "assets/audio-input-device-preference-CZAasjWN.js",
+      "bytes": 147684,
       "packages": [
         "@ungap/structured-clone",
         "bail",
@@ -2208,7 +2208,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/chunk-IMKFNOWR-BSL2QdEw.js",
+      "fileName": "assets/chunk-IMKFNOWR-BGZ4vLLb.js",
       "bytes": 37640,
       "packages": [
         "mermaid"
@@ -2220,7 +2220,7 @@
         "assets/chunk-POPQ4Y6H-BvI8_qob.js",
         "assets/chunk-XXDRQBXY-CazVBYiP.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": null
@@ -2314,7 +2314,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/chunk-SHT3W25Y-BfI4EULU.js",
+      "fileName": "assets/chunk-SHT3W25Y-BHsvtBq8.js",
       "bytes": 61200,
       "packages": [
         "mermaid"
@@ -2329,13 +2329,13 @@
         "assets/chunk-POPQ4Y6H-BvI8_qob.js",
         "assets/chunk-XXDRQBXY-CazVBYiP.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/chunk-SVP7TREG-C_zRtcXg.js",
+      "fileName": "assets/chunk-SVP7TREG-Cw66xrfR.js",
       "bytes": 15644,
       "packages": [
         "mermaid"
@@ -2343,13 +2343,13 @@
       "imports": [
         "assets/chunk-DU6HZSFF-B59p-OvT.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/chunk-TICWLB2K-PnjGRRS0.js",
+      "fileName": "assets/chunk-TICWLB2K-CbalieOH.js",
       "bytes": 48787,
       "packages": [
         "mermaid"
@@ -2362,7 +2362,7 @@
         "assets/chunk-POPQ4Y6H-BvI8_qob.js",
         "assets/chunk-XXDRQBXY-CazVBYiP.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": null
@@ -2398,7 +2398,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/clarity.mjs"
     },
     {
-      "fileName": "assets/classDiagram-ZZMXUADV-A_QT54Yd.js",
+      "fileName": "assets/classDiagram-ZZMXUADV-CWflnq-S.js",
       "bytes": 778,
       "packages": [
         "mermaid"
@@ -2415,16 +2415,16 @@
         "assets/chunk-P2QGCYS3-CS9Bb6al.js",
         "assets/chunk-POPQ4Y6H-BvI8_qob.js",
         "assets/chunk-PWAF6VOD-BQlpa5W1.js",
-        "assets/chunk-TICWLB2K-PnjGRRS0.js",
+        "assets/chunk-TICWLB2K-CbalieOH.js",
         "assets/chunk-XXDRQBXY-CazVBYiP.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/classDiagram-ZZMXUADV.mjs"
     },
     {
-      "fileName": "assets/classDiagram-v2-VYDZK3BY-A_QT54Yd.js",
+      "fileName": "assets/classDiagram-v2-VYDZK3BY-CWflnq-S.js",
       "bytes": 778,
       "packages": [
         "mermaid"
@@ -2441,10 +2441,10 @@
         "assets/chunk-P2QGCYS3-CS9Bb6al.js",
         "assets/chunk-POPQ4Y6H-BvI8_qob.js",
         "assets/chunk-PWAF6VOD-BQlpa5W1.js",
-        "assets/chunk-TICWLB2K-PnjGRRS0.js",
+        "assets/chunk-TICWLB2K-CbalieOH.js",
         "assets/chunk-XXDRQBXY-CazVBYiP.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/classDiagram-v2-VYDZK3BY.mjs"
@@ -2536,11 +2536,11 @@
       "facade": null
     },
     {
-      "fileName": "assets/codeRendererProvider-IJoemRjn.js",
+      "fileName": "assets/codeRendererProvider-B7xv5E-y.js",
       "bytes": 573,
       "packages": [],
       "imports": [
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/plugin-slots-BRp8b7WX.js",
         "assets/src-CKndvrih.js",
         "assets/use-media-query-CQCemZ5B.js"
@@ -2586,7 +2586,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/common-lisp.mjs"
     },
     {
-      "fileName": "assets/computeVirtualFileMetrics-Bk9xCiIw.js",
+      "fileName": "assets/computeVirtualFileMetrics-xcXBef4Y.js",
       "bytes": 217263,
       "packages": [
         "@pierre/diffs",
@@ -2607,7 +2607,7 @@
         "shiki"
       ],
       "imports": [
-        "assets/audio-input-device-preference-Do-2WjWn.js",
+        "assets/audio-input-device-preference-CZAasjWN.js",
         "assets/ccount-PEyAVR7q.js",
         "assets/cleanLastNewline-Cc4xc9M-.js",
         "assets/preload-helper-Czpn1I53.js",
@@ -2721,7 +2721,7 @@
       "facade": "../../../node_modules/.bun/@mermaid-js+parser@1.2.1/node_modules/@mermaid-js/parser/dist/chunks/mermaid-parser.core/cynefin-OW5HDTMX.mjs"
     },
     {
-      "fileName": "assets/cynefinDiagram-5FMLGOSQ-Diavau0g.js",
+      "fileName": "assets/cynefinDiagram-5FMLGOSQ-CCIALcTD.js",
       "bytes": 9943,
       "packages": [
         "mermaid"
@@ -2732,7 +2732,7 @@
         "assets/chunk-JWPE2WC7-DVXcaiue.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/cynefinDiagram-5FMLGOSQ.mjs"
@@ -2765,7 +2765,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/d.mjs"
     },
     {
-      "fileName": "assets/dagre-GXQ25YYZ-CHKGAitA.js",
+      "fileName": "assets/dagre-GXQ25YYZ-Dg-KG33m.js",
       "bytes": 10974,
       "packages": [
         "mermaid"
@@ -2783,7 +2783,7 @@
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/dagre-PrKaheQc.js",
         "assets/graphlib-DS17s2tU.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/dagre-GXQ25YYZ.mjs"
@@ -2846,7 +2846,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/desktop.mjs"
     },
     {
-      "fileName": "assets/diagram-S7CK7UJ4-B-tnUJGC.js",
+      "fileName": "assets/diagram-S7CK7UJ4-B-GHaRh8.js",
       "bytes": 8197,
       "packages": [
         "mermaid"
@@ -2859,13 +2859,13 @@
         "assets/chunk-PWAF6VOD-BQlpa5W1.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/diagram-S7CK7UJ4.mjs"
     },
     {
-      "fileName": "assets/diagram-UQ7AKVKN-qATxYMwb.js",
+      "fileName": "assets/diagram-UQ7AKVKN-DSEq4aAG.js",
       "bytes": 6074,
       "packages": [
         "mermaid"
@@ -2876,7 +2876,7 @@
         "assets/chunk-JWPE2WC7-DVXcaiue.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/diagram-UQ7AKVKN.mjs"
@@ -2899,7 +2899,7 @@
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/diagram-VSXAHHWV.mjs"
     },
     {
-      "fileName": "assets/diagram-VX7I27RA-C17gEYX5.js",
+      "fileName": "assets/diagram-VX7I27RA-DqmDE32m.js",
       "bytes": 15755,
       "packages": [
         "d3-hierarchy",
@@ -2914,14 +2914,14 @@
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/defaultLocale-BFoDCU3G.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/ordinal-BDEzSJ7C.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/diagram-VX7I27RA.mjs"
     },
     {
-      "fileName": "assets/diagram-Z3DM3KII-BLuYQAET.js",
+      "fileName": "assets/diagram-Z3DM3KII-lF-eed-8.js",
       "bytes": 4280,
       "packages": [
         "mermaid"
@@ -2932,7 +2932,7 @@
         "assets/chunk-JWPE2WC7-DVXcaiue.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/diagram-Z3DM3KII.mjs"
@@ -2966,23 +2966,6 @@
       ],
       "imports": [],
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/diff.mjs"
-    },
-    {
-      "fileName": "assets/dist-5Sp-ZwSy.js",
-      "bytes": 161949,
-      "packages": [
-        "entities",
-        "hast-util-from-parse5",
-        "hast-util-parse-selector",
-        "hastscript",
-        "parse5",
-        "vfile-location",
-        "web-namespaces"
-      ],
-      "imports": [
-        "assets/audio-input-device-preference-Do-2WjWn.js"
-      ],
-      "facade": null
     },
     {
       "fileName": "assets/dist-Cz2MTljl.js",
@@ -3036,6 +3019,23 @@
       "imports": [
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js"
+      ],
+      "facade": null
+    },
+    {
+      "fileName": "assets/dist-Dnp6FBzn.js",
+      "bytes": 161949,
+      "packages": [
+        "entities",
+        "hast-util-from-parse5",
+        "hast-util-parse-selector",
+        "hastscript",
+        "parse5",
+        "vfile-location",
+        "web-namespaces"
+      ],
+      "imports": [
+        "assets/audio-input-device-preference-CZAasjWN.js"
       ],
       "facade": null
     },
@@ -3134,7 +3134,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/ebnfDiagram-PWID7BFC-D3XBfZXm.js",
+      "fileName": "assets/ebnfDiagram-PWID7BFC-BoN8JN80.js",
       "bytes": 2059,
       "packages": [
         "mermaid"
@@ -3142,10 +3142,10 @@
       "imports": [
         "assets/chunk-DU6HZSFF-B59p-OvT.js",
         "assets/chunk-JWPE2WC7-DVXcaiue.js",
-        "assets/chunk-SVP7TREG-C_zRtcXg.js",
+        "assets/chunk-SVP7TREG-Cw66xrfR.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/ebnfDiagram-PWID7BFC.mjs"
@@ -3224,7 +3224,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/erDiagram-RLTQ6QDP-DZL_lXNV.js",
+      "fileName": "assets/erDiagram-RLTQ6QDP-DpA-3ls6.js",
       "bytes": 30690,
       "packages": [
         "mermaid"
@@ -3243,7 +3243,7 @@
         "assets/chunk-PWAF6VOD-BQlpa5W1.js",
         "assets/chunk-XXDRQBXY-CazVBYiP.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/erDiagram-RLTQ6QDP.mjs"
@@ -3334,18 +3334,18 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/fish.mjs"
     },
     {
-      "fileName": "assets/fixed-panel-tabs-state-DrVMNKxC.js",
+      "fileName": "assets/fixed-panel-tabs-state-D5PDnx_N.js",
       "bytes": 499,
       "packages": [],
       "imports": [
         "assets/browser-storage-3_3AlpVD.js",
         "assets/src-CKndvrih.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/flowDiagram-HODETNUW-ZafuaIzs.js",
+      "fileName": "assets/flowDiagram-HODETNUW-CJFZYFwN.js",
       "bytes": 575,
       "packages": [
         "mermaid"
@@ -3362,9 +3362,9 @@
         "assets/chunk-P2QGCYS3-CS9Bb6al.js",
         "assets/chunk-POPQ4Y6H-BvI8_qob.js",
         "assets/chunk-PWAF6VOD-BQlpa5W1.js",
-        "assets/chunk-SHT3W25Y-BfI4EULU.js",
+        "assets/chunk-SHT3W25Y-BHsvtBq8.js",
         "assets/chunk-XXDRQBXY-CazVBYiP.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/flowDiagram-HODETNUW.mjs"
@@ -4075,8 +4075,8 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/imba.mjs"
     },
     {
-      "fileName": "assets/index-jxTdb72G.js",
-      "bytes": 725245,
+      "fileName": "assets/index-hFKiEYw_.js",
+      "bytes": 725284,
       "packages": [
         "@radix-ui/react-context-menu",
         "@tanstack/query-core",
@@ -4116,10 +4116,10 @@
         "assets/menu-item-hover-By6MLDrs.js",
         "assets/motion-CVOLgB-v.js",
         "assets/plugin-context-Cgi6OOfm.js",
-        "assets/plugin-frontend-lazy-EqrTy_L-.js",
-        "assets/plugin-slot-resolvers-BXKz4dr-.js",
+        "assets/plugin-frontend-lazy-C818oBGN.js",
+        "assets/plugin-slot-resolvers-DtzkivrT.js",
         "assets/plugin-slots-BRp8b7WX.js",
-        "assets/plugin-thread-panel-navigation-CDIIyLpU.js",
+        "assets/plugin-thread-panel-navigation-B9GbeRjz.js",
         "assets/portal-scope-CsC9arCG.js",
         "assets/preload-helper-Czpn1I53.js",
         "assets/project-mutations-CzEdjEwe.js",
@@ -4135,7 +4135,7 @@
         "assets/splitDragSession-DpTFUABk.js",
         "assets/src-CKndvrih.js",
         "assets/system-queries-CTnkvEq0.js",
-        "assets/thread-queries-C0EmfG-U.js",
+        "assets/thread-queries-XSMz7_DC.js",
         "assets/thread-state-mutations-Cu9XO0xw.js",
         "assets/thread-title-1-b_HvXO.js",
         "assets/threadSecondaryPanelAtoms-ufWq5sJY.js",
@@ -4162,7 +4162,7 @@
       "facade": "../../../node_modules/.bun/@mermaid-js+parser@1.2.1/node_modules/@mermaid-js/parser/dist/chunks/mermaid-parser.core/info-A6RAGUB7.mjs"
     },
     {
-      "fileName": "assets/infoDiagram-27XIBGKW-Bu4bEY7C.js",
+      "fileName": "assets/infoDiagram-27XIBGKW-CcsbdhuI.js",
       "bytes": 656,
       "packages": [
         "mermaid"
@@ -4171,7 +4171,7 @@
         "assets/chunk-DU6HZSFF-B59p-OvT.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/infoDiagram-27XIBGKW.mjs"
@@ -4210,7 +4210,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/ishikawaDiagram-5VMMS53U-Cyh1IIpO.js",
+      "fileName": "assets/ishikawaDiagram-5VMMS53U-BvSCEw_d.js",
       "bytes": 17311,
       "packages": [
         "mermaid"
@@ -4219,7 +4219,7 @@
         "assets/chunk-75Z2AOVW-CRqGcoXI.js",
         "assets/chunk-DU6HZSFF-B59p-OvT.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/rough.esm-Dy-Kn_BL.js",
         "assets/src-CllyRBe0.js"
       ],
@@ -4431,7 +4431,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+themes@4.4.3/node_modules/@shikijs/themes/dist/kanagawa-wave.mjs"
     },
     {
-      "fileName": "assets/kanban-definition-UXKFOSKX-BQHix6Hp.js",
+      "fileName": "assets/kanban-definition-UXKFOSKX-DbyRL2LJ.js",
       "bytes": 20263,
       "packages": [
         "mermaid"
@@ -4447,7 +4447,7 @@
         "assets/chunk-P2QGCYS3-CS9Bb6al.js",
         "assets/chunk-PWAF6VOD-BQlpa5W1.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/kanban-definition-UXKFOSKX.mjs"
@@ -4661,7 +4661,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/markdown.mjs"
     },
     {
-      "fileName": "assets/markdown-katex-CovS_3A8.js",
+      "fileName": "assets/markdown-katex-6KrPS66l.js",
       "bytes": 15738,
       "packages": [
         "hast-util-from-html",
@@ -4674,8 +4674,8 @@
         "unist-util-remove-position"
       ],
       "imports": [
-        "assets/audio-input-device-preference-Do-2WjWn.js",
-        "assets/dist-5Sp-ZwSy.js",
+        "assets/audio-input-device-preference-CZAasjWN.js",
+        "assets/dist-Dnp6FBzn.js",
         "assets/katex-C2-83V18.js"
       ],
       "facade": "src/components/ui/markdown-katex.ts"
@@ -4814,8 +4814,8 @@
       "facade": null
     },
     {
-      "fileName": "assets/mermaid.core-DVG4W2Hs.js",
-      "bytes": 94319,
+      "fileName": "assets/mermaid.core-BM-2VtOX.js",
+      "bytes": 94313,
       "packages": [
         "es-toolkit",
         "mermaid",
@@ -4857,7 +4857,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+themes@4.4.3/node_modules/@shikijs/themes/dist/min-light.mjs"
     },
     {
-      "fileName": "assets/mindmap-definition-YA3MSWOX-CLwXHA3S.js",
+      "fileName": "assets/mindmap-definition-YA3MSWOX-D9JYKxiJ.js",
       "bytes": 23441,
       "packages": [
         "mermaid",
@@ -4876,7 +4876,7 @@
         "assets/chunk-PWAF6VOD-BQlpa5W1.js",
         "assets/chunk-XXDRQBXY-CazVBYiP.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/mindmap-definition-YA3MSWOX.mjs"
@@ -5212,14 +5212,14 @@
       "facade": "../../../node_modules/.bun/@mermaid-js+parser@1.2.1/node_modules/@mermaid-js/parser/dist/chunks/mermaid-parser.core/packet-AYTQ26CC.mjs"
     },
     {
-      "fileName": "assets/page-shell-BmBTmqBY.js",
+      "fileName": "assets/page-shell-BVJXPgfG.js",
       "bytes": 14132,
       "packages": [],
       "imports": [
         "assets/atomFamily-4pdqqxg5.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
@@ -5260,7 +5260,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/pegDiagram-XKGWAZYB-DaWFxJR4.js",
+      "fileName": "assets/pegDiagram-XKGWAZYB-CFupiBpC.js",
       "bytes": 2011,
       "packages": [
         "mermaid"
@@ -5268,10 +5268,10 @@
       "imports": [
         "assets/chunk-DU6HZSFF-B59p-OvT.js",
         "assets/chunk-JWPE2WC7-DVXcaiue.js",
-        "assets/chunk-SVP7TREG-C_zRtcXg.js",
+        "assets/chunk-SVP7TREG-Cw66xrfR.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/pegDiagram-XKGWAZYB.mjs"
@@ -5329,7 +5329,7 @@
       "facade": "../../../node_modules/.bun/@mermaid-js+parser@1.2.1/node_modules/@mermaid-js/parser/dist/chunks/mermaid-parser.core/pie-WAS4IAKB.mjs"
     },
     {
-      "fileName": "assets/pieDiagram-E7YTZNPT-BFj4VbPh.js",
+      "fileName": "assets/pieDiagram-E7YTZNPT-xQF0WoRX.js",
       "bytes": 6226,
       "packages": [
         "d3-shape",
@@ -5344,7 +5344,7 @@
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/dist-Cz2MTljl.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/ordinal-BDEzSJ7C.js",
         "assets/path-fybaL0A-.js",
         "assets/src-CllyRBe0.js"
@@ -5442,24 +5442,24 @@
       "facade": "../../../node_modules/.bun/@pierre+theme@2.0.0/node_modules/@pierre/theme/dist/pierre-light-vibrant.mjs"
     },
     {
-      "fileName": "assets/pierre-strict-mode-recovery-DATsHQ5d.js",
+      "fileName": "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
       "bytes": 106046,
       "packages": [
         "@pierre/diffs"
       ],
       "imports": [
         "assets/cleanLastNewline-Cc4xc9M-.js",
-        "assets/computeVirtualFileMetrics-Bk9xCiIw.js",
+        "assets/computeVirtualFileMetrics-xcXBef4Y.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/use-media-query-CQCemZ5B.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/pierre-worker-pool-De5aoQfx.js",
+      "fileName": "assets/pierre-worker-pool-DszFplvR.js",
       "bytes": 25604,
       "packages": [
         "@pierre/diffs",
@@ -5469,11 +5469,11 @@
         "assets/cleanLastNewline-Cc4xc9M-.js",
         "assets/code-theme-BVoX11oV.js",
         "assets/code-theme-DiWOP-n4.js",
-        "assets/computeVirtualFileMetrics-Bk9xCiIw.js",
+        "assets/computeVirtualFileMetrics-xcXBef4Y.js",
         "assets/react-C21x__mS.js",
-        "assets/registerCustomTheme-bcNPGmg2.js",
-        "assets/renderDiffWithHighlighter-DaXjVEcO.js",
-        "assets/renderFileWithHighlighter-BIoKlhQY.js",
+        "assets/registerCustomTheme-CrkwagRL.js",
+        "assets/renderDiffWithHighlighter-DwgyqKWn.js",
+        "assets/renderFileWithHighlighter-DRmauPJn.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/use-pointer-coarse-wlmNW7st.js"
@@ -5551,8 +5551,8 @@
       "facade": null
     },
     {
-      "fileName": "assets/plugin-frontend-CkGMidn-.js",
-      "bytes": 228419,
+      "fileName": "assets/plugin-frontend-B9szaPXp.js",
+      "bytes": 228428,
       "packages": [
         "@pierre/diffs",
         "@radix-ui/react-alert-dialog",
@@ -5566,17 +5566,17 @@
       ],
       "imports": [
         "assets/Combination-0Nn_Gmmk.js",
-        "assets/DiffHost-BZb2RfiK.js",
-        "assets/File-QFVBgUbi.js",
-        "assets/FileDiff-DmiW76oU.js",
+        "assets/DiffHost-D_ERHD3K.js",
+        "assets/File-CVseCEwl.js",
+        "assets/FileDiff-8oxlEYWd.js",
         "assets/PluginIcon-DpZEtMVP.js",
-        "assets/SourceCodeHost-DsvFrA31.js",
+        "assets/SourceCodeHost-BtwaWjdB.js",
         "assets/TimelineSelectionMenu-g1FDiP25.js",
         "assets/app-toast-xfdseYvr.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/cleanLastNewline-Cc4xc9M-.js",
-        "assets/computeVirtualFileMetrics-Bk9xCiIw.js",
+        "assets/computeVirtualFileMetrics-xcXBef4Y.js",
         "assets/dialog-BUbbCk5Y.js",
         "assets/dist-D8Wfxh48.js",
         "assets/dist-D8jraPnA.js",
@@ -5588,40 +5588,40 @@
         "assets/git-diff-patch-text-DbTxL1ge.js",
         "assets/host-queries-SIdWVewG.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/menu-item-hover-By6MLDrs.js",
-        "assets/pierre-strict-mode-recovery-DATsHQ5d.js",
+        "assets/pierre-strict-mode-recovery-C0Hkx1pi.js",
         "assets/plugin-context-Cgi6OOfm.js",
-        "assets/plugin-frontend-lazy-EqrTy_L-.js",
-        "assets/plugin-slot-resolvers-BXKz4dr-.js",
+        "assets/plugin-frontend-lazy-C818oBGN.js",
+        "assets/plugin-slot-resolvers-DtzkivrT.js",
         "assets/plugin-slots-BRp8b7WX.js",
-        "assets/plugin-thread-panel-navigation-CDIIyLpU.js",
+        "assets/plugin-thread-panel-navigation-B9GbeRjz.js",
         "assets/preload-helper-Czpn1I53.js",
         "assets/query-helpers-CqXFk8uG.js",
         "assets/react-C21x__mS.js",
-        "assets/registerCustomTheme-bcNPGmg2.js",
-        "assets/renderDiffWithHighlighter-DaXjVEcO.js",
-        "assets/renderFileWithHighlighter-BIoKlhQY.js",
+        "assets/registerCustomTheme-CrkwagRL.js",
+        "assets/renderDiffWithHighlighter-DwgyqKWn.js",
+        "assets/renderFileWithHighlighter-DRmauPJn.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/route-paths-Dn_4Laii.js",
         "assets/sidebar-navigation-query-Byx9e2jP.js",
         "assets/skeleton-B2h_l9Tx.js",
         "assets/src-CKndvrih.js",
         "assets/system-queries-CTnkvEq0.js",
-        "assets/thread-queries-C0EmfG-U.js",
+        "assets/thread-queries-XSMz7_DC.js",
         "assets/thread-state-mutations-Cu9XO0xw.js",
         "assets/thread-title-1-b_HvXO.js",
         "assets/tooltip-Y54dFZVi.js",
         "assets/use-compact-viewport-D7M0fxNt.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/useHostDaemon-BiGb8I0a.js",
-        "assets/workspace-checkout-display-B5EC_E-G.js"
+        "assets/workspace-checkout-display-CBvFpG3o.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/plugin-frontend-lazy-EqrTy_L-.js",
+      "fileName": "assets/plugin-frontend-lazy-C818oBGN.js",
       "bytes": 44695,
       "packages": [
         "fzf"
@@ -5636,7 +5636,7 @@
         "assets/empty-state-CjWZ2SjB.js",
         "assets/input-CWz54HHW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
-        "assets/plugin-thread-panel-navigation-CDIIyLpU.js",
+        "assets/plugin-thread-panel-navigation-B9GbeRjz.js",
         "assets/preload-helper-Czpn1I53.js",
         "assets/project-mutations-CzEdjEwe.js",
         "assets/provider-icon-DdbMuhty.js",
@@ -5662,8 +5662,8 @@
       "facade": null
     },
     {
-      "fileName": "assets/plugin-slot-resolvers-BXKz4dr-.js",
-      "bytes": 7529,
+      "fileName": "assets/plugin-slot-resolvers-DtzkivrT.js",
+      "bytes": 7532,
       "packages": [],
       "imports": [
         "assets/browser-storage-3_3AlpVD.js",
@@ -5687,7 +5687,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/plugin-thread-panel-navigation-CDIIyLpU.js",
+      "fileName": "assets/plugin-thread-panel-navigation-B9GbeRjz.js",
       "bytes": 19078,
       "packages": [],
       "imports": [
@@ -5701,7 +5701,7 @@
         "assets/rolldown-runtime-C0FnF6B9.js",
         "assets/route-paths-Dn_4Laii.js",
         "assets/src-CKndvrih.js",
-        "assets/thread-queries-C0EmfG-U.js",
+        "assets/thread-queries-XSMz7_DC.js",
         "assets/thread-title-1-b_HvXO.js",
         "assets/use-media-query-CQCemZ5B.js"
       ],
@@ -6025,7 +6025,7 @@
       "facade": "../../../node_modules/.bun/@mermaid-js+parser@1.2.1/node_modules/@mermaid-js/parser/dist/chunks/mermaid-parser.core/railroad-peg-WCYAUIDC.mjs"
     },
     {
-      "fileName": "assets/railroadDiagram-O6MQD6OU-B9rhDhMg.js",
+      "fileName": "assets/railroadDiagram-O6MQD6OU-BG8mPH0w.js",
       "bytes": 1659,
       "packages": [
         "mermaid"
@@ -6033,10 +6033,10 @@
       "imports": [
         "assets/chunk-DU6HZSFF-B59p-OvT.js",
         "assets/chunk-JWPE2WC7-DVXcaiue.js",
-        "assets/chunk-SVP7TREG-C_zRtcXg.js",
+        "assets/chunk-SVP7TREG-Cw66xrfR.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/railroadDiagram-O6MQD6OU.mjs"
@@ -6112,13 +6112,13 @@
       "facade": null
     },
     {
-      "fileName": "assets/registerCustomTheme-bcNPGmg2.js",
+      "fileName": "assets/registerCustomTheme-CrkwagRL.js",
       "bytes": 1099,
       "packages": [
         "@pierre/diffs"
       ],
       "imports": [
-        "assets/computeVirtualFileMetrics-Bk9xCiIw.js"
+        "assets/computeVirtualFileMetrics-xcXBef4Y.js"
       ],
       "facade": null
     },
@@ -6132,7 +6132,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/rel.mjs"
     },
     {
-      "fileName": "assets/renderDiffWithHighlighter-DaXjVEcO.js",
+      "fileName": "assets/renderDiffWithHighlighter-DwgyqKWn.js",
       "bytes": 31184,
       "packages": [
         "@pierre/diffs",
@@ -6140,24 +6140,24 @@
       ],
       "imports": [
         "assets/cleanLastNewline-Cc4xc9M-.js",
-        "assets/computeVirtualFileMetrics-Bk9xCiIw.js"
+        "assets/computeVirtualFileMetrics-xcXBef4Y.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/renderFileWithHighlighter-BIoKlhQY.js",
+      "fileName": "assets/renderFileWithHighlighter-DRmauPJn.js",
       "bytes": 1886,
       "packages": [
         "@pierre/diffs"
       ],
       "imports": [
         "assets/cleanLastNewline-Cc4xc9M-.js",
-        "assets/computeVirtualFileMetrics-Bk9xCiIw.js"
+        "assets/computeVirtualFileMetrics-xcXBef4Y.js"
       ],
       "facade": null
     },
     {
-      "fileName": "assets/requirementDiagram-BXWQKSXE-b5XZo6Dx.js",
+      "fileName": "assets/requirementDiagram-BXWQKSXE-_Eho8d_E.js",
       "bytes": 31000,
       "packages": [
         "mermaid"
@@ -6175,7 +6175,7 @@
         "assets/chunk-PWAF6VOD-BQlpa5W1.js",
         "assets/chunk-XXDRQBXY-CazVBYiP.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/requirementDiagram-BXWQKSXE.mjs"
@@ -6403,7 +6403,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/sdbl.mjs"
     },
     {
-      "fileName": "assets/sequenceDiagram-WJ2MYXX4-D19sPRf8.js",
+      "fileName": "assets/sequenceDiagram-WJ2MYXX4-mYSnGgP5.js",
       "bytes": 115744,
       "packages": [
         "mermaid"
@@ -6415,7 +6415,7 @@
         "assets/chunk-F27PBJKO-5X0T8iFJ.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/dist-Cz2MTljl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/sequenceDiagram-WJ2MYXX4.mjs"
@@ -6707,7 +6707,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/stata.mjs"
     },
     {
-      "fileName": "assets/stateDiagram-D77RDMKH-B4KGm_YV.js",
+      "fileName": "assets/stateDiagram-D77RDMKH-Eg3rnPd5.js",
       "bytes": 10644,
       "packages": [
         "mermaid"
@@ -6719,7 +6719,7 @@
         "assets/chunk-F27PBJKO-5X0T8iFJ.js",
         "assets/chunk-GMAD6QVW-B8ROuNYc.js",
         "assets/chunk-GVQU2GXP-M3boPcJ7.js",
-        "assets/chunk-IMKFNOWR-BSL2QdEw.js",
+        "assets/chunk-IMKFNOWR-BGZ4vLLb.js",
         "assets/chunk-L3NEJ4N5-CZAdbNks.js",
         "assets/chunk-OSK3NFVY-DeFoF5VR.js",
         "assets/chunk-P2QGCYS3-CS9Bb6al.js",
@@ -6730,13 +6730,13 @@
         "assets/dagre-PrKaheQc.js",
         "assets/graphlib-DS17s2tU.js",
         "assets/line-CLtvNdPS.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/stateDiagram-D77RDMKH.mjs"
     },
     {
-      "fileName": "assets/stateDiagram-v2-MP3YSRHH-BLsHnGod.js",
+      "fileName": "assets/stateDiagram-v2-MP3YSRHH-B7dTToO1.js",
       "bytes": 781,
       "packages": [
         "mermaid"
@@ -6748,7 +6748,7 @@
         "assets/chunk-F27PBJKO-5X0T8iFJ.js",
         "assets/chunk-GMAD6QVW-B8ROuNYc.js",
         "assets/chunk-GVQU2GXP-M3boPcJ7.js",
-        "assets/chunk-IMKFNOWR-BSL2QdEw.js",
+        "assets/chunk-IMKFNOWR-BGZ4vLLb.js",
         "assets/chunk-L3NEJ4N5-CZAdbNks.js",
         "assets/chunk-OSK3NFVY-DeFoF5VR.js",
         "assets/chunk-P2QGCYS3-CS9Bb6al.js",
@@ -6756,7 +6756,7 @@
         "assets/chunk-PWAF6VOD-BQlpa5W1.js",
         "assets/chunk-XXDRQBXY-CazVBYiP.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/stateDiagram-v2-MP3YSRHH.mjs"
@@ -6805,7 +6805,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/swift.mjs"
     },
     {
-      "fileName": "assets/swimlanes-42K2YHIH-qhF4KW7m.js",
+      "fileName": "assets/swimlanes-42K2YHIH-u9yrK0aA.js",
       "bytes": 111161,
       "packages": [
         "mermaid"
@@ -6821,13 +6821,13 @@
         "assets/chunk-P2QGCYS3-CS9Bb6al.js",
         "assets/chunk-PWAF6VOD-BQlpa5W1.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/swimlanes-42K2YHIH.mjs"
     },
     {
-      "fileName": "assets/swimlanesDiagram-VR7AAH4N-D9o0xMXh.js",
+      "fileName": "assets/swimlanesDiagram-VR7AAH4N-fk7k5Edb.js",
       "bytes": 834,
       "packages": [
         "mermaid"
@@ -6844,10 +6844,10 @@
         "assets/chunk-P2QGCYS3-CS9Bb6al.js",
         "assets/chunk-POPQ4Y6H-BvI8_qob.js",
         "assets/chunk-PWAF6VOD-BQlpa5W1.js",
-        "assets/chunk-SHT3W25Y-BfI4EULU.js",
+        "assets/chunk-SHT3W25Y-BHsvtBq8.js",
         "assets/chunk-XXDRQBXY-CazVBYiP.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/swimlanesDiagram-VR7AAH4N.mjs"
@@ -6958,8 +6958,8 @@
       "facade": null
     },
     {
-      "fileName": "assets/thread-queries-C0EmfG-U.js",
-      "bytes": 17532,
+      "fileName": "assets/thread-queries-XSMz7_DC.js",
+      "bytes": 18008,
       "packages": [
         "@tanstack/query-core",
         "@tanstack/react-query"
@@ -6969,6 +6969,7 @@
         "assets/query-helpers-CqXFk8uG.js",
         "assets/query-placeholders-Bij4Mu6K.js",
         "assets/sidebar-navigation-query-Byx9e2jP.js",
+        "assets/src-CKndvrih.js",
         "assets/use-compact-viewport-D7M0fxNt.js",
         "assets/use-media-query-CQCemZ5B.js"
       ],
@@ -6989,14 +6990,14 @@
       "facade": null
     },
     {
-      "fileName": "assets/thread-terminal-queries-B0oEPVHm.js",
+      "fileName": "assets/thread-terminal-queries-CLUqi3Ri.js",
       "bytes": 12816,
       "packages": [],
       "imports": [
         "assets/app-toast-xfdseYvr.js",
         "assets/atomFamily-4pdqqxg5.js",
         "assets/browser-storage-3_3AlpVD.js",
-        "assets/fixed-panel-tabs-state-DrVMNKxC.js",
+        "assets/fixed-panel-tabs-state-D5PDnx_N.js",
         "assets/query-helpers-CqXFk8uG.js",
         "assets/react-C21x__mS.js",
         "assets/rolldown-runtime-C0FnF6B9.js",
@@ -7028,7 +7029,7 @@
       "facade": null
     },
     {
-      "fileName": "assets/timeline-definition-24CTP7MA-DFFpHrv6.js",
+      "fileName": "assets/timeline-definition-24CTP7MA-CNdh8zAm.js",
       "bytes": 30369,
       "packages": [
         "mermaid"
@@ -7038,7 +7039,7 @@
         "assets/chunk-75Z2AOVW-CRqGcoXI.js",
         "assets/chunk-DU6HZSFF-B59p-OvT.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/timeline-definition-24CTP7MA.mjs"
@@ -7342,12 +7343,12 @@
       "facade": null
     },
     {
-      "fileName": "assets/useResolvedLiveFileTarget-D33W_7vi.js",
+      "fileName": "assets/useResolvedLiveFileTarget-Bd3nokZO.js",
       "bytes": 2585,
       "packages": [],
       "imports": [
         "assets/environment-queries-CWeABHcQ.js",
-        "assets/thread-queries-C0EmfG-U.js",
+        "assets/thread-queries-XSMz7_DC.js",
         "assets/use-media-query-CQCemZ5B.js",
         "assets/useHostDaemon-BiGb8I0a.js"
       ],
@@ -7408,7 +7409,7 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/vb.mjs"
     },
     {
-      "fileName": "assets/vennDiagram-4TSXK5OY-C54sLVlp.js",
+      "fileName": "assets/vennDiagram-4TSXK5OY-Cn3QaB02.js",
       "bytes": 41158,
       "packages": [
         "@upsetjs/venn.js",
@@ -7419,7 +7420,7 @@
         "assets/chunk-75Z2AOVW-CRqGcoXI.js",
         "assets/chunk-DU6HZSFF-B59p-OvT.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/rough.esm-Dy-Kn_BL.js",
         "assets/src-CllyRBe0.js"
       ],
@@ -7560,7 +7561,7 @@
       "facade": "../../../node_modules/.bun/@mermaid-js+parser@1.2.1/node_modules/@mermaid-js/parser/dist/chunks/mermaid-parser.core/wardley-WFR3VGLG.mjs"
     },
     {
-      "fileName": "assets/wardleyDiagram-VM6X3IG4-b7avD9TZ.js",
+      "fileName": "assets/wardleyDiagram-VM6X3IG4-Bw0DwUhm.js",
       "bytes": 25207,
       "packages": [
         "mermaid"
@@ -7571,7 +7572,7 @@
         "assets/chunk-JWPE2WC7-DVXcaiue.js",
         "assets/chunk-Y2CYZVJY-DsF7k-Jl.js",
         "assets/mermaid-parser.core-q_wFdfmu.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/src-CllyRBe0.js"
       ],
       "facade": "../../../node_modules/.bun/mermaid@11.17.2/node_modules/mermaid/dist/chunks/mermaid.core/wardleyDiagram-VM6X3IG4.mjs"
@@ -7641,8 +7642,8 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/wolfram.mjs"
     },
     {
-      "fileName": "assets/workspace-checkout-display-B5EC_E-G.js",
-      "bytes": 1285477,
+      "fileName": "assets/workspace-checkout-display-CBvFpG3o.js",
+      "bytes": 1285417,
       "packages": [
         "@tiptap/core",
         "@tiptap/extension-blockquote",
@@ -7733,16 +7734,16 @@
         "assets/TimelineSelectionMenu-g1FDiP25.js",
         "assets/app-toast-xfdseYvr.js",
         "assets/atomFamily-4pdqqxg5.js",
-        "assets/audio-input-device-preference-Do-2WjWn.js",
+        "assets/audio-input-device-preference-CZAasjWN.js",
         "assets/browser-storage-3_3AlpVD.js",
         "assets/button-B51Kq5q2.js",
         "assets/ccount-PEyAVR7q.js",
         "assets/clipboard-pGbgGkSC.js",
         "assets/coarse-pointer-sizing-DphQ_rvo.js",
         "assets/dialog-BUbbCk5Y.js",
-        "assets/dist-5Sp-ZwSy.js",
         "assets/dist-D8jraPnA.js",
         "assets/dist-DS5_IV6-.js",
+        "assets/dist-Dnp6FBzn.js",
         "assets/dist-DrjW-kAp.js",
         "assets/dropdown-menu-TLnAz-ej.js",
         "assets/empty-state-CjWZ2SjB.js",
@@ -7751,21 +7752,21 @@
         "assets/host-queries-SIdWVewG.js",
         "assets/i18next-DJO5zU0T.js",
         "assets/icon-DOznhrNf.js",
-        "assets/index-jxTdb72G.js",
+        "assets/index-hFKiEYw_.js",
         "assets/input-CWz54HHW.js",
         "assets/json-value-BVczGopW.js",
         "assets/jsx-runtime-BdxMnOeJ.js",
         "assets/menu-item-hover-By6MLDrs.js",
         "assets/motion-CVOLgB-v.js",
         "assets/overlay-trigger-B_B3u-UY.js",
-        "assets/page-shell-BmBTmqBY.js",
+        "assets/page-shell-BVJXPgfG.js",
         "assets/permission-mode-options-BmlnlW27.js",
         "assets/pill-DbPNWwBN.js",
         "assets/plugin-context-Cgi6OOfm.js",
-        "assets/plugin-frontend-lazy-EqrTy_L-.js",
-        "assets/plugin-slot-resolvers-BXKz4dr-.js",
+        "assets/plugin-frontend-lazy-C818oBGN.js",
+        "assets/plugin-slot-resolvers-DtzkivrT.js",
         "assets/plugin-slots-BRp8b7WX.js",
-        "assets/plugin-thread-panel-navigation-CDIIyLpU.js",
+        "assets/plugin-thread-panel-navigation-B9GbeRjz.js",
         "assets/portal-scope-CsC9arCG.js",
         "assets/preload-helper-Czpn1I53.js",
         "assets/project-mutations-CzEdjEwe.js",
@@ -7780,7 +7781,7 @@
         "assets/splitDragSession-DpTFUABk.js",
         "assets/src-CKndvrih.js",
         "assets/system-queries-CTnkvEq0.js",
-        "assets/thread-queries-C0EmfG-U.js",
+        "assets/thread-queries-XSMz7_DC.js",
         "assets/thread-state-mutations-Cu9XO0xw.js",
         "assets/thread-title-1-b_HvXO.js",
         "assets/tooltip-Y54dFZVi.js",
@@ -7818,8 +7819,8 @@
       "facade": "../../../node_modules/.bun/@shikijs+langs@4.4.3/node_modules/@shikijs/langs/dist/xsl.mjs"
     },
     {
-      "fileName": "assets/xterm-C8l9qDvG.js",
-      "bytes": 342045,
+      "fileName": "assets/xterm-Cgu5UprM.js",
+      "bytes": 341990,
       "packages": [
         "@xterm/xterm"
       ],
@@ -7827,7 +7828,7 @@
       "facade": "../../../node_modules/.bun/@xterm+xterm@6.1.0-beta.292/node_modules/@xterm/xterm/lib/xterm.mjs"
     },
     {
-      "fileName": "assets/xychartDiagram-S5SC5T6Z-DqyIQP1W.js",
+      "fileName": "assets/xychartDiagram-S5SC5T6Z-ChoybYTi.js",
       "bytes": 44147,
       "packages": [
         "d3-array",
@@ -7843,7 +7844,7 @@
         "assets/init-C-OQMol4.js",
         "assets/line-CLtvNdPS.js",
         "assets/linear-aVQWq3ZZ.js",
-        "assets/mermaid.core-DVG4W2Hs.js",
+        "assets/mermaid.core-BM-2VtOX.js",
         "assets/ordinal-BDEzSJ7C.js",
         "assets/src-CllyRBe0.js"
       ],
@@ -7881,7 +7882,7 @@
   ],
   "routeClosures": {
     "SplitWorkspaceRoute": {
-      "entry": "assets/SplitWorkspaceRoute-DiXcrali.js",
+      "entry": "assets/SplitWorkspaceRoute-B1kzC6T_.js",
       "chunks": [
         {
           "fileName": "assets/ProjectMachineSetupDialog-D7q6SndZ.js",
@@ -7889,8 +7890,8 @@
           "packages": []
         },
         {
-          "fileName": "assets/SplitWorkspaceRoute-DiXcrali.js",
-          "bytes": 346178,
+          "fileName": "assets/SplitWorkspaceRoute-B1kzC6T_.js",
+          "bytes": 346181,
           "packages": [
             "@tanstack/react-query"
           ]
@@ -7903,8 +7904,8 @@
           ]
         },
         {
-          "fileName": "assets/audio-input-device-preference-Do-2WjWn.js",
-          "bytes": 147571,
+          "fileName": "assets/audio-input-device-preference-CZAasjWN.js",
+          "bytes": 147684,
           "packages": [
             "@ungap/structured-clone",
             "bail",
@@ -7977,7 +7978,7 @@
           ]
         },
         {
-          "fileName": "assets/dist-5Sp-ZwSy.js",
+          "fileName": "assets/dist-Dnp6FBzn.js",
           "bytes": 161949,
           "packages": [
             "entities",
@@ -7995,7 +7996,7 @@
           "packages": []
         },
         {
-          "fileName": "assets/fixed-panel-tabs-state-DrVMNKxC.js",
+          "fileName": "assets/fixed-panel-tabs-state-D5PDnx_N.js",
           "bytes": 499,
           "packages": []
         },
@@ -8017,7 +8018,7 @@
           "packages": []
         },
         {
-          "fileName": "assets/page-shell-BmBTmqBY.js",
+          "fileName": "assets/page-shell-BVJXPgfG.js",
           "bytes": 14132,
           "packages": []
         },
@@ -8042,7 +8043,7 @@
           "packages": []
         },
         {
-          "fileName": "assets/thread-terminal-queries-B0oEPVHm.js",
+          "fileName": "assets/thread-terminal-queries-CLUqi3Ri.js",
           "bytes": 12816,
           "packages": []
         },
@@ -8067,8 +8068,8 @@
           "packages": []
         },
         {
-          "fileName": "assets/workspace-checkout-display-B5EC_E-G.js",
-          "bytes": 1285477,
+          "fileName": "assets/workspace-checkout-display-CBvFpG3o.js",
+          "bytes": 1285417,
           "packages": [
             "@tiptap/core",
             "@tiptap/extension-blockquote",
