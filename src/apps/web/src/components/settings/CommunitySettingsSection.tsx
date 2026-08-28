@@ -8,7 +8,7 @@ import {
 import { openUrlInExternalBrowser } from "@/lib/url-open-routing";
 
 const DISCORD_INVITE_URL = "https://discord.gg/kvBU6tJhcJ";
-const GITHUB_REPO_URL = "https://github.com/get-bb/bb";
+const GITHUB_REPO_URL = "https://github.com/Vozenio/vozen-ts";
 
 interface CommunityLinkRowProps {
   description: string;
