@@ -13,3 +13,4 @@ terminal-browser/agent-browser/bin/
 .claude/
 # Internal audit doc — never ship (see 2026-08-28 incident)
 docs/gap-analysis.md
+*.srt
