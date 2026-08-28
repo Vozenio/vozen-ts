@@ -215,3 +215,71 @@ describe("GET /api/v1/system/providers/:id/logo", () => {
     expect(response.status).toBe(404);
   });
 });
+
+describe("GET /api/v1/threads/:id/timeline pagination", () => {
+  function seedRows(engine: ThreadManager, threadId: string, count: number): void {
+    const now = Math.floor(Date.now() / 1000);
+    for (let seq = 1; seq <= count; seq += 1) {
+      sqlite.startTimelineRow(engine.db, `row_${seq}`, threadId, "assistant", `t${seq}`, null, seq, now);
+    }
+  }
+
+  async function makePagedApp(): Promise<{ app: ReturnType<typeof createApp>["app"] }> {
+    const dbPath = `/tmp/vozen-http-test-${crypto.randomUUID()}.db`;
+    dbPaths.push(dbPath);
+    const engine = new ThreadManager(dbPath);
+    sqlite.insertThread(engine.db, "thr_p", "/tmp", "t", "idle", Math.floor(Date.now() / 1000));
+    seedRows(engine, "thr_p", 30);
+    const { app } = createApp(engine);
+    return { app };
+  }
+
+  test("first window is the newest 20 rows with an older cursor", async () => {
+    const { app } = await makePagedApp();
+    const response = await app.request("/api/v1/threads/thr_p/timeline");
+    const body = await response.json() as {
+      rows: { id: string }[];
+      timelinePage: { kind: string; hasOlderRows: boolean; olderCursor: { anchorSeq: number; anchorId: string } | null };
+    };
+    expect(body.rows).toHaveLength(20);
+    expect(body.rows[0]!.id).toBe("row_11");
+    expect(body.rows[19]!.id).toBe("row_30");
+    expect(body.timelinePage.hasOlderRows).toBe(true);
+    expect(body.timelinePage.olderCursor).toEqual({ anchorSeq: 11, anchorId: "row_11" });
+  });
+
+  test("older page returns the rows before the anchor and terminates", async () => {
+    const { app } = await makePagedApp();
+    const response = await app.request("/api/v1/threads/thr_p/timeline?beforeAnchorSeq=11&beforeAnchorId=row_11");
+    const body = await response.json() as {
+      rows: { id: string }[];
+      timelinePage: { kind: string; hasOlderRows: boolean; olderCursor: unknown };
+    };
+    expect(body.timelinePage.kind).toBe("older");
+    expect(body.rows.map((row) => row.id)).toEqual(
+      Array.from({ length: 10 }, (_, i) => `row_${i + 1}`),
+    );
+    expect(body.timelinePage.hasOlderRows).toBe(false);
+  });
+
+  test("afterSequence delta stays window-scoped", async () => {
+    const { app } = await makePagedApp();
+    const response = await app.request("/api/v1/threads/thr_p/timeline?afterSequence=28");
+    const body = await response.json() as {
+      rows: unknown[];
+      delta: { upsertRows: { id: string }[]; rowOrder: string[] };
+    };
+    expect(body.rows).toEqual([]);
+    expect(body.delta.upsertRows.map((row) => row.id)).toEqual(["row_29", "row_30"]);
+    expect(body.delta.rowOrder).toHaveLength(20);
+    expect(body.delta.rowOrder[0]).toBe("row_11");
+  });
+
+  test("summaryOnly skips row generation entirely", async () => {
+    const { app } = await makePagedApp();
+    const response = await app.request("/api/v1/threads/thr_p/timeline?summaryOnly=true");
+    const body = await response.json() as { rows: unknown[]; timelinePage: { returnedSegmentCount: number } };
+    expect(body.rows).toEqual([]);
+    expect(body.timelinePage.returnedSegmentCount).toBe(0);
+  });
+});

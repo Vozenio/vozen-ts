@@ -277,7 +277,13 @@ describe("HerdrThreadRegistry content", () => {
     expect(rows[0]).toMatchObject({ kind: "conversation", role: "assistant", text: "checking" });
     expect(rows[1]).toMatchObject({ kind: "work", work_kind: "command" });
     expect(JSON.parse(rows[1]!.payload!)).toMatchObject({ command: "ls", output: "a.txt", status: "completed" });
-    expect(registry.threadMaxSeq(threadId)).toBe(2);
+    // Max source_seq_end, not row count: the tool row was touched by two
+    // notifications (open + result), so the high-water mark is 3 across the
+    // 2 rows — what a client must echo back as afterSequence to get an
+    // empty delta.
+    expect(registry.threadMaxSeq(threadId)).toBe(3);
+    const maxSeq = registry.threadMaxSeq(threadId)!;
+    expect(registry.timelineRows(threadId).filter((row) => row.source_seq_end > maxSeq)).toHaveLength(0);
   });
 
   test("AskUserQuestion becomes a question work row, not a generic tool card", async () => {

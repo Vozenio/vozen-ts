@@ -644,8 +644,17 @@ export class HerdrThreadRegistry {
     return rows;
   }
 
+  /** The real high-water mark clients hand back as `afterSequence` — the max
+   * source_seq_end, not the row count: builder seqs count notifications, so
+   * they outrun row count and a length-based mark over-delivered every
+   * delta. */
   threadMaxSeq(threadId: string): number | null {
-    return this.threads.has(threadId) ? this.timelineRows(threadId).length : null;
+    if (!this.threads.has(threadId)) return null;
+    let max = 0;
+    for (const row of this.timelineRows(threadId)) {
+      if (row.source_seq_end > max) max = row.source_seq_end;
+    }
+    return max;
   }
 
   async send(threadId: string, text: string): Promise<void> {

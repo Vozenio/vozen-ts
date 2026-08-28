@@ -439,6 +439,14 @@ export function createApp(engine: ThreadManager, connectManager?: ConnectManager
     return c.json(thread ? shim.executionOptionsFor(thread) : shim.DEFAULT_EXECUTION_OPTIONS);
   });
 
+  // bb's own server default: the first window ships the newest 20 segments,
+  // older pages load on demand via the (beforeAnchorSeq, beforeAnchorId)
+  // cursor — a long-lived thread's multi-MB history stops riding along on
+  // every open, which is the difference between orders of magnitude on a
+  // phone behind the tunnel. One flat row = one segment here (vozen rows
+  // carry no nested turn structure to collapse).
+  const DEFAULT_TIMELINE_SEGMENT_LIMIT = 20;
+
   app.get("/api/v1/threads/:id/timeline", (c) => {
     const threadId = c.req.param("id");
     const maxSeq = engine.threadMaxSeq(threadId);
@@ -447,38 +455,89 @@ export function createApp(engine: ThreadManager, connectManager?: ConnectManager
       activePromptMode: null, activeThinking: null, activeWorkflows: [], activeBackgroundCommands: [],
       pendingTodos: null, goal: null, modelFallback: null, maxSeq,
     };
+    const segmentLimitParam = c.req.query("segmentLimit");
+    const segmentLimit = segmentLimitParam !== undefined && /^\d+$/.test(segmentLimitParam) && Number(segmentLimitParam) > 0
+      ? Number(segmentLimitParam)
+      : DEFAULT_TIMELINE_SEGMENT_LIMIT;
+
+    // Tail state without row generation — bb's CLI-status fast path.
+    if (c.req.query("summaryOnly") === "true") {
+      return c.json({
+        ...tailState,
+        rows: [],
+        timelinePage: {
+          kind: "latest", segmentLimit,
+          returnedSegmentCount: 0, hasOlderRows: false, olderCursor: null,
+        },
+      });
+    }
+
+    const allRows = engine.timelineRows(threadId);
+    const cursorFor = (row: { source_seq_start: number; id: string } | undefined) =>
+      row ? { anchorSeq: Math.max(1, row.source_seq_start), anchorId: row.id } : null;
+
+    // Older page: the segmentLimit rows strictly before the anchor row.
+    const beforeAnchorSeq = c.req.query("beforeAnchorSeq");
+    const beforeAnchorId = c.req.query("beforeAnchorId");
+    if (beforeAnchorSeq !== undefined && /^[1-9]\d*$/.test(beforeAnchorSeq) && beforeAnchorId) {
+      const anchorIndex = allRows.findIndex((row) => row.id === beforeAnchorId);
+      // Anchor gone (rows rebuilt/renamed): fall back to the seq position so
+      // the client still gets the right neighborhood instead of a 4xx.
+      const endIndex = anchorIndex !== -1
+        ? anchorIndex
+        : allRows.findIndex((row) => row.source_seq_start >= Number(beforeAnchorSeq));
+      const end = endIndex === -1 ? allRows.length : endIndex;
+      const start = Math.max(0, end - segmentLimit);
+      const page = allRows.slice(start, end);
+      return c.json({
+        ...tailState,
+        rows: page.map(shim.rowToBbRow),
+        timelinePage: {
+          kind: "older", segmentLimit,
+          returnedSegmentCount: page.length,
+          hasOlderRows: start > 0,
+          olderCursor: page.length > 0 ? cursorFor(page[0]) : null,
+        },
+      });
+    }
+
+    // Latest window: the newest segmentLimit rows.
+    const windowStart = Math.max(0, allRows.length - segmentLimit);
+    const window = allRows.slice(windowStart);
+    const timelinePage = {
+      kind: "latest", segmentLimit,
+      returnedSegmentCount: window.length,
+      hasOlderRows: windowStart > 0,
+      olderCursor: cursorFor(window[0]),
+    };
 
     // bb's own contract supports incremental refetch precisely so a client
     // re-fetching after every WS `changed` ping doesn't re-walk and re-send
     // the whole history every time.
     const afterSequence = c.req.query("afterSequence");
     if (afterSequence !== undefined && /^\d+$/.test(afterSequence)) {
-      const touchedRows = engine.timelineRowsSince(threadId, Number(afterSequence));
-      const upsertRows = touchedRows.map(shim.rowToBbRow);
-      // rowOrder must be the full, current row order (not just the touched
-      // ones) — bb's own applyTimelineDelta falls back to the client's
-      // *previous* order when rowOrder is omitted, so any row id absent
-      // from that stale order is silently dropped from what renders.
-      const rowOrder = engine.timelineRows(threadId).map((r) => r.id);
+      const after = Number(afterSequence);
+      const upsertRows = window.filter((row) => row.source_seq_end > after).map(shim.rowToBbRow);
+      // rowOrder must be the window's full, current order (not just the
+      // touched rows) — bb's own applyTimelineDelta falls back to the
+      // client's *previous* order when rowOrder is omitted, so any row id
+      // absent from that stale order is silently dropped from what renders.
+      // Older pages the client fetched live in its own controller state and
+      // are unaffected by this window-scoped order.
+      const rowOrder = window.map((row) => row.id);
       return c.json({
         ...tailState,
         rows: [],
         delta: { upsertRows, rowOrder },
-        timelinePage: {
-          kind: "latest", segmentLimit: 200,
-          returnedSegmentCount: upsertRows.length, hasOlderRows: false, olderCursor: null,
-        },
+        timelinePage,
       });
     }
 
-    const rows = engine.timelineRows(threadId).map(shim.rowToBbRow);
+    const rows = window.map(shim.rowToBbRow);
     return c.json({
       ...tailState,
       rows,
-      timelinePage: {
-        kind: "latest", segmentLimit: 200,
-        returnedSegmentCount: rows.length, hasOlderRows: false, olderCursor: null,
-      },
+      timelinePage,
     });
   });
 
