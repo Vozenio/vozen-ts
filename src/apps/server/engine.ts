@@ -468,6 +468,14 @@ export class ThreadManager {
     return this.herdrRegistry.resolveInteraction(threadId, interactionId, resolution);
   }
 
+  appSetting(section: string): unknown {
+    return sqlite.getAppSetting(this.db, section);
+  }
+
+  saveAppSetting(section: string, value: unknown): void {
+    sqlite.setAppSetting(this.db, section, value);
+  }
+
   threadPin(threadId: string): sqlite.ThreadPinRow | null {
     return sqlite.getThreadPin(this.db, threadId);
   }

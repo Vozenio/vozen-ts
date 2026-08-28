@@ -61,6 +61,11 @@ CREATE TABLE IF NOT EXISTS thread_pins (
     pinned_at INTEGER NOT NULL,
     sort_key TEXT
 );
+
+CREATE TABLE IF NOT EXISTS app_settings (
+    section TEXT PRIMARY KEY,
+    value_json TEXT NOT NULL
+);
 `;
 
 export interface ThreadRow {
@@ -279,6 +284,27 @@ export function getThread(db: Database, threadId: string): ThreadRow | null {
 
 export function listThreads(db: Database): ThreadRow[] {
   return db.query("SELECT * FROM threads ORDER BY created_at DESC").all() as ThreadRow[];
+}
+
+// --- app settings (one JSON blob per settings section: general/keyboard/
+// experiments — the bb frontend PUTs a section and refetches /system/config) ---
+
+export function getAppSetting(db: Database, section: string): unknown {
+  const row = db.query("SELECT value_json FROM app_settings WHERE section = ?").get(section) as { value_json: string } | null;
+  if (!row) return null;
+  try {
+    return JSON.parse(row.value_json);
+  } catch {
+    return null;
+  }
+}
+
+export function setAppSetting(db: Database, section: string, value: unknown): void {
+  db.run(
+    `INSERT INTO app_settings (section, value_json) VALUES (?, ?)
+     ON CONFLICT(section) DO UPDATE SET value_json = excluded.value_json`,
+    [section, JSON.stringify(value)],
+  );
 }
 
 // --- thread pins (own table, not a threads column: herdr threads are

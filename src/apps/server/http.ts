@@ -277,16 +277,21 @@ export function createApp(engine: ThreadManager, connectManager?: ConnectManager
       updateAvailable: false, isDevelopment: true, upgradeCommand: "",
     }));
 
+  // Persisted sections (general/keyboard/experiments) overlay the defaults —
+  // the bb frontend PUTs a section below and refetches this whole config.
   app.get("/api/v1/system/config", (c) =>
     c.json({
       generalSettings: {
         showKeyboardHints: true, steerActiveThreadOnEnter: true, showUnhandledProviderEvents: false,
         providerOrder: ["codex"], defaultProviderId: "codex", streamerMode: false,
+        ...(engine.appSetting("general") as Record<string, unknown> | null ?? {}),
       },
-      keybindings: [], defaultKeybindings: [], keybindingOverrides: [],
+      keybindings: [], defaultKeybindings: [],
+      keybindingOverrides: (engine.appSetting("keyboard") as unknown[] | null) ?? [],
       experiments: {
         changelogPreview: false, editMessages: false, mobileApp: false,
         providerSessionReaping: false, timelineWindowing: false,
+        ...(engine.appSetting("experiments") as Record<string, unknown> | null ?? {}),
       },
       appearance: { themeId: "default", customCss: null, faviconColor: "default" },
       customThemes: [], pluginThemes: [],
@@ -298,6 +303,38 @@ export function createApp(engine: ThreadManager, connectManager?: ConnectManager
       aiServices: { transcription: "unavailable", inference: "none", inferenceFallback: "none", services: [] },
       dataDir: "",
     }));
+
+  // Settings PUTs the frontend actually issues. general/experiments merge a
+  // partial patch into the stored section; keyboard replaces the whole
+  // overrides array (that's its wire shape). Responses echo the stored
+  // value — the frontend ignores the body and refetches /system/config.
+  app.put("/api/v1/settings/general", async (c) => {
+    const body = await readJsonBody(c);
+    if (body === null) return c.json({ error: "invalid JSON body" }, 400);
+    const merged = { ...(engine.appSetting("general") as Record<string, unknown> | null ?? {}), ...body };
+    engine.saveAppSetting("general", merged);
+    return c.json(merged);
+  });
+
+  app.put("/api/v1/settings/experiments", async (c) => {
+    const body = await readJsonBody(c);
+    if (body === null) return c.json({ error: "invalid JSON body" }, 400);
+    const merged = { ...(engine.appSetting("experiments") as Record<string, unknown> | null ?? {}), ...body };
+    engine.saveAppSetting("experiments", merged);
+    return c.json(merged);
+  });
+
+  app.put("/api/v1/settings/keyboard", async (c) => {
+    let body: unknown;
+    try {
+      body = await c.req.json();
+    } catch {
+      return c.json({ error: "invalid JSON body" }, 400);
+    }
+    if (!Array.isArray(body)) return c.json({ error: "keyboard settings must be an overrides array" }, 400);
+    engine.saveAppSetting("keyboard", body);
+    return c.json(body);
+  });
 
   app.get("/api/v1/hosts", (c) => c.json([shim.VOZEN_HOST]));
   app.get("/api/v1/hosts/:id", (c) => c.json(shim.VOZEN_HOST));

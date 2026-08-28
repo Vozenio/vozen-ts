@@ -316,3 +316,30 @@ describe("thread pin/unpin/pin-order", () => {
     expect(missing.status).toBe(404);
   });
 });
+
+describe("settings persistence", () => {
+  test("PUT general/keyboard merge-persist and surface in /system/config", async () => {
+    const { app } = await makeApp();
+
+    const put = await app.request("/api/v1/settings/general", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ streamerMode: true }),
+    });
+    expect(put.status).toBe(200);
+
+    await app.request("/api/v1/settings/keyboard", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify([{ commandId: "app.commandMenu", keys: ["mod+shift+p"] }]),
+    });
+
+    const config = await (await app.request("/api/v1/system/config")).json() as {
+      generalSettings: { streamerMode: boolean; showKeyboardHints: boolean };
+      keybindingOverrides: { commandId: string }[];
+    };
+    expect(config.generalSettings.streamerMode).toBe(true);
+    expect(config.generalSettings.showKeyboardHints).toBe(true);
+    expect(config.keybindingOverrides[0]?.commandId).toBe("app.commandMenu");
+  });
+});
