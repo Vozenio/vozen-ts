@@ -1,0 +1,5 @@
+agent claude .claude/skills default
+agent codex .codex/skills codex
+agent cursor .cursor/skills default
+agent gemini .gemini/skills default
+skill terminal-browser

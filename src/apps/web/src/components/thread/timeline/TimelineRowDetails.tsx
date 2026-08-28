@@ -1,0 +1,349 @@
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
+import {
+  assertNever,
+  fileNameFromPath,
+  type TimelineImageViewViewWorkRow,
+  type TimelineViewWorkRow,
+} from "@bb/thread-view";
+import { Button } from "@bb/shared-ui/button";
+import { Icon } from "@bb/shared-ui/icon";
+import { EventCodeBlock } from "../../ui/event-code-block.js";
+import { ImageLightbox } from "../../ui/image-lightbox.js";
+import { EmptyStatePanel } from "@bb/shared-ui/empty-state";
+import { TerminalOutputBlock } from "./TerminalOutputBlock.js";
+import { TimelineDetailScroll } from "./TimelineDetailScroll.js";
+import { LazyTimelineFileDiffBlock } from "./LazyTimelineFileDiffBlock.js";
+import { ToolCallDetailBlock } from "./ToolCallDetailBlock.js";
+import { QuestionWorkRowBody } from "./QuestionWorkRowBody.js";
+import { WorkflowWorkRowBody } from "./WorkflowWorkRowBody.js";
+import {
+  PlanStepsWorkRowBody,
+  PresentationDetail,
+} from "./PresentationWorkRowBodies.js";
+import {
+  useTimelineWorkRowFullOutput,
+  type TimelinePreviewableWorkRow,
+  type TimelineWorkRowFullOutput,
+  type TimelineWorkRowFullOutputState,
+} from "./useTimelineWorkRowFullOutput.js";
+import { buildThreadHostFileContentUrl } from "@/lib/file-content-urls";
+import type { ThreadTimelineImageViewSrcResolver } from "./types.js";
+
+interface WorkRowBodyProps {
+  resolveImageViewSrc?: ThreadTimelineImageViewSrcResolver;
+  row: TimelineViewWorkRow;
+  workspaceRootPath: string | undefined;
+}
+
+type DetailLine = string | null;
+
+interface ImageViewWorkRowBodyProps {
+  resolveImageViewSrc?: ThreadTimelineImageViewSrcResolver;
+  row: TimelineImageViewViewWorkRow;
+}
+
+interface CommandWorkRowBodyProps {
+  row: Extract<TimelineViewWorkRow, { workKind: "command" }>;
+}
+
+interface ToolWorkRowBodyProps {
+  row: Extract<TimelineViewWorkRow, { workKind: "tool" }>;
+}
+
+interface OutputPreviewNoteProps {
+  fullOutput: TimelineWorkRowFullOutput;
+  row: TimelinePreviewableWorkRow;
+}
+
+interface OutputPreviewNoteArgs {
+  state: TimelineWorkRowFullOutputState;
+  totalChars: number;
+  t: TFunction;
+}
+
+interface ResolveImageViewSourceArgs {
+  resolveImageViewSrc: ThreadTimelineImageViewSrcResolver | undefined;
+  row: TimelineImageViewViewWorkRow;
+}
+
+function compactDetailLines(lines: readonly DetailLine[]): string[] {
+  const compactedLines: string[] = [];
+  for (const line of lines) {
+    if (line !== null) {
+      compactedLines.push(line);
+    }
+  }
+  return compactedLines;
+}
+
+function resolveImageViewSource({
+  resolveImageViewSrc,
+  row,
+}: ResolveImageViewSourceArgs): string {
+  return resolveImageViewSrc
+    ? resolveImageViewSrc({ path: row.path, threadId: row.threadId })
+    : buildThreadHostFileContentUrl(row.threadId, row.path);
+}
+
+function ImageViewWorkRowBody({
+  resolveImageViewSrc,
+  row,
+}: ImageViewWorkRowBodyProps) {
+  const { t } = useTranslation();
+  const [loadError, setLoadError] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const imageSrc = resolveImageViewSource({ resolveImageViewSrc, row });
+  const imageName = fileNameFromPath(row.path);
+  const imageAlt = t(
+    "thread.timeline.rowDetails.viewedImageAlt",
+    `Viewed image: ${imageName}`,
+    { imageName },
+  );
+
+  useEffect(() => {
+    setLoadError(false);
+    setLightboxOpen(false);
+  }, [imageSrc, row.completedAt, row.status]);
+
+  if (loadError) {
+    return (
+      <EmptyStatePanel className="rounded-lg">
+        <div>
+          {t(
+            "thread.timeline.rowDetails.imagePreviewUnavailable",
+            "Image preview unavailable.",
+          )}
+        </div>
+        <div className="mt-1 break-all font-mono text-xs">{row.path}</div>
+      </EmptyStatePanel>
+    );
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        className="block w-full max-w-80 cursor-zoom-in overflow-hidden rounded-lg border border-border bg-surface-recessed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring sm:max-w-96"
+        onClick={() => setLightboxOpen(true)}
+        aria-label={t(
+          "thread.timeline.rowDetails.openImagePreviewAriaLabel",
+          `Open image preview: ${imageName}`,
+          { imageName },
+        )}
+      >
+        <img
+          src={imageSrc}
+          alt=""
+          className="block h-auto w-full object-contain"
+          loading="lazy"
+          decoding="async"
+          onError={() => setLoadError(true)}
+        />
+      </button>
+      <ImageLightbox
+        imageAlt={imageAlt}
+        imageSrc={lightboxOpen ? imageSrc : null}
+        onClose={() => setLightboxOpen(false)}
+        title={imageAlt}
+      />
+    </>
+  );
+}
+
+function outputPreviewNoteText({
+  state,
+  totalChars,
+  t,
+}: OutputPreviewNoteArgs): string | null {
+  const localizedTotalChars = totalChars.toLocaleString();
+  const total = t("thread.timeline.rowDetails.characterCount", {
+    defaultValue: `${localizedTotalChars} characters`,
+    count: localizedTotalChars,
+  });
+  switch (state) {
+    case "streaming-preview":
+      return t(
+        "thread.timeline.rowDetails.streamingPreviewNote",
+        `Preview of ${total}. The full output loads when this finishes.`,
+        { total },
+      );
+    case "loading":
+      return t(
+        "thread.timeline.rowDetails.loadingFullOutputNote",
+        `Loading the full output (${total})…`,
+        { total },
+      );
+    case "error":
+      return t(
+        "thread.timeline.rowDetails.failedFullOutputNote",
+        `Failed to load the full output (${total}).`,
+        { total },
+      );
+    case "complete":
+    case "loaded":
+      return null;
+    default:
+      return assertNever(state);
+  }
+}
+
+/**
+ * Footer under a previewed command/tool output. Says why the body is short
+ * and offers a retry when the full-output load failed. Nothing renders once
+ * the full output is in place.
+ */
+function OutputPreviewNote({
+  fullOutput,
+  row,
+}: OutputPreviewNoteProps) {
+  const { t } = useTranslation();
+  if (row.outputPreview === undefined) {
+    return null;
+  }
+  const text = outputPreviewNoteText({
+    state: fullOutput.state,
+    totalChars: row.outputPreview.totalChars,
+    t,
+  });
+  if (text === null) {
+    return null;
+  }
+  return (
+    <div
+      className="flex items-center gap-2 text-xs text-muted-foreground"
+      data-testid="timeline-output-preview-note"
+    >
+      <span>{text}</span>
+      {fullOutput.state === "error" ? (
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={fullOutput.retry}
+          className="h-6 cursor-pointer px-2"
+        >
+          <Icon name="RotateCcw" />
+          {t("thread.timeline.rowDetails.retryButton", "Retry")}
+        </Button>
+      ) : null}
+    </div>
+  );
+}
+
+function CommandWorkRowBody({ row }: CommandWorkRowBodyProps) {
+  const { t } = useTranslation();
+  const fullOutput = useTimelineWorkRowFullOutput(row);
+  return (
+    <div className="space-y-1">
+      <TerminalOutputBlock
+        commandLine={`$ ${row.command}`}
+        metadataLines={compactDetailLines([
+          row.source
+            ? t(
+                "thread.timeline.rowDetails.commandSourceMetadata",
+                `source: ${row.source}`,
+                { source: row.source },
+              )
+            : null,
+        ])}
+        output={fullOutput.output}
+        exitCode={row.exitCode}
+        streaming={row.status === "pending"}
+      />
+      <OutputPreviewNote fullOutput={fullOutput} row={row} />
+    </div>
+  );
+}
+
+function ToolWorkRowBody({ row }: ToolWorkRowBodyProps) {
+  const fullOutput = useTimelineWorkRowFullOutput(row);
+  return (
+    <div className="space-y-1">
+      <PresentationDetail presentation={row.presentation} />
+      <ToolCallDetailBlock
+        toolName={row.toolName}
+        args={row.toolArgs}
+        output={fullOutput.output}
+        streaming={row.status === "pending"}
+      />
+      <OutputPreviewNote fullOutput={fullOutput} row={row} />
+    </div>
+  );
+}
+
+export function WorkRowBody({
+  resolveImageViewSrc,
+  row,
+  workspaceRootPath,
+}: WorkRowBodyProps) {
+  switch (row.workKind) {
+    case "command":
+      return <CommandWorkRowBody row={row} />;
+    case "tool":
+      return <ToolWorkRowBody row={row} />;
+    case "file-change":
+      return (
+        <div className="space-y-2">
+          <LazyTimelineFileDiffBlock
+            change={row.change}
+            workspaceRootPath={workspaceRootPath}
+          />
+          {row.stderr ? (
+            <TimelineDetailScroll
+              size="base"
+              contentKey={row.stderr}
+              className="rounded-md"
+            >
+              <EventCodeBlock
+                tone="danger"
+                className="rounded-none border-0 px-2 py-1.5"
+              >
+                {row.stderr}
+              </EventCodeBlock>
+            </TimelineDetailScroll>
+          ) : null}
+        </div>
+      );
+    case "delegation":
+      // Delegation expanded bodies are dispatched by `TimelineExpandableBody`
+      // (in `ThreadTimelineRows.tsx`), which wraps childRows + output text in
+      // a delegation-tier scroll container. This branch is unreachable for
+      // the App renderer; kept exhaustive for the type.
+      return null;
+    case "question":
+      return <QuestionWorkRowBody row={row} />;
+    case "workflow":
+      return (
+        <div className="space-y-2">
+          <PresentationDetail presentation={row.presentation} />
+          <WorkflowWorkRowBody row={row} />
+        </div>
+      );
+    case "plan-steps":
+      return <PlanStepsWorkRowBody row={row} />;
+    case "extension":
+      // The declarative base: label/icon/title live in the row title; the
+      // body is the bridge's detail. A plugin renderer for the kind replaces
+      // this through `experimental_timelineRenderer` (see
+      // TimelineExpandableBody).
+      return <PresentationDetail presentation={row.presentation} />;
+    case "image-view":
+      return (
+        <ImageViewWorkRowBody
+          row={row}
+          resolveImageViewSrc={resolveImageViewSrc}
+        />
+      );
+    case "approval":
+    case "web-search":
+    case "web-fetch":
+    case "file-read":
+    case "search":
+      // Title-only rows: the title carries the bridge's label and headline.
+      return null;
+    default:
+      return assertNever(row);
+  }
+}

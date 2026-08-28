@@ -1,0 +1,47 @@
+name = "vozen-connect"
+main = "src/worker.ts"
+compatibility_date = "2024-09-23"
+
+# Set to your own apex domain (see README.md for the DNS + route setup this
+# needs). Handles are served at "<handle>.<apex>".
+[vars]
+APEX_DOMAIN = "vozen.io"
+# Client ID is not sensitive (it's exposed in the OAuth authorize URL
+# anyway) — only the client secret needs `wrangler secret put`.
+GITHUB_CLIENT_ID = "Ov23liif842kJtWot92w"
+
+[[durable_objects.bindings]]
+name = "TUNNEL_DO"
+class_name = "TunnelDO"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["TunnelDO"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "vozen-connect"
+database_id = "a164b44a-95d0-4794-8fc4-89a6682f0980"
+
+# Wildcard route so *.vozen.io hits this Worker. Requires vozen.io's
+# nameservers to be on Cloudflare and a wildcard DNS record for *.vozen.io
+# (proxied, orange-cloud) pointing anywhere (Cloudflare intercepts before
+# DNS resolution matters) — see README.md.
+[[routes]]
+pattern = "*.vozen.io/*"
+zone_name = "vozen.io"
+
+# SETUP_TOKEN is a secret, not a var: `wrangler secret put SETUP_TOKEN`.
+# It gates POST /api/connect/register (the CLI path, `vozen connect
+# register --setup-token ...`) — anyone who doesn't have it can't claim a
+# handle that way.
+#
+# The web login path (https://register.vozen.io) uses GitHub OAuth instead
+# of SETUP_TOKEN — any GitHub account can log in and claim any unclaimed
+# handle (first-come-first-served, same as a username). Needs two more
+# secrets:
+#   wrangler secret put GITHUB_CLIENT_SECRET
+#   wrangler secret put SESSION_SECRET      # any long random string
+# GitHub OAuth App setup: https://github.com/settings/developers ->
+# New OAuth App -> Authorization callback URL =
+# https://register.vozen.io/auth/github/callback

@@ -1,0 +1,4 @@
+
+> @bb/templates@0.0.1 generate:plugin-scaffold /Users/defei.li/AIhub/bb/packages/templates
+> node ./scripts/generate-plugin-scaffold.mjs
+

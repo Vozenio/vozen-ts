@@ -1,0 +1,32 @@
+{
+  "name": "vozen",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.3.14",
+  "workspaces": [
+    "bb-packages/*",
+    "src/apps/web"
+  ],
+  "bin": {
+    "vozen": "./src/main.ts"
+  },
+  "scripts": {
+    "test": "bun test src/apps/server src/packages src/plugins",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@bb/domain": "workspace:*",
+    "@bb/fuzzy-match": "workspace:*",
+    "@bb/provider-bridge-protocol": "workspace:*",
+    "@bb/provider-claude-code": "workspace:*",
+    "@bb/server-contract": "workspace:*",
+    "hono": "^4.7.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.14",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.1"
+  }
+}

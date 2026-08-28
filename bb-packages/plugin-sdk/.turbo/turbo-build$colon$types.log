@@ -1,0 +1,19 @@
+
+> @get-bb/plugin-sdk@0.4.16 build:types /Users/defei.li/AIhub/bb/packages/plugin-sdk
+> node scripts/build-bundled-dts.mjs
+
+Wrote bundled-types/bb-plugin-sdk.d.ts
+Wrote bundled-types/bb-plugin-sdk-app.d.ts
+Wrote bundled-types/bb-plugin-sdk-provider-bridge.d.ts
+Wrote bundled-types/bb-plugin-sdk-ai-services.d.ts
+Wrote bundled-types/bb-plugin-sdk-provider-bridge-testing.d.ts
+Wrote bundled-types/bb-plugin-sdk-provider-bridge-acp.d.ts
+Wrote bundled-types/bb-plugin-sdk-host.d.ts
+Wrote bundled-types/bb-plugin-sdk-internal-composer-customization-validation.d.ts
+Wrote bundled-types/bb-plugin-sdk-internal-composer-view.d.ts
+Wrote bundled-types/bb-plugin-sdk-internal-file-navigation-validation.d.ts
+Wrote bundled-types/bb-plugin-sdk-internal-host-policy.d.ts
+Wrote bundled-types/bb-plugin-sdk-internal-plugin-app-collector.d.ts
+Wrote bundled-types/bb-plugin-sdk-testing.d.ts
+Wrote bundled-types/bb-plugin-sdk-testing-app.d.ts
+Wrote bundled-types/bb-plugin-sdk-testing-host.d.ts

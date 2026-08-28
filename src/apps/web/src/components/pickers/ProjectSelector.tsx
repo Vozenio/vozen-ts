@@ -1,0 +1,206 @@
+import { useTranslation } from "react-i18next";
+import { Button } from "@bb/shared-ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@bb/shared-ui/dropdown-menu";
+import { Icon } from "@bb/shared-ui/icon";
+import { cn } from "@bb/shared-ui/lib/utils";
+import {
+  OPTION_BASE_CLASS_NAME,
+  OPTION_INTERACTIVE_CLASS_NAME,
+  OPTION_MUTED_CLASS_NAME,
+  OPTION_TRIGGER_CONTENT_CLASS_NAME,
+} from "@bb/shared-ui/option-display";
+
+export interface ProjectSelectorOption {
+  id: string;
+  name: string;
+}
+
+export interface ProjectSelectorCreateProjectConfig {
+  onCreate: () => void;
+  disabled?: boolean;
+  isCreating?: boolean;
+}
+
+interface ProjectSelectorProps {
+  projects: readonly ProjectSelectorOption[];
+  /**
+   * Selected project id, or `null` for the no-project case. Only emit/accept
+   * `null` when `allowNoProject` is true — callers in required mode can wrap
+   * their handler with a null guard (the picker won't emit `null` then).
+   */
+  value: string | null;
+  onChange: (projectId: string | null) => void;
+  /**
+   * When true, adds a "Don't work in a project" item and lets the trigger
+   * render the "Work in a project" empty state when `value === null`. Default
+   * false: the no-project item is hidden and `value` is assumed to be a valid
+   * project id (the trigger has no empty state).
+   */
+  allowNoProject?: boolean;
+  /** When provided, adds a "New project" action. */
+  createProject?: ProjectSelectorCreateProjectConfig;
+  /** Render as a non-interactive label while preserving the selected project. */
+  disabled?: boolean;
+  /**
+   * The project list has not loaded yet. The trigger shows a neutral
+   * "Loading projects" label (never the misleading "Work in a project" empty
+   * state) and stays non-interactive until the list settles.
+   */
+  isLoading?: boolean;
+  /**
+   * Keep the chevron visible while disabled. Use it when the picker is only
+   * transiently locked (submitting, uploading) so the trigger keeps the same
+   * width and the pickers beside it don't shift.
+   */
+  showChevronWhenDisabled?: boolean;
+  className?: string;
+  /** Render with the menu open on mount. Story-only escape hatch. */
+  defaultOpen?: boolean;
+  /** Whether the menu blocks page interaction. Defaults to Radix's true. */
+  modal?: boolean;
+}
+
+export function ProjectSelector({
+  projects,
+  value,
+  onChange,
+  allowNoProject = false,
+  createProject,
+  disabled: disabledProp = false,
+  isLoading = false,
+  showChevronWhenDisabled = false,
+  className,
+  defaultOpen,
+  modal,
+}: ProjectSelectorProps) {
+  const { t } = useTranslation();
+  const disabled = disabledProp || isLoading;
+  const selected = value !== null ? projects.find((p) => p.id === value) : null;
+  // When allowNoProject is false and the caller's value doesn't match any
+  // project (shouldn't happen in normal use), the trigger falls back to the
+  // first project so it's never blank.
+  const fallback = !allowNoProject && !selected ? projects[0] : null;
+  const triggerLabel = isLoading
+    ? t("ui.projectSelector.loadingProjects")
+    : (selected?.name ??
+      fallback?.name ??
+      t("ui.projectSelector.workInAProject"));
+  const compactTriggerLabel = isLoading
+    ? t("ui.projectSelector.loadingShort")
+    : (selected?.name ?? fallback?.name ?? t("ui.projectSelector.noProject"));
+  const triggerIcon =
+    isLoading || selected || fallback ? "Folder" : "FolderPlus";
+  const createProjectAction = createProject;
+  const createProjectLabel = createProjectAction?.isCreating
+    ? t("ui.projectSelector.creating")
+    : t("ui.projectSelector.newProject");
+  const showActionSeparator =
+    projects.length > 0 && (Boolean(createProjectAction) || allowNoProject);
+
+  return (
+    <DropdownMenu defaultOpen={defaultOpen} modal={modal}>
+      <DropdownMenuTrigger asChild disabled={disabled}>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          aria-label={t("ui.projectSelector.project")}
+          aria-busy={isLoading || undefined}
+          disabled={disabled}
+          data-promptbox-project-control=""
+          className={cn(
+            OPTION_BASE_CLASS_NAME,
+            !disabled && OPTION_INTERACTIVE_CLASS_NAME,
+            disabled && "cursor-default disabled:opacity-100",
+            OPTION_MUTED_CLASS_NAME,
+            className,
+          )}
+        >
+          <span className={OPTION_TRIGGER_CONTENT_CLASS_NAME}>
+            <Icon
+              name={triggerIcon}
+              className="size-3.5 shrink-0"
+              aria-hidden
+            />
+            <span className="min-w-0 truncate" data-promptbox-full-label="">
+              {triggerLabel}
+            </span>
+            <span className="min-w-0 truncate" data-promptbox-compact-label="">
+              {compactTriggerLabel}
+            </span>
+          </span>
+          {disabled && !showChevronWhenDisabled ? null : (
+            <Icon
+              name="ChevronDown"
+              className="size-3.5 shrink-0 text-muted-foreground"
+              aria-hidden
+            />
+          )}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" side="bottom" className="w-52">
+        <DropdownMenuLabel>{t("ui.projectSelector.project")}</DropdownMenuLabel>
+        {projects.map((project) => (
+          <DropdownMenuItem
+            key={project.id}
+            onSelect={() => onChange(project.id)}
+          >
+            <Icon
+              name="Folder"
+              className="size-4 text-muted-foreground"
+              aria-hidden
+            />
+            {project.name}
+            <Icon
+              name="Check"
+              className={cn(
+                "ml-auto size-4",
+                project.id === value ? "opacity-100" : "opacity-0",
+              )}
+              aria-hidden
+            />
+          </DropdownMenuItem>
+        ))}
+        {showActionSeparator ? <DropdownMenuSeparator /> : null}
+        {createProjectAction ? (
+          <DropdownMenuItem
+            disabled={createProjectAction.disabled}
+            onSelect={() => createProjectAction.onCreate()}
+          >
+            <Icon
+              name="FolderPlus"
+              className="size-4 text-muted-foreground"
+              aria-hidden
+            />
+            {createProjectLabel}
+          </DropdownMenuItem>
+        ) : null}
+        {allowNoProject ? (
+          <DropdownMenuItem onSelect={() => onChange(null)}>
+            <Icon
+              name="FolderMinus"
+              className="size-4 text-muted-foreground"
+              aria-hidden
+            />
+            {t("ui.projectSelector.dontWorkInProject")}
+            <Icon
+              name="Check"
+              className={cn(
+                "ml-auto size-4",
+                value === null ? "opacity-100" : "opacity-0",
+              )}
+              aria-hidden
+            />
+          </DropdownMenuItem>
+        ) : null}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}

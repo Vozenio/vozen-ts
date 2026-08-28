@@ -1,0 +1,6 @@
+
+
+> @bb/scripts@0.0.1 build /Users/defei.li/AIhub/bb/packages/scripts
+> node ../../scripts/build-package.mjs
+
+@bb/scripts: built 7 entries

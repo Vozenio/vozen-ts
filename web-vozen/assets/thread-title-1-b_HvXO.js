@@ -1,0 +1,1 @@
+function e(e){return e.title&&e.title.trim().length>0?e.title:e.titleFallback&&e.titleFallback.trim().length>0?e.titleFallback:`Thread ${e.id.slice(0,8)}`}export{e as t};

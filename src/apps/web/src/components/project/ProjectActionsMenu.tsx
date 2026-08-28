@@ -1,0 +1,265 @@
+import { findLocalPathProjectSourceForHost } from "@bb/domain";
+import type { ProjectResponse } from "@bb/server-contract";
+import type { MouseEvent, ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Button } from "@bb/shared-ui/button";
+import { Icon, type IconName } from "@bb/shared-ui/icon";
+import { COARSE_POINTER_ICON_SIZE_CLASS } from "@bb/shared-ui/coarse-pointer-sizing";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@bb/shared-ui/context-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@bb/shared-ui/dropdown-menu";
+import { useIsCompactViewport } from "@bb/shared-ui/hooks/use-compact-viewport";
+import { CompactLongPressMenu } from "@/components/ui/compact-long-press-menu";
+import { usePathPickerHost } from "@/hooks/useLocalPathPicker";
+import { getProjectSettingsRoutePath } from "@/lib/route-paths";
+import { cn } from "@bb/shared-ui/lib/utils";
+import { useProjectActions } from "./ProjectActionsProvider";
+
+interface ProjectActionsMenuBaseProps {
+  project: ProjectResponse;
+}
+
+interface ProjectActionsMenuProps extends ProjectActionsMenuBaseProps {
+  triggerClassName?: string;
+  onOpenChange?: (open: boolean) => void;
+}
+
+interface ProjectActionsContextMenuProps extends ProjectActionsMenuBaseProps {
+  children: ReactNode;
+  onOpenChange?: (open: boolean) => void;
+}
+
+type ProjectActionsMenuSurface = "context" | "dropdown";
+
+interface ProjectActionsMenuItemsProps extends ProjectActionsMenuBaseProps {
+  surface: ProjectActionsMenuSurface;
+}
+
+interface ProjectActionMenuItemProps {
+  children: ReactNode;
+  className?: string;
+  variant?: "default" | "destructive";
+  icon: IconName;
+  onSelect?: (event: Event) => void;
+  surface: ProjectActionsMenuSurface;
+}
+
+interface ProjectActionMenuSeparatorProps {
+  surface: ProjectActionsMenuSurface;
+}
+
+function stopProjectActionsMenuClickPropagation(event: MouseEvent) {
+  event.stopPropagation();
+}
+
+function ProjectActionMenuItem({
+  children,
+  className,
+  variant,
+  icon,
+  onSelect,
+  surface,
+}: ProjectActionMenuItemProps) {
+  const content = (
+    <>
+      <Icon name={icon} aria-hidden="true" />
+      {children}
+    </>
+  );
+
+  if (surface === "context") {
+    return (
+      <ContextMenuItem
+        className={cn(
+          className,
+          variant === "destructive" &&
+            "text-destructive focus:bg-destructive/15 focus:text-destructive data-[last-hovered]:bg-destructive/15 data-[last-hovered]:text-destructive",
+        )}
+        onSelect={onSelect}
+      >
+        {content}
+      </ContextMenuItem>
+    );
+  }
+
+  return (
+    <DropdownMenuItem
+      className={className}
+      variant={variant}
+      onSelect={onSelect}
+    >
+      {content}
+    </DropdownMenuItem>
+  );
+}
+
+function ProjectActionMenuSeparator({
+  surface,
+}: ProjectActionMenuSeparatorProps) {
+  return surface === "context" ? (
+    <ContextMenuSeparator />
+  ) : (
+    <DropdownMenuSeparator />
+  );
+}
+
+function ProjectActionsMenuItems({
+  project,
+  surface,
+}: ProjectActionsMenuItemsProps) {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { hostId: pickerHostId } = usePathPickerHost();
+  const { requestRename, requestDelete, requestAddLocalPath } =
+    useProjectActions();
+  const showAddLocalPath =
+    pickerHostId != null &&
+    !findLocalPathProjectSourceForHost(project.sources, pickerHostId);
+
+  return (
+    <>
+      <ProjectActionMenuItem
+        surface={surface}
+        icon="Settings"
+        onSelect={() => {
+          navigate(getProjectSettingsRoutePath(project.id));
+        }}
+      >
+        {t("project.actionsMenu.projectSettings", "Project settings")}
+      </ProjectActionMenuItem>
+      <ProjectActionMenuSeparator surface={surface} />
+      <ProjectActionMenuItem
+        surface={surface}
+        icon="Edit"
+        onSelect={() => {
+          requestRename(project);
+        }}
+      >
+        {t("project.actionsMenu.rename", "Rename")}
+      </ProjectActionMenuItem>
+      {showAddLocalPath ? (
+        <ProjectActionMenuItem
+          surface={surface}
+          icon="FolderPlus"
+          onSelect={() => {
+            requestAddLocalPath(project);
+          }}
+        >
+          {t("project.actionsMenu.addLocalPath", "Add local path")}
+        </ProjectActionMenuItem>
+      ) : null}
+      <ProjectActionMenuItem
+        surface={surface}
+        icon="Trash2"
+        variant="destructive"
+        onSelect={() => {
+          requestDelete(project);
+        }}
+      >
+        {t("project.actionsMenu.remove", "Remove")}
+      </ProjectActionMenuItem>
+    </>
+  );
+}
+
+export function ProjectActionsMenu({
+  project,
+  triggerClassName,
+  onOpenChange,
+}: ProjectActionsMenuProps) {
+  const { t } = useTranslation();
+  return (
+    <DropdownMenu onOpenChange={onOpenChange}>
+      <DropdownMenuTrigger asChild>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className={cn(
+            "rounded-md p-0 text-muted-foreground",
+            triggerClassName,
+            "data-[state=open]:bg-state-active data-[state=open]:text-foreground",
+          )}
+          aria-label={t("project.actionsMenu.actionsAriaLabel", "{{name}} actions", { name: project.name })}
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
+          <Icon
+            name="MoreHorizontal"
+            className={COARSE_POINTER_ICON_SIZE_CLASS}
+          />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        onClick={stopProjectActionsMenuClickPropagation}
+      >
+        <ProjectActionsMenuItems project={project} surface="dropdown" />
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+/**
+ * Row-level actions menu: a right-click context menu on wide viewports, and on
+ * compact viewports a touch long-press (or right-click) that opens the same
+ * items in the persistent responsive drawer instead of a modal Radix menu.
+ */
+export function ProjectActionsContextMenu(
+  props: ProjectActionsContextMenuProps,
+) {
+  const isCompactViewport = useIsCompactViewport();
+  if (isCompactViewport) {
+    return <ProjectActionsCompactLongPressMenu {...props} />;
+  }
+  return <ProjectActionsDesktopContextMenu {...props} />;
+}
+
+function ProjectActionsCompactLongPressMenu({
+  children,
+  project,
+  onOpenChange,
+}: ProjectActionsContextMenuProps) {
+  const { t } = useTranslation();
+  return (
+    <CompactLongPressMenu
+      label={t("project.actionsMenu.actionsAriaLabel", "{{name}} actions", { name: project.name })}
+      onOpenChange={onOpenChange}
+      items={<ProjectActionsMenuItems project={project} surface="dropdown" />}
+    >
+      {children}
+    </CompactLongPressMenu>
+  );
+}
+
+function ProjectActionsDesktopContextMenu({
+  children,
+  project,
+  onOpenChange,
+}: ProjectActionsContextMenuProps) {
+  const { t } = useTranslation();
+  return (
+    <ContextMenu onOpenChange={onOpenChange}>
+      <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
+      <ContextMenuContent
+        aria-label={t("project.actionsMenu.actionsAriaLabel", "{{name}} actions", { name: project.name })}
+        onClick={stopProjectActionsMenuClickPropagation}
+      >
+        <ProjectActionsMenuItems project={project} surface="context" />
+      </ContextMenuContent>
+    </ContextMenu>
+  );
+}

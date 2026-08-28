@@ -1,0 +1,1 @@
+import{s as e}from"./SplitWorkspaceRoute-BfcXEz7e.js";export{e as BrowserTabDeck};

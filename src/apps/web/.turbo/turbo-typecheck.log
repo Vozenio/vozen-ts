@@ -1,0 +1,4 @@
+
+> @bb/app@0.0.1 typecheck /Users/defei.li/AIhub/bb/apps/app
+> tsc --noEmit && tsc --noEmit -p tsconfig.node.json
+

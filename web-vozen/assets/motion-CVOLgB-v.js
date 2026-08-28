@@ -1,0 +1,1 @@
+var e=`transition-colors duration-150 hover:duration-0`,t=`transition-none`;export{t as n,e as t};

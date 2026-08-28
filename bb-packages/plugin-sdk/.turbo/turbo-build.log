@@ -1,0 +1,5 @@
+
+> @get-bb/plugin-sdk@0.4.16 build /Users/defei.li/AIhub/bb/packages/plugin-sdk
+> node scripts/build-runtime.mjs
+
+Built 17 @get-bb/plugin-sdk runtime entries.

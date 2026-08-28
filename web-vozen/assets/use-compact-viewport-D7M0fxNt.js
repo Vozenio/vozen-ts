@@ -1,0 +1,1 @@
+import{o as e}from"./rolldown-runtime-C0FnF6B9.js";import{t}from"./react-C21x__mS.js";import{a as n}from"./use-media-query-CQCemZ5B.js";var r=e(t(),1),i=`(max-width: 767px)`,a=(0,r.createContext)(null);function o(){let e=(0,r.useContext)(a),t=n(i);return e===null?t:e}export{o as n,i as t};

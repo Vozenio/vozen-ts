@@ -1,0 +1,1354 @@
+import {
+  type CSSProperties,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import type { UrlTransform } from "react-markdown";
+import { useTranslation } from "react-i18next";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import { Button } from "@bb/shared-ui/button";
+import { SourceCodeHost } from "@/components/code/SourceCodeHost";
+import { COARSE_POINTER_TEXT_SM_CLASS } from "@bb/shared-ui/coarse-pointer-sizing";
+import { EmptyStatePanel } from "@bb/shared-ui/empty-state";
+import { CopyButton } from "@/components/ui/copy-button.js";
+import { Icon } from "@bb/shared-ui/icon";
+import { OpenInEditorButton } from "@/components/ui/open-in-editor-button.js";
+import { useAppCommandShortcut } from "@/components/commands/AppCommandProvider";
+import { AppCommandShortcutHint } from "@/components/commands/AppCommandShortcutHint";
+import type { MarkdownLinkRouting } from "@/components/ui/markdown-link-routing.js";
+import { MarkdownPreview } from "@/components/ui/markdown-preview.js";
+import { Skeleton } from "@bb/shared-ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@bb/shared-ui/tooltip";
+import { TruncateStart } from "@/components/ui/truncate-start.js";
+import { copyToClipboardWithToast } from "@/lib/clipboard";
+import { openUrlInExternalBrowser } from "@/lib/url-open-routing";
+import type {
+  FilePreviewLineRange,
+  WorkspaceFilePreviewStatusLabel,
+} from "@bb/client-core";
+import {
+  DEFAULT_CODE_OVERFLOW_MODE,
+  type CodeOverflowMode,
+  type CodeOverflowModeChangeHandler,
+} from "@/lib/code-overflow-mode";
+import { cn } from "@bb/shared-ui/lib/utils";
+import { SecondaryPanelSelectionActions } from "./SecondaryPanelSelectionActions.js";
+
+export interface FilePreviewFile {
+  cacheKey?: string;
+  name: string;
+  contents: string;
+}
+
+type IframePreviewSandbox = "allow-scripts";
+
+interface IframeFilePreviewTarget {
+  sandbox: IframePreviewSandbox | null;
+  title: string;
+  url: string;
+}
+
+type FilePreviewState =
+  | { kind: "loading" }
+  | { kind: "empty" }
+  | { kind: "not-found" }
+  | { kind: "error"; message?: string }
+  | { kind: "image"; url: string }
+  | { kind: "video"; url: string }
+  | ({ kind: "iframe" } & IframeFilePreviewTarget)
+  | {
+      kind: "html";
+      file: FilePreviewFile;
+      iframe: IframeFilePreviewTarget;
+      lineRange: FilePreviewLineRange | null;
+    }
+  | {
+      kind: "ready";
+      file: FilePreviewFile;
+      lineRange: FilePreviewLineRange | null;
+      textPreviewKind: TextFilePreviewKind | null;
+      markdownUrlTransform?: UrlTransform;
+    };
+
+interface FilePreviewProps {
+  state: FilePreviewState;
+  path: string;
+  copyPath?: string | null;
+  headerMode?: FilePreviewHeaderMode;
+  onSelectionAddToChat?: (text: string) => void;
+  onOpenInEditor?: (path: string) => void;
+  onRefresh?: () => void;
+  isRefreshing?: boolean;
+  markdownLinkRouting?: MarkdownLinkRouting;
+  statusLabel?: WorkspaceFilePreviewStatusLabel | null;
+}
+
+interface FilePreviewBodyProps {
+  state: FilePreviewState;
+  path: string;
+  lineOverflowMode: CodeOverflowMode;
+  viewMode: FilePreviewViewMode;
+  markdownLinkRouting?: MarkdownLinkRouting;
+  onSelectionAddToChat?: (text: string) => void;
+}
+
+interface HtmlFilePreviewBodyProps {
+  lineOverflowMode: CodeOverflowMode;
+  onSelectionAddToChat?: (text: string) => void;
+  state: Extract<FilePreviewState, { kind: "html" }>;
+  viewMode: FilePreviewViewMode;
+}
+
+interface FilePreviewHeaderProps {
+  path: string;
+  copyPath: string | null;
+  rawContents: string | null;
+  externalUrl: string | null;
+  onOpenInEditor?: (path: string) => void;
+  onRefresh?: () => void;
+  isRefreshing: boolean;
+  statusLabel: WorkspaceFilePreviewStatusLabel | null;
+  toggleKind: FilePreviewToggleKind | null;
+  showLineOverflowToggle: boolean;
+  lineOverflowMode: CodeOverflowMode;
+  onLineOverflowModeChange: CodeOverflowModeChangeHandler;
+  viewMode: FilePreviewViewMode;
+  onViewModeChange: (mode: FilePreviewViewMode) => void;
+}
+
+interface FilePreviewLineWrapButtonProps {
+  showLineOverflowToggle: boolean;
+  lineOverflowMode: CodeOverflowMode;
+  onLineOverflowModeChange: CodeOverflowModeChangeHandler;
+}
+
+interface FilePreviewPathProps {
+  path: string;
+  copyPath: string | null;
+}
+
+interface MarkdownFilePreviewProps {
+  file: FilePreviewFile;
+  onSelectionAddToChat?: (text: string) => void;
+  urlTransform?: UrlTransform;
+  markdownLinkRouting?: MarkdownLinkRouting;
+}
+
+interface CsvFilePreviewProps {
+  file: FilePreviewFile;
+  onSelectionAddToChat?: (text: string) => void;
+}
+
+interface FilePreviewImageProps {
+  url: string;
+  alt: string;
+}
+
+interface FilePreviewVideoProps {
+  url: string;
+  title: string;
+}
+
+interface FilePreviewMessageProps {
+  message: string;
+  role?: "alert";
+}
+
+interface FilePreviewCodeProps {
+  file: FilePreviewFile;
+  lineOverflowMode: CodeOverflowMode;
+  lineRange: FilePreviewLineRange | null;
+  onSelectionAddToChat?: (text: string) => void;
+  path: string;
+}
+
+interface GetInitialFilePreviewViewModeArgs {
+  lineRange: FilePreviewLineRange | null;
+  toggleKind: FilePreviewToggleKind | null;
+}
+
+interface CsvPreviewData {
+  columnCount: number;
+  rows: string[][];
+  truncatedColumns: boolean;
+  truncatedRows: boolean;
+}
+
+type FilePreviewViewMode = "preview" | "source";
+export type TextFilePreviewKind = "csv" | "markdown";
+type FilePreviewToggleKind = "csv" | "html" | "markdown";
+type FilePreviewHeaderMode = "file" | "none";
+type IframeLoadState = "loading" | "loaded" | "error";
+
+const CSV_PREVIEW_MAX_COLUMNS = 100;
+const CSV_PREVIEW_MAX_ROWS = 500;
+/**
+ * Every CSV body row is one truncated `leading-5` line with `py-1` and a
+ * bottom border, so this estimate is exact; `measureElement` still corrects
+ * it for zoom or font changes.
+ */
+const CSV_PREVIEW_ROW_HEIGHT_PX = 29;
+const CSV_PREVIEW_OVERSCAN_ROWS = 8;
+
+/**
+ * Code previews above either budget render only a leading prefix until the
+ * user asks for the whole file. Tokenizing and laying out a 20k-line source
+ * file is what stalls iOS Safari; the prefix keeps the first paint bounded and
+ * the full file stays one tap away.
+ */
+const FILE_PREVIEW_WRAPPER_STYLE = {
+  "--md-content-w": "100cqi",
+} as CSSProperties;
+
+const HTML_FILE_PREVIEW_IFRAME_STYLE = {
+  width: "100%",
+  height: "100%",
+  border: 0,
+} as CSSProperties;
+const IFRAME_LOADING_INDICATOR_DELAY_MS = 160;
+const FILE_PREVIEW_HEADER_ICON_BUTTON_CLASS =
+  "h-5 w-5 rounded-sm p-0 [&_svg]:size-3 max-md:pointer-coarse:h-9 max-md:pointer-coarse:w-9 max-md:pointer-coarse:[&_svg]:size-5";
+// The toggle adds 2px padding and a 1px border around these buttons. Keep its
+// coarse-pointer tabs at 30px so the complete control fits the 36px header.
+const FILE_PREVIEW_VIEW_MODE_BUTTON_CLASS =
+  "h-5 rounded-sm px-2 text-muted-foreground max-md:pointer-coarse:h-[30px]";
+
+// The rendered HTML previews (a plain iframe target, or the html kind whose
+// preview tab wraps one) are the only states with a page a browser can open on
+// its own. Everything else is text we render ourselves.
+function getFilePreviewExternalUrl(state: FilePreviewState): string | null {
+  if (state.kind === "iframe") {
+    return state.url;
+  }
+  if (state.kind === "html") {
+    return state.iframe.url;
+  }
+  return null;
+}
+
+// The preview URL is a same-origin app path; the external browser needs the
+// whole address.
+function toAbsolutePreviewUrl(url: string): string {
+  if (typeof window === "undefined") {
+    return url;
+  }
+  return new URL(url, window.location.href).toString();
+}
+
+function getFilePreviewToggleKind(
+  state: FilePreviewState,
+): FilePreviewToggleKind | null {
+  if (state.kind === "html") {
+    return "html";
+  }
+  if (state.kind === "ready") {
+    return state.textPreviewKind;
+  }
+  return null;
+}
+
+// Simple translator shape shared by the pure helpers below, which format
+// header labels outside a component and so can't call useTranslation()
+// themselves; callers pass their own `t` down. `defaultValue` matches
+// react-i18next's t(key, defaultValue, options) shape.
+type TranslateFn = (
+  key: string,
+  defaultValue: string,
+  options?: Record<string, unknown>,
+) => string;
+
+function getToggleAriaLabel(
+  kind: FilePreviewToggleKind,
+  t: TranslateFn,
+): string {
+  switch (kind) {
+    case "csv":
+      return t(
+        "secondaryPanel.filePreview.header.toggle.ariaLabel.csv",
+        "CSV view mode",
+      );
+    case "html":
+      return t(
+        "secondaryPanel.filePreview.header.toggle.ariaLabel.html",
+        "HTML view mode",
+      );
+    case "markdown":
+      return t(
+        "secondaryPanel.filePreview.header.toggle.ariaLabel.markdown",
+        "Markdown view mode",
+      );
+  }
+}
+
+function getFileContentsCopyLabel(
+  kind: FilePreviewToggleKind | null,
+  t: TranslateFn,
+): string {
+  if (kind === "csv") {
+    return t("secondaryPanel.filePreview.header.copy.csv", "Copy CSV");
+  }
+  if (kind === "markdown") {
+    return t(
+      "secondaryPanel.filePreview.header.copy.markdown",
+      "Copy markdown",
+    );
+  }
+  if (kind === "html") {
+    return t(
+      "secondaryPanel.filePreview.header.copy.html",
+      "Copy HTML source",
+    );
+  }
+  return t(
+    "secondaryPanel.filePreview.header.copy.default",
+    "Copy file contents",
+  );
+}
+
+function getLineWrapToggleLabel(
+  lineOverflowMode: CodeOverflowMode,
+  t: TranslateFn,
+): string {
+  return lineOverflowMode === "wrap"
+    ? t(
+        "secondaryPanel.filePreview.header.lineWrap.disable",
+        "Disable line wrap",
+      )
+    : t("secondaryPanel.filePreview.header.lineWrap.enable", "Wrap lines");
+}
+
+function getFilePreviewLineRange(
+  state: FilePreviewState,
+): FilePreviewLineRange | null {
+  if (state.kind === "html" || state.kind === "ready") {
+    return state.lineRange;
+  }
+  return null;
+}
+
+function getRawFilePreviewContents(state: FilePreviewState): string | null {
+  if (state.kind === "html" || state.kind === "ready") {
+    return state.file.contents;
+  }
+  return null;
+}
+
+function getInitialFilePreviewViewMode({
+  lineRange,
+  toggleKind,
+}: GetInitialFilePreviewViewModeArgs): FilePreviewViewMode {
+  if (
+    toggleKind === "csv" ||
+    toggleKind === "html" ||
+    toggleKind === "markdown"
+  ) {
+    return "preview";
+  }
+  return lineRange === null ? "preview" : "source";
+}
+
+function usesCodeViewLayout(
+  state: FilePreviewState,
+  viewMode: FilePreviewViewMode,
+): boolean {
+  if (state.kind === "html") {
+    return viewMode === "source";
+  }
+
+  if (state.kind !== "ready") {
+    return false;
+  }
+
+  return state.textPreviewKind === null || viewMode === "source";
+}
+
+interface ParsedCsvRows {
+  rows: string[][];
+  truncatedRows: boolean;
+}
+
+// Stops scanning once `maxRows` rows are collected, so a multi-megabyte CSV
+// only pays for the previewed prefix.
+function parseCsvRows(contents: string, maxRows: number): ParsedCsvRows {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let field = "";
+  let inQuotes = false;
+  let quotedField = false;
+  let endedWithLineBreak = false;
+
+  for (let index = 0; index < contents.length; index += 1) {
+    const character = contents[index];
+    endedWithLineBreak = false;
+
+    if (inQuotes) {
+      if (character === '"') {
+        if (contents[index + 1] === '"') {
+          field += '"';
+          index += 1;
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        field += character;
+      }
+      continue;
+    }
+
+    if (character === '"' && field.length === 0) {
+      inQuotes = true;
+      quotedField = true;
+      continue;
+    }
+
+    if (character === ",") {
+      row.push(field);
+      field = "";
+      quotedField = false;
+      continue;
+    }
+
+    if (character === "\n" || character === "\r") {
+      row.push(field);
+      rows.push(row);
+      row = [];
+      field = "";
+      quotedField = false;
+      endedWithLineBreak = true;
+      if (character === "\r" && contents[index + 1] === "\n") {
+        index += 1;
+      }
+      if (rows.length >= maxRows) {
+        return { rows, truncatedRows: index + 1 < contents.length };
+      }
+      continue;
+    }
+
+    field += character;
+  }
+
+  if (
+    field.length > 0 ||
+    row.length > 0 ||
+    quotedField ||
+    !endedWithLineBreak
+  ) {
+    row.push(field);
+    rows.push(row);
+  }
+
+  return { rows, truncatedRows: false };
+}
+
+export function buildCsvPreviewData(contents: string): CsvPreviewData {
+  // +1: the first parsed row is the header, so the cap counts data rows.
+  const { rows, truncatedRows } = parseCsvRows(
+    contents,
+    CSV_PREVIEW_MAX_ROWS + 1,
+  );
+  // Column stats only consider the previewed rows; a wider row past the row
+  // cap won't flag truncatedColumns. Fine for a preview.
+  const columnCount = rows.reduce(
+    (maximum, row) => Math.max(maximum, row.length),
+    0,
+  );
+
+  return {
+    columnCount: Math.min(columnCount, CSV_PREVIEW_MAX_COLUMNS),
+    rows,
+    truncatedColumns: columnCount > CSV_PREVIEW_MAX_COLUMNS,
+    truncatedRows,
+  };
+}
+
+// `getCsvTruncationNote` is called directly (outside React) by
+// FilePreview.test.tsx, so `t` stays optional; the fallback just interpolates
+// `defaultValue` (the English copy passed at each call site below), so it
+// stays byte-for-byte correct without duplicating the strings here.
+const englishFallbackT: TranslateFn = (_key, defaultValue = "", options) =>
+  options === undefined
+    ? defaultValue
+    : defaultValue.replace(/\{\{(\w+)\}\}/g, (_match, name: string) =>
+        String(options[name] ?? ""),
+      );
+
+export function getCsvTruncationNote(
+  preview: CsvPreviewData,
+  dataRowCount: number,
+  t: TranslateFn = englishFallbackT,
+): string | null {
+  const limits: string[] = [];
+  if (preview.truncatedRows) {
+    limits.push(
+      t(
+        "secondaryPanel.filePreview.csv.truncation.rows",
+        "{{rowCount}} rows",
+        { rowCount: dataRowCount.toLocaleString() },
+      ),
+    );
+  }
+  if (preview.truncatedColumns) {
+    limits.push(
+      t(
+        "secondaryPanel.filePreview.csv.truncation.columns",
+        "{{columnCount}} columns",
+        { columnCount: preview.columnCount.toLocaleString() },
+      ),
+    );
+  }
+  if (limits.length === 0) {
+    return null;
+  }
+  return t(
+    "secondaryPanel.filePreview.csv.truncation.note",
+    "Showing the first {{parts}}.",
+    { parts: limits.join(" and ") },
+  );
+}
+
+export function FilePreview({
+  state,
+  path,
+  copyPath = null,
+  headerMode = "file",
+  onSelectionAddToChat,
+  onOpenInEditor,
+  onRefresh,
+  isRefreshing = false,
+  markdownLinkRouting,
+  statusLabel = null,
+}: FilePreviewProps) {
+  const toggleKind = getFilePreviewToggleKind(state);
+  const filePreviewLineRange = getFilePreviewLineRange(state);
+  const rawContents = getRawFilePreviewContents(state);
+  const externalUrl = getFilePreviewExternalUrl(state);
+  const [viewMode, setViewMode] = useState<FilePreviewViewMode>(
+    getInitialFilePreviewViewMode({
+      lineRange: filePreviewLineRange,
+      toggleKind,
+    }),
+  );
+  const [lineOverflowMode, setLineOverflowMode] = useState<CodeOverflowMode>(
+    DEFAULT_CODE_OVERFLOW_MODE,
+  );
+  // Each new file opens in the appropriate default mode; the user re-toggles
+  // per file rather than carrying their last choice across unrelated files.
+  useEffect(() => {
+    setViewMode(
+      getInitialFilePreviewViewMode({
+        lineRange: filePreviewLineRange,
+        toggleKind,
+      }),
+    );
+  }, [filePreviewLineRange, path, toggleKind]);
+
+  const usesIframeLayout =
+    state.kind === "iframe" ||
+    (state.kind === "html" && viewMode === "preview");
+  const bodyViewMode: FilePreviewViewMode =
+    toggleKind === null ? "preview" : viewMode;
+  const usesCodeLayout = usesCodeViewLayout(state, bodyViewMode);
+  const showLineOverflowToggle = usesCodeLayout;
+  // The markdown preview renders on a raised "paper" surface that should fill
+  // the panel to the bottom even for short documents. `min-h-full` (vs the
+  // iframe layout's `h-full min-h-0`) keeps the column growable, so long
+  // documents still scroll the outer panel rather than an inner box.
+  const usesMarkdownPreviewLayout =
+    state.kind === "ready" &&
+    state.textPreviewKind === "markdown" &&
+    bodyViewMode === "preview";
+  // The CSV table needs one scroller that owns both axes: its sticky header
+  // row and row-number gutter only stick against their own scrollport, and
+  // splitting the axes (panel scrolls vertically, inner box horizontally)
+  // strands the horizontal scrollbar at the bottom of the full-height table
+  // and lets the sticky gutter paint over the panel header. So fill the panel
+  // like the iframe layout and let CsvFilePreview scroll internally.
+  const usesCsvPreviewLayout =
+    state.kind === "ready" &&
+    state.textPreviewKind === "csv" &&
+    bodyViewMode === "preview";
+  // The code view owns its own scroller too: pierre's virtualizer needs the
+  // scroll container to be the code viewport so it can render only the rows
+  // near it, which the outer panel scroller (shared with the header) cannot be.
+  const usesFullHeightLayout =
+    usesIframeLayout || usesCsvPreviewLayout || usesCodeLayout;
+  const usesContentHeightLayout = usesMarkdownPreviewLayout;
+
+  // Establish a `@container/page` scope so MarkdownPreview's `100cqw`-based
+  // table breakout sizes against this panel, not the viewport.
+  return (
+    <div
+      className={
+        usesFullHeightLayout
+          ? "@container/page flex h-full min-h-0 flex-col"
+          : usesContentHeightLayout
+            ? "@container/page flex min-h-full flex-col"
+            : "@container/page min-h-full"
+      }
+      style={FILE_PREVIEW_WRAPPER_STYLE}
+    >
+      {headerMode === "file" ? (
+        <FilePreviewHeader
+          path={path}
+          copyPath={copyPath}
+          rawContents={rawContents}
+          externalUrl={externalUrl}
+          onOpenInEditor={onOpenInEditor}
+          onRefresh={onRefresh}
+          isRefreshing={isRefreshing}
+          statusLabel={statusLabel}
+          toggleKind={toggleKind}
+          showLineOverflowToggle={showLineOverflowToggle}
+          lineOverflowMode={lineOverflowMode}
+          onLineOverflowModeChange={setLineOverflowMode}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+        />
+      ) : null}
+      <FilePreviewBody
+        state={state}
+        path={path}
+        lineOverflowMode={lineOverflowMode}
+        viewMode={bodyViewMode}
+        markdownLinkRouting={markdownLinkRouting}
+        onSelectionAddToChat={onSelectionAddToChat}
+      />
+    </div>
+  );
+}
+
+function FilePreviewBody({
+  state,
+  path,
+  lineOverflowMode,
+  viewMode,
+  markdownLinkRouting,
+  onSelectionAddToChat,
+}: FilePreviewBodyProps) {
+  const { t } = useTranslation();
+  if (state.kind === "loading") {
+    return <FilePreviewLoading />;
+  }
+  if (state.kind === "empty") {
+    return (
+      <FilePreviewMessage
+        message={t("secondaryPanel.filePreview.emptyFile", "Empty file.")}
+      />
+    );
+  }
+  if (state.kind === "not-found") {
+    return (
+      <FilePreviewMessage
+        message={t("secondaryPanel.filePreview.notFound", "File not found.")}
+        role="alert"
+      />
+    );
+  }
+  if (state.kind === "error") {
+    return (
+      <FilePreviewMessage
+        message={
+          state.message ??
+          t("secondaryPanel.filePreview.loadError", "Failed to load file")
+        }
+        role={state.message === undefined ? "alert" : undefined}
+      />
+    );
+  }
+  if (state.kind === "image") {
+    return <FilePreviewImage url={state.url} alt={path} />;
+  }
+  if (state.kind === "video") {
+    return <FilePreviewVideo url={state.url} title={path} />;
+  }
+  if (state.kind === "iframe") {
+    return (
+      <IframeFilePreview
+        sandbox={state.sandbox}
+        title={state.title}
+        url={state.url}
+      />
+    );
+  }
+  if (state.kind === "html") {
+    return (
+      <HtmlFilePreviewBody
+        lineOverflowMode={lineOverflowMode}
+        onSelectionAddToChat={onSelectionAddToChat}
+        state={state}
+        viewMode={viewMode}
+      />
+    );
+  }
+  if (state.textPreviewKind === "csv" && viewMode === "preview") {
+    return (
+      <CsvFilePreview
+        file={state.file}
+        onSelectionAddToChat={onSelectionAddToChat}
+      />
+    );
+  }
+  if (state.textPreviewKind === "markdown" && viewMode === "preview") {
+    return (
+      <MarkdownFilePreview
+        file={state.file}
+        urlTransform={state.markdownUrlTransform}
+        markdownLinkRouting={markdownLinkRouting}
+        onSelectionAddToChat={onSelectionAddToChat}
+      />
+    );
+  }
+  return (
+    <FilePreviewCode
+      file={state.file}
+      lineOverflowMode={lineOverflowMode}
+      lineRange={state.lineRange ?? null}
+      onSelectionAddToChat={onSelectionAddToChat}
+      path={path}
+    />
+  );
+}
+
+function FilePreviewHeader({
+  path,
+  copyPath,
+  rawContents,
+  externalUrl,
+  onOpenInEditor,
+  onRefresh,
+  isRefreshing,
+  statusLabel,
+  toggleKind,
+  showLineOverflowToggle,
+  lineOverflowMode,
+  onLineOverflowModeChange,
+  viewMode,
+  onViewModeChange,
+}: FilePreviewHeaderProps) {
+  const { t } = useTranslation();
+  const openShortcut = useAppCommandShortcut("workspace.openPreferred");
+  const showHeaderControls = showLineOverflowToggle || toggleKind !== null;
+  const copyFileContentsLabel = getFileContentsCopyLabel(toggleKind, t);
+  const refreshLabel = isRefreshing
+    ? t("secondaryPanel.filePreview.header.refresh.refreshing", "Refreshing file")
+    : t("secondaryPanel.filePreview.header.refresh.idle", "Refresh file");
+  const openExternalLabel = t(
+    "secondaryPanel.filePreview.header.openExternal",
+    "Open in external browser",
+  );
+  const openInEditorLabel = openShortcut
+    ? t(
+        "secondaryPanel.filePreview.header.openInEditor.withShortcut",
+        "Open in editor ({{shortcut}})",
+        { shortcut: openShortcut.label },
+      )
+    : t(
+        "secondaryPanel.filePreview.header.openInEditor.default",
+        "Open in editor",
+      );
+
+  return (
+    // The wrapper carries an opaque panel-surface base so the translucent
+    // `bg-surface-recessed` tint on the bar composites to a solid tone — without
+    // it, body content scrolling under the sticky header would bleed through.
+    <div className="sticky top-0 z-10 bg-sidebar">
+      <div className="flex h-9 items-center gap-2 bg-surface-raised px-4">
+        <div className="flex min-w-0 flex-1 items-center gap-1.5">
+          <Icon
+            name="File"
+            className="size-3.5 shrink-0 text-subtle-foreground"
+          />
+          <FilePreviewPath path={path} copyPath={copyPath} />
+          {statusLabel === null ? null : (
+            <span
+              className={cn(
+                "shrink-0 leading-5 text-muted-foreground",
+                COARSE_POINTER_TEXT_SM_CLASS,
+              )}
+            >
+              ({statusLabel})
+            </span>
+          )}
+          <TooltipProvider delayDuration={300}>
+            {onRefresh ? (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      FILE_PREVIEW_HEADER_ICON_BUTTON_CLASS,
+                      "shrink-0 text-muted-foreground hover:bg-state-hover hover:text-foreground",
+                    )}
+                    onClick={onRefresh}
+                    disabled={isRefreshing}
+                    aria-label={refreshLabel}
+                  >
+                    <Icon
+                      name={isRefreshing ? "Spinner" : "RotateCcw"}
+                      className={cn(isRefreshing && "animate-spin")}
+                      aria-hidden
+                    />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">{refreshLabel}</TooltipContent>
+              </Tooltip>
+            ) : null}
+            {rawContents === null ? null : (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <CopyButton
+                    text={rawContents}
+                    label={copyFileContentsLabel}
+                    className="shrink-0 rounded-md hover:bg-state-hover hover:text-foreground"
+                  />
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  {copyFileContentsLabel}
+                </TooltipContent>
+              </Tooltip>
+            )}
+            {externalUrl === null ? null : (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      FILE_PREVIEW_HEADER_ICON_BUTTON_CLASS,
+                      "shrink-0 text-muted-foreground hover:bg-state-hover hover:text-foreground",
+                    )}
+                    onClick={() => {
+                      openUrlInExternalBrowser(
+                        toAbsolutePreviewUrl(externalUrl),
+                      );
+                    }}
+                    aria-label={openExternalLabel}
+                  >
+                    {/* Globe, not ExternalLink: the neighbouring
+                        OpenInEditorButton already spends ExternalLink on a
+                        different destination. */}
+                    <Icon name="Globe" aria-hidden />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  {openExternalLabel}
+                </TooltipContent>
+              </Tooltip>
+            )}
+            {onOpenInEditor ? (
+              <>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <OpenInEditorButton
+                      onClick={() => onOpenInEditor(path)}
+                      label={openInEditorLabel}
+                      aria-keyshortcuts={openShortcut?.ariaKeyshortcuts}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    {openInEditorLabel}
+                  </TooltipContent>
+                </Tooltip>
+                <AppCommandShortcutHint shortcut={openShortcut} />
+              </>
+            ) : null}
+          </TooltipProvider>
+        </div>
+        {showHeaderControls ? (
+          <div className="ml-auto flex shrink-0 items-center gap-1">
+            <FilePreviewLineWrapButton
+              showLineOverflowToggle={showLineOverflowToggle}
+              lineOverflowMode={lineOverflowMode}
+              onLineOverflowModeChange={onLineOverflowModeChange}
+            />
+            {toggleKind !== null ? (
+              <div
+                className="inline-flex shrink-0 items-center gap-0.5 rounded-md border border-border p-0.5"
+                role="tablist"
+                aria-label={getToggleAriaLabel(toggleKind, t)}
+              >
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    FILE_PREVIEW_VIEW_MODE_BUTTON_CLASS,
+                    COARSE_POINTER_TEXT_SM_CLASS,
+                  )}
+                  onClick={() => onViewModeChange("preview")}
+                  aria-pressed={viewMode === "preview"}
+                >
+                  {t("secondaryPanel.filePreview.header.toggle.preview", "Preview")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    FILE_PREVIEW_VIEW_MODE_BUTTON_CLASS,
+                    COARSE_POINTER_TEXT_SM_CLASS,
+                  )}
+                  onClick={() => onViewModeChange("source")}
+                  aria-pressed={viewMode === "source"}
+                >
+                  {t("secondaryPanel.filePreview.header.toggle.raw", "Raw")}
+                </Button>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function FilePreviewPath({ path, copyPath }: FilePreviewPathProps) {
+  const { t } = useTranslation();
+  const copyTarget = copyPath ?? path;
+  const label = t(
+    "secondaryPanel.filePreview.header.copyPath.label",
+    "Copy file path",
+  );
+  const className = cn(
+    "min-w-0 font-mono font-medium leading-5 text-file-accent",
+    COARSE_POINTER_TEXT_SM_CLASS,
+  );
+
+  return (
+    <TooltipProvider delayDuration={300}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            className={cn(
+              className,
+              "cursor-pointer rounded-sm text-left underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+            )}
+            aria-label={label}
+            onClick={() => {
+              void copyToClipboardWithToast(copyTarget, {
+                successMessage: t(
+                  "secondaryPanel.filePreview.header.copyPath.success",
+                  "File path copied",
+                ),
+                errorMessage: t(
+                  "secondaryPanel.filePreview.header.copyPath.error",
+                  "Failed to copy file path",
+                ),
+              });
+            }}
+          >
+            <TruncateStart>{path}</TruncateStart>
+          </button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">{label}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
+function FilePreviewLineWrapButton({
+  showLineOverflowToggle,
+  lineOverflowMode,
+  onLineOverflowModeChange,
+}: FilePreviewLineWrapButtonProps) {
+  const { t } = useTranslation();
+  if (!showLineOverflowToggle) {
+    return null;
+  }
+
+  const label = getLineWrapToggleLabel(lineOverflowMode, t);
+
+  return (
+    <TooltipProvider delayDuration={300}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className={cn(
+              FILE_PREVIEW_HEADER_ICON_BUTTON_CLASS,
+              "text-muted-foreground",
+            )}
+            aria-label={label}
+            aria-pressed={lineOverflowMode === "wrap"}
+            onClick={() => {
+              onLineOverflowModeChange(
+                lineOverflowMode === "wrap" ? "scroll" : "wrap",
+              );
+            }}
+          >
+            <Icon name="TextWrap" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">{label}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
+function HtmlFilePreviewBody({
+  lineOverflowMode,
+  onSelectionAddToChat,
+  state,
+  viewMode,
+}: HtmlFilePreviewBodyProps) {
+  const isPreviewVisible = viewMode === "preview";
+  return (
+    <>
+      <div
+        className={isPreviewVisible ? "contents" : "hidden"}
+        aria-hidden={isPreviewVisible ? undefined : true}
+      >
+        <IframeFilePreview
+          // The raw HTML route is stable across file revisions. Remount the
+          // frame when the fetched source changes so it navigates again and
+          // renders the updated document, while unrelated parent renders keep
+          // the current frame (and its in-document state) intact.
+          key={state.file.cacheKey}
+          sandbox={state.iframe.sandbox}
+          title={state.iframe.title}
+          url={state.iframe.url}
+        />
+      </div>
+      <div
+        className={isPreviewVisible ? "hidden" : "contents"}
+        aria-hidden={isPreviewVisible ? true : undefined}
+      >
+        <FilePreviewCode
+          file={state.file}
+          lineOverflowMode={lineOverflowMode}
+          lineRange={state.lineRange}
+          onSelectionAddToChat={onSelectionAddToChat}
+          path={state.file.name}
+        />
+      </div>
+    </>
+  );
+}
+
+function MarkdownFilePreview({
+  file,
+  onSelectionAddToChat,
+  urlTransform,
+  markdownLinkRouting,
+}: MarkdownFilePreviewProps) {
+  return (
+    // Keep rendered Markdown on the ordinary document background. Its parent
+    // owns the boundary, so another raised "paper" layer would make nested
+    // file viewers feel like cards stacked inside cards.
+    <SecondaryPanelSelectionActions onSelectionAddToChat={onSelectionAddToChat}>
+      <div className="flex-auto bg-background px-4 py-4">
+        <MarkdownPreview
+          allowHtml
+          content={file.contents}
+          urlTransform={urlTransform}
+          linkRouting={markdownLinkRouting}
+        />
+      </div>
+    </SecondaryPanelSelectionActions>
+  );
+}
+
+function CsvFilePreview({ file, onSelectionAddToChat }: CsvFilePreviewProps) {
+  const { t } = useTranslation();
+  const preview = useMemo(
+    () => buildCsvPreviewData(file.contents),
+    [file.contents],
+  );
+  const headerRow = preview.rows[0] ?? [];
+  const bodyRows = preview.rows.slice(1);
+  const columns = Array.from({ length: preview.columnCount }, (_, index) => ({
+    index,
+    label: headerRow[index] ?? "",
+  }));
+  const tableWidth = `max(100%, ${3 + columns.length * 18}rem)`;
+  const truncationNote = getCsvTruncationNote(preview, bodyRows.length, t);
+
+  // The parse cap still allows 500 x 100 = 50,000 cells, and a scroll box only
+  // clips painting, not DOM: mounting every row blocked the main thread for
+  // seconds and cost ~150k nodes (#1615). Mount only the rows near the
+  // viewport; spacer rows keep the table's natural height so the scrollbar,
+  // sticky header and sticky row-number gutter behave as before.
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const rowVirtualizer = useVirtualizer({
+    count: bodyRows.length,
+    getScrollElement: () => scrollRef.current,
+    estimateSize: () => CSV_PREVIEW_ROW_HEIGHT_PX,
+    overscan: CSV_PREVIEW_OVERSCAN_ROWS,
+  });
+  const virtualRows = rowVirtualizer.getVirtualItems();
+  const totalRowsHeight = rowVirtualizer.getTotalSize();
+  const firstVirtualRow = virtualRows[0];
+  const lastVirtualRow = virtualRows[virtualRows.length - 1];
+  const spacerTopHeight = firstVirtualRow?.start ?? 0;
+  const spacerBottomHeight =
+    lastVirtualRow === undefined
+      ? totalRowsHeight
+      : totalRowsHeight - lastVirtualRow.end;
+
+  return (
+    <SecondaryPanelSelectionActions onSelectionAddToChat={onSelectionAddToChat}>
+      {/* Single scroll container for both axes: the sticky header row and
+          row-number gutter stick against this box, the horizontal scrollbar
+          stays visible at the panel bottom, and the sticky cells are clipped
+          here so they can't paint over the panel header. */}
+      <div className="flex min-h-0 flex-auto flex-col bg-surface-raised px-4 py-4">
+        {/* overscroll-contain: panning a wide table past its edge must not
+            chain into the browser back/forward gesture (kept alive globally —
+            see app.css overscroll notes) or scroll an ancestor. */}
+        <div
+          ref={scrollRef}
+          className="persistent-scrollbar min-h-0 overflow-auto overscroll-contain rounded-md border border-border bg-background"
+        >
+          <table
+            className="min-w-full table-fixed border-separate border-spacing-0 font-mono text-xs leading-5"
+            aria-label={t(
+              "secondaryPanel.filePreview.csv.tableAriaLabel",
+              "{{fileName}} CSV preview",
+              { fileName: file.name },
+            )}
+            style={{ width: tableWidth }}
+          >
+            <colgroup>
+              <col className="w-12" />
+              {columns.map((column) => (
+                <col key={column.index} className="w-72" />
+              ))}
+            </colgroup>
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  className="sticky left-0 top-0 z-30 w-12 min-w-12 border-b border-r border-border bg-surface-recessed-solid px-2 py-1 text-right font-medium text-muted-foreground"
+                >
+                  #
+                </th>
+                {columns.map((column) => (
+                  <th
+                    key={column.index}
+                    scope="col"
+                    className="sticky top-0 z-20 w-72 max-w-72 border-b border-r border-border bg-surface-recessed-solid px-2 py-1 text-left font-medium text-foreground"
+                    title={column.label}
+                  >
+                    <span className="block max-w-full truncate">
+                      {column.label ||
+                        t(
+                          "secondaryPanel.filePreview.csv.columnFallback",
+                          "Column {{index}}",
+                          { index: column.index + 1 },
+                        )}
+                    </span>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {spacerTopHeight > 0 ? (
+                <tr aria-hidden style={{ height: spacerTopHeight }}>
+                  <td colSpan={columns.length + 1} className="p-0" />
+                </tr>
+              ) : null}
+              {virtualRows.map((virtualRow) => {
+                const rowIndex = virtualRow.index;
+                const row = bodyRows[rowIndex] ?? [];
+                return (
+                  <tr
+                    key={virtualRow.key}
+                    data-index={rowIndex}
+                    ref={rowVirtualizer.measureElement}
+                  >
+                    <th
+                      scope="row"
+                      className="sticky left-0 z-10 w-12 min-w-12 border-b border-r border-border bg-surface-recessed-solid px-2 py-1 text-right font-medium text-muted-foreground"
+                    >
+                      {rowIndex + 2}
+                    </th>
+                    {columns.map((column) => {
+                      const cell = row[column.index] ?? "";
+                      return (
+                        <td
+                          key={column.index}
+                          className="w-72 max-w-72 overflow-hidden border-b border-r border-border px-2 py-1 align-top text-foreground"
+                          title={cell}
+                        >
+                          <span className="block max-w-full truncate">
+                            {cell}
+                          </span>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+              {spacerBottomHeight > 0 ? (
+                <tr aria-hidden style={{ height: spacerBottomHeight }}>
+                  <td colSpan={columns.length + 1} className="p-0" />
+                </tr>
+              ) : null}
+            </tbody>
+          </table>
+        </div>
+        {truncationNote === null ? null : (
+          <p className="mt-2 shrink-0 text-xs leading-5 text-muted-foreground">
+            {truncationNote}
+          </p>
+        )}
+      </div>
+    </SecondaryPanelSelectionActions>
+  );
+}
+
+function FilePreviewImage({ url, alt }: FilePreviewImageProps) {
+  return (
+    <div className="pt-4">
+      <img
+        src={url}
+        alt={alt}
+        className="block max-h-[34rem] w-full object-contain"
+      />
+    </div>
+  );
+}
+
+function FilePreviewVideo({ url, title }: FilePreviewVideoProps) {
+  return (
+    <div className="pt-4">
+      <video
+        src={url}
+        title={title}
+        className="block max-h-[34rem] w-full bg-black"
+        controls
+        preload="metadata"
+      />
+    </div>
+  );
+}
+
+function IframeFilePreview({ sandbox, title, url }: IframeFilePreviewTarget) {
+  const { t } = useTranslation();
+  const [loadState, setLoadState] = useState<IframeLoadState>("loading");
+  const [showLoadingIndicator, setShowLoadingIndicator] = useState(false);
+
+  useEffect(() => {
+    setLoadState("loading");
+  }, [url]);
+
+  useEffect(() => {
+    if (loadState !== "loading") {
+      setShowLoadingIndicator(false);
+      return;
+    }
+
+    setShowLoadingIndicator(false);
+    const timeoutId = window.setTimeout(() => {
+      setShowLoadingIndicator(true);
+    }, IFRAME_LOADING_INDICATOR_DELAY_MS);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [loadState, url]);
+
+  if (loadState === "error") {
+    return (
+      <div className="min-h-0 flex-1 overflow-hidden">
+        <FilePreviewMessage
+          message={t(
+            "secondaryPanel.filePreview.iframe.loadError",
+            "Failed to load HTML preview.",
+          )}
+          role="alert"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative min-h-0 flex-1 overflow-hidden">
+      {loadState === "loading" && showLoadingIndicator ? (
+        <div className="absolute inset-x-0 top-0 z-10">
+          <FilePreviewLoading />
+        </div>
+      ) : null}
+      <iframe
+        title={title}
+        src={url}
+        sandbox={sandbox === null ? undefined : sandbox}
+        style={HTML_FILE_PREVIEW_IFRAME_STYLE}
+        onLoad={() => setLoadState("loaded")}
+        onError={() => setLoadState("error")}
+      />
+    </div>
+  );
+}
+
+function FilePreviewLoading() {
+  return (
+    <div className="space-y-2 px-4 pt-4" aria-busy>
+      <Skeleton className="h-3 w-3/4 rounded-sm" />
+      <Skeleton className="h-3 w-full rounded-sm" />
+      <Skeleton className="h-3 w-5/6 rounded-sm" />
+      <Skeleton className="h-3 w-2/3 rounded-sm" />
+      <Skeleton className="h-3 w-full rounded-sm" />
+      <Skeleton className="h-3 w-3/5 rounded-sm" />
+    </div>
+  );
+}
+
+function FilePreviewMessage({ message, role }: FilePreviewMessageProps) {
+  return (
+    <EmptyStatePanel role={role} className="mx-4 mt-4 rounded-lg">
+      {message}
+    </EmptyStatePanel>
+  );
+}
+
+/**
+ * The preview's source body. Everything here is chrome and policy — which
+ * lines to highlight, whether to scroll to them, the selection-to-chat hook —
+ * while the render itself goes through the shared host boundary, so an
+ * `experimental_sourceCodeRenderer` replacement covers the file preview too.
+ */
+function FilePreviewCode({
+  file,
+  lineOverflowMode,
+  lineRange,
+  onSelectionAddToChat,
+  path,
+}: FilePreviewCodeProps) {
+  const highlightedLines = useMemo(
+    () =>
+      lineRange === null
+        ? null
+        : { start: lineRange.startLineNumber, end: lineRange.endLineNumber },
+    [lineRange],
+  );
+  return (
+    <SourceCodeHost
+      content={file.contents}
+      path={path}
+      // `path` is what the panel shows and what a copied selection is
+      // labelled with; `file.name` can be a shorter server-supplied display
+      // name for the same file, and it is the identity the highlighter's
+      // result cache was keyed on before this went through the host.
+      cacheKey={file.cacheKey ?? file.name}
+      overflow={lineOverflowMode}
+      highlightedLines={highlightedLines}
+      scrollToHighlightedLines
+      fallback={<FilePreviewLoading />}
+      onSelectionAddToChat={onSelectionAddToChat}
+    />
+  );
+}

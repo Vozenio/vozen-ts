@@ -1,0 +1,118 @@
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import type { PermissionMode } from "@bb/domain";
+import { LIST_HOVER_TRANSITION } from "@bb/shared-ui/motion";
+import { cn } from "@bb/shared-ui/lib/utils";
+import { OptionPicker, type PickerOption } from "./OptionPicker";
+
+type PermissionModeOption = PickerOption<PermissionMode>;
+
+function getPermissionModeCompactLabel(
+  value: PermissionMode,
+  t: (key: string) => string,
+): string {
+  switch (value) {
+    case "full":
+      return t("ui.permissionModePicker.full");
+    case "accept-edits":
+      return t("ui.permissionModePicker.edits");
+    case "auto":
+      return t("ui.permissionModePicker.auto");
+  }
+}
+
+function addPermissionModeCompactLabels(
+  options: readonly PermissionModeOption[],
+  t: (key: string) => string,
+): PermissionModeOption[] {
+  return options.map((option) => ({
+    ...option,
+    compactLabel:
+      option.compactLabel ?? getPermissionModeCompactLabel(option.value, t),
+  }));
+}
+
+export interface PermissionModePickerProps {
+  value?: PermissionMode;
+  options: readonly PickerOption<PermissionMode>[];
+  onChange: (value: PermissionMode) => void;
+  supported: boolean;
+  className?: string;
+  /** Render with the dim, hover-to-foreground treatment used inside the prompt box. Defaults to true. */
+  muted?: boolean;
+  /** Render with the menu open on mount. Story-only escape hatch. */
+  defaultOpen?: boolean;
+  /** Whether the menu blocks page interaction. Defaults to Radix's true; pass false in stories. */
+  modal?: boolean;
+  /** Horizontal menu alignment. Defaults to "end". */
+  align?: "start" | "center" | "end";
+  /** Temporary effective mode display; does not change the stored permission value. */
+  displayOverride?: {
+    label: string;
+    compactLabel?: string;
+    description?: string;
+    title?: string;
+  };
+  /**
+   * Render the picker as a non-interactive, dimmed label (read-only surfaces,
+   * e.g. the side chat). The selected mode still shows; the menu never opens.
+   */
+  disabled?: boolean;
+  /** Keep the chevron visible while disabled, used for plan-mode permission locks. */
+  showChevronWhenDisabled?: boolean;
+  /** Show a locked summary when the provider exposes only one mode. */
+  showWhenSingleOption?: boolean;
+}
+
+/**
+ * Permission mode picker. Returns null when the provider doesn't support
+ * picking (`supported=false`), the current value has not loaded yet, or
+ * there's nothing to choose between. A `disabled` picker renders the same
+ * selected-mode label as its interactive counterpart, just non-interactive
+ * (read-only surfaces, e.g. the side chat).
+ */
+export function PermissionModePicker({
+  value,
+  options,
+  onChange,
+  supported,
+  className,
+  muted = true,
+  defaultOpen,
+  modal,
+  align = "end",
+  displayOverride,
+  disabled,
+  showChevronWhenDisabled,
+  showWhenSingleOption = false,
+}: PermissionModePickerProps) {
+  const { t } = useTranslation();
+  const compactOptions = useMemo(
+    () => addPermissionModeCompactLabels(options, t),
+    [options, t],
+  );
+  if (
+    !supported ||
+    value === undefined ||
+    (!showWhenSingleOption && options.length <= 1)
+  ) {
+    return null;
+  }
+  return (
+    <OptionPicker
+      label={t("ui.permissionModePicker.permissionMode")}
+      value={value}
+      options={compactOptions}
+      onChange={onChange}
+      className={cn(LIST_HOVER_TRANSITION, className)}
+      contentClassName="max-w-72"
+      muted={muted}
+      defaultOpen={defaultOpen}
+      modal={modal}
+      align={align}
+      displayOverride={displayOverride}
+      disabled={disabled || options.length <= 1}
+      showChevronWhenDisabled={showChevronWhenDisabled}
+    />
+  );
+}

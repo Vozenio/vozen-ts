@@ -1,0 +1,92 @@
+import { useTranslation } from "react-i18next";
+import { Button } from "@bb/shared-ui/button";
+import { Icon, type IconName } from "@bb/shared-ui/icon";
+import {
+  SettingsSection,
+  SettingsWithControl,
+} from "@/components/ui/settings-section.js";
+import { openUrlInExternalBrowser } from "@/lib/url-open-routing";
+
+const DISCORD_INVITE_URL = "https://discord.gg/kvBU6tJhcJ";
+const GITHUB_REPO_URL = "https://github.com/get-bb/bb";
+
+interface CommunityLinkRowProps {
+  description: string;
+  href: string;
+  icon: IconName;
+  label: string;
+  openLabel: string;
+}
+
+function CommunityLinkRow({
+  description,
+  href,
+  icon,
+  label,
+  openLabel,
+}: CommunityLinkRowProps) {
+  return (
+    <SettingsWithControl label={label} description={description}>
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className="h-7 gap-1.5 px-2.5 text-xs"
+        aria-label={openLabel}
+        onClick={() => {
+          openUrlInExternalBrowser(href);
+        }}
+      >
+        <Icon name={icon} className="size-3.5 shrink-0" />
+        {openLabel}
+        <Icon
+          name="ExternalLink"
+          className="size-3 shrink-0 text-muted-foreground"
+        />
+      </Button>
+    </SettingsWithControl>
+  );
+}
+
+/**
+ * Settings → Community: external links to Discord and the public GitHub
+ * repository (moved out of the app sidebar footer).
+ */
+export function CommunitySettingsSection() {
+  const { t } = useTranslation();
+  return (
+    <SettingsSection
+      title={t("settingsMisc.community.title", "Community")}
+      description={t(
+        "settingsMisc.community.description",
+        "Chat with other vozen users and follow development on GitHub.",
+      )}
+    >
+      <div className="space-y-5">
+        <CommunityLinkRow
+          label={t("settingsMisc.community.discord.label", "Discord")}
+          description={t(
+            "settingsMisc.community.discord.description",
+            "Join the server for support, feedback, and announcements.",
+          )}
+          href={DISCORD_INVITE_URL}
+          icon="Discord"
+          openLabel={t("settingsMisc.community.discord.openLabel", "Join Discord")}
+        />
+        <CommunityLinkRow
+          label={t("settingsMisc.community.github.label", "GitHub")}
+          description={t(
+            "settingsMisc.community.github.description",
+            "Source code, issues, and releases for the vozen project.",
+          )}
+          href={GITHUB_REPO_URL}
+          icon="Github"
+          openLabel={t(
+            "settingsMisc.community.github.openLabel",
+            "View on GitHub",
+          )}
+        />
+      </div>
+    </SettingsSection>
+  );
+}

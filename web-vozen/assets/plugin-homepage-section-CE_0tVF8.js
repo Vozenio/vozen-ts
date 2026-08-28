@@ -1,0 +1,1 @@
+function e(e,t){return`plugin-homepage:${e}:${t}`}export{e as t};

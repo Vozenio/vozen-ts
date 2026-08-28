@@ -1,0 +1,6 @@
+
+> @bb/plugin-build@0.0.1 generate /Users/defei.li/AIhub/bb/packages/plugin-build
+> node ./scripts/generate-plugin-theme.mjs && node ./scripts/generate-runtime-export-manifest.mjs
+
+plugin-theme.generated.ts up to date
+wrote /Users/defei.li/AIhub/bb/packages/plugin-build/src/generated/runtime-export-manifest.generated.ts (react@19.2.4)

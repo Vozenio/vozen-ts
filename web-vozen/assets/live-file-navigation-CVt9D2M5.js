@@ -1,0 +1,1 @@
+function e(e){return e===null?{columnNumber:null,lineNumber:null}:e.kind===`line`?{columnNumber:e.column,lineNumber:e.line}:{columnNumber:null,lineNumber:e.startLine}}function t(e){return e===null?null:{startLineNumber:e.kind===`line`?e.line:e.startLine,endLineNumber:e.kind===`line`?e.line:e.endLine}}export{t as n,e as t};

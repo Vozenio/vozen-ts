@@ -1,0 +1,1 @@
+var e=`text-xs font-normal leading-5 text-subtle-foreground/75`,t=`text-subtle-foreground/75 hover:text-muted-foreground data-[state=open]:text-subtle-foreground/75`;export{t as n,e as t};

@@ -1,0 +1,1 @@
+import{a as e}from"./use-media-query-CQCemZ5B.js";var t=`(pointer: coarse)`;function n(){return e(t)}export{n,t};

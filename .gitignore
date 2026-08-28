@@ -1,0 +1,13 @@
+node_modules/
+dist/
+*.db
+*.sqlite
+.env
+.env.*
+.DS_Store
+/vozen
+terminal-browser/electron/
+terminal-browser/browser/native/
+terminal-browser/agent-browser/bin/
+*.bun-build
+.claude/
