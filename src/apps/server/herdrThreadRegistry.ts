@@ -27,8 +27,13 @@ import {
   resolveSessionLogPath,
   type ToolActivity,
 } from "../../plugins/provider_herdr/sessionLog.ts";
-import { claudeTranscriptToTimelineRows } from "../../plugins/provider_herdr/claudeTranscriptToTimelineRows.ts";
+import { buildClaudeHerdrTimelineRows } from "../../plugins/provider_herdr/claudeTranscriptToTimelineRows.ts";
 import { subagentTranscriptsFingerprint } from "../../plugins/provider_herdr/claudeTranscriptToSdkMessages.ts";
+import {
+  createTranscriptIngestCache,
+  loadClaudeTranscriptIncremental,
+  type TranscriptIngestCache,
+} from "../../plugins/provider_herdr/incrementalTranscript.ts";
 import { claudeAskUserQuestionAnswers, claudeAskUserQuestionToBbQuestions } from "../../plugins/provider_herdr/askUserQuestion.ts";
 
 const DEFAULT_POLL_INTERVAL_MS = 2000;
@@ -206,6 +211,10 @@ interface HerdrThreadState {
    * re-read + full re-parse can be skipped outright. Null before the first
    * successful parse or when content came from the terminal fallback. */
   parsedLogStat: string | null;
+  /** Incremental byte-offset ingest state for the claude pipeline (see
+   * incrementalTranscript.ts) — new refreshes read only the log's new tail.
+   * Keyed to its sessionPath; a session rotation replaces it. */
+  transcriptCache: TranscriptIngestCache | null;
 }
 
 /** Mirrors sessionLog.ts's own (unexported) normalizedKind's claude spelling
@@ -371,6 +380,7 @@ export class HerdrThreadRegistry {
         entries: prior?.entries ?? [],
         claudeTimelineRows: prior?.claudeTimelineRows ?? null,
         parsedLogStat: prior?.parsedLogStat ?? null,
+        transcriptCache: prior?.transcriptCache ?? null,
       };
       this.threads.set(threadId, state);
       if (isNew || statusChanged) {
@@ -431,10 +441,20 @@ export class HerdrThreadRegistry {
         if (logStat !== null && logStat === state.parsedLogStat) return;
         if (isClaudeAgentKind(snapshot.agent)) {
           try {
-            // Full re-run every refresh (translator + assembler + builder are
-            // all fresh instances) — no incremental state, matching herdr
-            // threads' own "never persisted, recompute on demand" design.
-            state.claudeTimelineRows = await claudeTranscriptToTimelineRows(logPath, threadId);
+            // IO/JSON.parse is incremental (only the log's new tail is read
+            // — see incrementalTranscript.ts); the convert → translate →
+            // assemble → build pipeline still replays in full. Measured on a
+            // 27MB/2k-row transcript: ~400ms cold, ~215ms per active-growth
+            // refresh (was ~300ms + the read on every one).
+            // ponytail: the replay is the remaining floor — a fed-forward
+            // incremental pipeline is blocked by convertClaudeTranscript's
+            // EOF-synthesized results; revisit only if active-pane CPU
+            // actually hurts.
+            if (state.transcriptCache?.sessionPath !== logPath) {
+              state.transcriptCache = createTranscriptIngestCache(logPath);
+            }
+            const loaded = await loadClaudeTranscriptIncremental(state.transcriptCache);
+            state.claudeTimelineRows = buildClaudeHerdrTimelineRows(loaded, threadId);
             state.parsedLogStat = logStat;
             return;
           } catch {

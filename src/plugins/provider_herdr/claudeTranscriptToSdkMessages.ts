@@ -760,6 +760,13 @@ function synthesizeTaskNotificationUserRecord(queueOperationRecord: JsonRecord):
  * record with the identical content already landed (belt-and-suspenders;
  * both are not expected to occur for the same notification). */
 export function parseTranscriptRecords(text: string): TranscriptEntry[] {
+  return buildTranscriptEntries(parseRawTranscriptRecords(text));
+}
+
+/** The per-line half of `parseTranscriptRecords`: JSONL text → records.
+ * Chunk-safe (each line stands alone), so the incremental loader can parse
+ * only a file's new tail and append to a cached record array. */
+export function parseRawTranscriptRecords(text: string): JsonRecord[] {
   const rawRecords: JsonRecord[] = [];
   for (const line of text.split("\n")) {
     if (line.length === 0) continue;
@@ -772,7 +779,14 @@ export function parseTranscriptRecords(text: string): TranscriptEntry[] {
     const record = asRecord(parsed);
     if (record !== undefined) rawRecords.push(record);
   }
+  return rawRecords;
+}
 
+/** The whole-history half: NOT chunk-safe (the orphaned-task-notification
+ * check needs every `user` record that ever landed, and timestamps carry
+ * forward), so it always runs over the full record array — it's plain
+ * in-memory work, cheap next to re-reading and re-JSON.parsing the file. */
+export function buildTranscriptEntries(rawRecords: JsonRecord[]): TranscriptEntry[] {
   const landedTaskNotificationContent = new Set<string>();
   for (const record of rawRecords) {
     if (record.type !== "user") continue;
