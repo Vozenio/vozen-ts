@@ -109,31 +109,31 @@ it("uses a plugin-owned compact SVG before named icon hints", () => {
 });
 
 it("resolves every named branding.icon the shipped plugins declare", async () => {
-  const { readdir, readFile } = await import("node:fs/promises");
-  const { dirname, join, resolve } = await import("node:path");
+  const { readFile } = await import("node:fs/promises");
+  const { dirname, resolve } = await import("node:path");
   const { fileURLToPath } = await import("node:url");
   const { pluginIconName } = await import("./PluginIcon");
 
-  const pluginsDir = resolve(
-    dirname(fileURLToPath(import.meta.url)),
-    "../../../../../plugins",
+  // bb upstream scans plugins/*/package.json manifests. vozen ships no bb
+  // plugin manifests — its provider glyphs are declared inline in the server
+  // shim (bbShim.ts), so scan that file's glyph literals instead.
+  const shimSource = await readFile(
+    resolve(
+      dirname(fileURLToPath(import.meta.url)),
+      "../../../../server/bbShim.ts",
+    ),
+    "utf8",
   );
-  const entries = await readdir(pluginsDir, { withFileTypes: true });
-  const declared: Array<[string, string]> = [];
-  for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
-    const manifest: { bb?: { branding?: { icon?: string } } } = JSON.parse(
-      await readFile(join(pluginsDir, entry.name, "package.json"), "utf8"),
-    );
-    const icon = manifest.bb?.branding?.icon;
-    // Path-shaped icons are plugin-owned SVG assets, not host glyph names.
-    if (icon === undefined || icon.startsWith("./")) continue;
-    declared.push([entry.name, icon]);
-  }
+  const declared = [
+    ...[...shimSource.matchAll(/glyph:\s*"([A-Za-z]+)"/g)].map((m) => m[1]),
+    ...[
+      ...(shimSource
+        .match(/HERDR_AGENT_ICON_GLYPHS[^{]*\{([^}]*)\}/)?.[1]
+        ?.matchAll(/"([A-Za-z]+)"/g) ?? []),
+    ].map((m) => m[1]),
+  ];
 
   expect(declared.length).toBeGreaterThan(0);
   // A typo silently falls back to Zap, so a deliberate icon must round-trip.
-  expect(
-    declared.filter(([, icon]) => pluginIconName(icon) !== icon),
-  ).toEqual([]);
+  expect(declared.filter((icon) => pluginIconName(icon) !== icon)).toEqual([]);
 });

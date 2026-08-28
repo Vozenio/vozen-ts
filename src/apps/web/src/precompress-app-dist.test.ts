@@ -11,7 +11,9 @@ const decompressBrotli = promisify(brotliDecompress);
 const decompressGzip = promisify(gunzip);
 const scriptPath = resolve(
   import.meta.dirname,
-  "../../../scripts/precompress-app-dist.mjs",
+  // vozen vendors the script at src/apps/web/scripts/ (bb upstream: repo
+  // root scripts/) — the upstream ../../../ path resolved to nothing here.
+  "../scripts/precompress-app-dist.mjs",
 );
 
 async function pathExists(path: string): Promise<boolean> {

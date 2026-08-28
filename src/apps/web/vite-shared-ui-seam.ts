@@ -26,7 +26,10 @@ export function sharedUiEnvSeam(): Plugin {
     resolveId(source, importer) {
       if (
         !importer ||
-        !importer.replace(/\\/g, "/").includes("/packages/shared-ui/")
+        // vozen vendors the package at bb-packages/shared-ui (bb upstream:
+        // packages/shared-ui) — the upstream check never matched, so every
+        // host Dialog silently got the plugin/no-op flavors of both leaves.
+        !importer.replace(/\\/g, "/").includes("/bb-packages/shared-ui/")
       ) {
         return null;
       }

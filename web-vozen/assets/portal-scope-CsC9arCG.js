@@ -1,1 +1,0 @@
-function e(){let e=typeof __BB_PLUGIN_ID__==`string`?__BB_PLUGIN_ID__:void 0;return{"data-bb-portaled-overlay":``,"data-bb-plugin-root":``,...e===void 0?{}:{"data-bb-plugin":e}}}export{e as t};

@@ -12,26 +12,12 @@ import {
 import { SettingsSection } from "@/components/ui/settings-section";
 import { appToast } from "@/components/ui/app-toast";
 import { formatRelativeTime } from "@/lib/relative-time";
-
-// Mirrors src/apps/server/connectManager.ts's ConnectStatus — kept local
-// instead of a shared import for the same reason HerdrAgentsView.tsx does:
-// the web app has no build-time dependency on server code.
-type ConnectState = "disconnected" | "pairing" | "connected" | "reconnecting";
-
-interface ConnectStatus {
-  state: ConnectState;
-  paired: boolean;
-  handle: string | null;
-  url: string | null;
-  dashboardUrl: string;
-  lastError: string | null;
-  since: number | null;
-  nextRetryAt: number | null;
-  remoteClients: number;
-  lastRemoteActivityAt: number | null;
-}
-
-const CONNECT_STATUS_QUERY_KEY = ["vozen-connect-status"];
+import {
+  type ConnectState,
+  type ConnectStatus,
+  connectStatusQueryKey,
+  setConnectStatusCache,
+} from "@/hooks/cache-owners/connect-status-cache-owner";
 
 const STATE_LABEL: Record<ConnectState, string> = {
   disconnected: "Disconnected",
@@ -55,7 +41,7 @@ async function fetchConnectStatus(signal: AbortSignal): Promise<ConnectStatus> {
 
 function useConnectStatus() {
   return useQuery({
-    queryKey: CONNECT_STATUS_QUERY_KEY,
+    queryKey: connectStatusQueryKey,
     queryFn: ({ signal }) => fetchConnectStatus(signal),
     refetchInterval: 3000,
   });
@@ -113,7 +99,7 @@ function PairForm({ dashboardUrl }: { dashboardUrl: string }) {
       return body;
     },
     onSuccess: (status) => {
-      queryClient.setQueryData(CONNECT_STATUS_QUERY_KEY, status);
+      setConnectStatusCache({ queryClient, status });
       setError(null);
       setCode("");
     },
@@ -186,7 +172,7 @@ function ConnectedView({ status }: { status: ConnectStatus }) {
       return response.json();
     },
     onSuccess: (nextStatus) => {
-      queryClient.setQueryData(CONNECT_STATUS_QUERY_KEY, nextStatus);
+      setConnectStatusCache({ queryClient, status: nextStatus });
       setConfirmingDisconnect(false);
     },
     onError: () => appToast.error("Could not disconnect remote access."),

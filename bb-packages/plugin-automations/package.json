@@ -1,0 +1,22 @@
+{
+  "name": "bb-plugin-automations",
+  "version": "0.1.0",
+  "description": "Vendored bb automations plugin views (detail/overview) for the web app.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./detail-view": "./detail-view.tsx",
+    "./overview-view": "./overview-view.tsx",
+    "./rpc-types": "./src/rpc-types.ts"
+  },
+  "dependencies": {
+    "@bb/domain": "workspace:*",
+    "@bb/shared-ui": "workspace:*",
+    "@get-bb/plugin-sdk": "workspace:*",
+    "cronstrue": "^3.14.0",
+    "zod": "^4.3.6"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  }
+}
