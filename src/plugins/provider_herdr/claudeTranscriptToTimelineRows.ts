@@ -155,14 +155,19 @@ function findAskUserQuestionCalls(main: TranscriptEntry[]): AskUserQuestionCall[
   return [...calls.values()];
 }
 
-function syntheticUserPromptNotification(text: string): TimelineNotification {
+function syntheticUserPromptNotification(text: string, promptIndex: number): TimelineNotification {
   return {
     method: "item/completed",
     params: {
       turnId: null,
       item: {
         type: "userMessage",
-        id: `herdr-prompt-${Math.random().toString(36).slice(2)}`,
+        // Keyed by transcript position, never randomness: the whole timeline
+        // is rebuilt from the transcript on every refresh, and only a
+        // deterministic id keeps "did anything change?" diffs and the
+        // client's delta upserts from seeing a brand-new row each rebuild
+        // (same rule as bb's `user-seed:${seq}` message ids).
+        id: `herdr-prompt-${promptIndex}`,
         content: [{ type: "text", text }],
       },
     },
@@ -228,7 +233,13 @@ export function buildClaudeHerdrTimelineRows(loaded: LoadedClaudeTranscript, thr
   }
   deltas.push(...translator.buildSessionSettlementDeltas(threadId));
 
-  const assembler = createDeltaAssembler({ providerId: "claude-code" });
+  // Fixed entropyPrefix (the assembler option bb's own tests use for
+  // determinism): this pipeline rebuilds from the transcript on every
+  // refresh, and the default per-instance random prefix would mint new
+  // turn/item ids each rebuild — every diff looks changed, every client
+  // delta re-upserts every row. Replay order is deterministic, so a
+  // thread-stable prefix + the assembler's own counters yield stable ids.
+  const assembler = createDeltaAssembler({ providerId: "claude-code", entropyPrefix: threadId });
   const events = assembler.assemble({ threadId, deltas });
 
   const builder = createTimelineRowBuilder(threadId);
@@ -256,7 +267,7 @@ export function buildClaudeHerdrTimelineRows(loaded: LoadedClaudeTranscript, thr
   // rare edge case; append any leftover prompts at the end rather than
   // silently dropping them.
   for (; promptIndex < prompts.length; promptIndex += 1) {
-    builder.apply(syntheticUserPromptNotification(prompts[promptIndex]!));
+    builder.apply(syntheticUserPromptNotification(prompts[promptIndex]!, promptIndex));
   }
   return builder.rows();
 }

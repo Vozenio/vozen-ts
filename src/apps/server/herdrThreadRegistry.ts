@@ -9,6 +9,7 @@
  * database row against it. A vozen restart just re-polls current reality.
  */
 
+import * as fs from "node:fs/promises";
 import path from "node:path";
 import {
   isUserQuestionPendingInteraction,
@@ -199,6 +200,11 @@ interface HerdrThreadState {
    * fallback covers both.
    */
   claudeTimelineRows: TimelineRow[] | null;
+  /** `mtimeMs:size` of the session log the last refresh parsed — a stat()
+   * match means the log hasn't changed and the (potentially tens-of-MB)
+   * re-read + full re-parse can be skipped outright. Null before the first
+   * successful parse or when content came from the terminal fallback. */
+  parsedLogStat: string | null;
 }
 
 /** Mirrors sessionLog.ts's own (unexported) normalizedKind's claude spelling
@@ -299,15 +305,29 @@ export class HerdrThreadRegistry {
     void this.refreshIfChanged(threadId);
   }
 
+  /** Cheap change fingerprint standing in for a full deep-compare: row ids
+   * are deterministic (transcript-position-keyed) and a transcript only ever
+   * appends, so (count, last id, last seq/text) moves whenever content does —
+   * without JSON.stringify-ing tens of MB of rows on every poll tick. */
+  private contentFingerprint(state: HerdrThreadState): string {
+    const rows = state.claudeTimelineRows;
+    if (rows) {
+      const last = rows[rows.length - 1];
+      return `rows:${rows.length}:${last?.id ?? ""}:${last?.source_seq_end ?? ""}`;
+    }
+    const last = state.entries[state.entries.length - 1];
+    return `entries:${state.entries.length}:${last?.id ?? ""}:${last?.text ?? ""}`;
+  }
+
   /** Re-reads a known thread's content and emits "events-appended" only if
    * something actually changed — shared by pollOnce()'s active-state branch
    * and handlePaneEvent()'s event-driven fast path. */
   private async refreshIfChanged(threadId: string): Promise<void> {
     const state = this.threads.get(threadId);
     if (!state) return;
-    const before = JSON.stringify(state.entries) + JSON.stringify(state.claudeTimelineRows);
+    const before = this.contentFingerprint(state);
     await this.refreshEntries(threadId);
-    if (JSON.stringify(state.entries) + JSON.stringify(state.claudeTimelineRows) !== before) {
+    if (this.contentFingerprint(state) !== before) {
       this.emit(threadId, ["events-appended"]);
     }
   }
@@ -339,6 +359,7 @@ export class HerdrThreadRegistry {
         lastActivityAt: isNew || statusChanged ? now : prior!.lastActivityAt,
         entries: prior?.entries ?? [],
         claudeTimelineRows: prior?.claudeTimelineRows ?? null,
+        parsedLogStat: prior?.parsedLogStat ?? null,
       };
       this.threads.set(threadId, state);
       if (isNew || statusChanged) {
@@ -382,12 +403,25 @@ export class HerdrThreadRegistry {
     if (snapshot.sessionId) {
       const logPath = await resolveSessionLogPath(snapshot.agent, snapshot.sessionId, this.home);
       if (logPath) {
+        // Session logs are tens of MB and this runs every poll tick while
+        // the agent is active — an unchanged mtime+size means the previous
+        // parse is still exact, so skip the whole re-read + re-parse.
+        let logStat: string | null = null;
+        try {
+          const stats = await fs.stat(logPath);
+          logStat = `${stats.mtimeMs}:${stats.size}`;
+        } catch {
+          // stat failing is fine — fall through to the read paths below,
+          // which have their own fallbacks.
+        }
+        if (logStat !== null && logStat === state.parsedLogStat) return;
         if (isClaudeAgentKind(snapshot.agent)) {
           try {
             // Full re-run every refresh (translator + assembler + builder are
             // all fresh instances) — no incremental state, matching herdr
             // threads' own "never persisted, recompute on demand" design.
             state.claudeTimelineRows = await claudeTranscriptToTimelineRows(logPath, threadId);
+            state.parsedLogStat = logStat;
             return;
           } catch {
             // Falls through to the hand-written sessionLog.ts parse below as
@@ -400,6 +434,7 @@ export class HerdrThreadRegistry {
           const tail = await readLogTail(logPath);
           state.entries = parseSessionLog(snapshot.agent, tail);
           state.claudeTimelineRows = null;
+          state.parsedLogStat = logStat;
           return;
         } catch {
           // fall through to the terminal fallback below
@@ -411,6 +446,7 @@ export class HerdrThreadRegistry {
     // a single scrolling snapshot of the raw terminal (accepted tradeoff —
     // no message-boundary parsing for kinds Claude/Codex/Qoder didn't cover).
     state.claudeTimelineRows = null;
+    state.parsedLogStat = null;
     try {
       const text = await readHerdrAgent(state.paneId, TERMINAL_FALLBACK_LINES, this.cliOptions());
       state.entries = [{ id: `${threadId}-terminal`, role: "assistant", text: text.trimEnd(), timestamp: null }];

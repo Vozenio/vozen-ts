@@ -95,4 +95,20 @@ describe("buildClaudeHerdrTimelineRows: authentication_failed recovery", () => {
     // own row; either way it must not swallow anything that follows it.
     expect(rows.length).toBeGreaterThan(0);
   });
+
+  test("rebuilding from the same transcript yields identical rows (deterministic ids)", () => {
+    // The registry rebuilds the full timeline from the transcript on every
+    // refresh and diffs by fingerprint; any nondeterministic id (the old
+    // Math.random() prompt ids) makes every rebuild look changed, so the
+    // client refetches and re-renders every poll tick forever.
+    const main: TranscriptEntry[] = [
+      entry(1000, { type: "user", message: { role: "user", content: "turn one" }, timestamp: "t1" }),
+    ];
+    const loaded: LoadedClaudeTranscript = { sessionId: "sess-deterministic", main, agents: [] };
+
+    const first = buildClaudeHerdrTimelineRows(loaded, "test-thread");
+    const second = buildClaudeHerdrTimelineRows(loaded, "test-thread");
+    expect(second).toEqual(first);
+    expect(first.length).toBeGreaterThan(0);
+  });
 });

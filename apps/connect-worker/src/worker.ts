@@ -93,7 +93,7 @@ const MAX_DEVICES = 100;
 /** Shared by both registration paths (CLI's shared setup-token, and the
  * web login flow's session-cookie gate) — the actual "claim this handle"
  * logic is identical either way, only the caller's auth check differs. */
-async function claimHandle(env: Env, handle: string): Promise<ClaimResult> {
+async function claimHandle(env: Env, handle: string, ownerLogin: string | null): Promise<ClaimResult> {
   const existing = await env.DB.prepare("SELECT handle FROM devices WHERE handle = ?").bind(handle).first();
   if (existing) {
     return { ok: false, status: 409, error: "handle already taken" };
@@ -104,8 +104,8 @@ async function claimHandle(env: Env, handle: string): Promise<ClaimResult> {
   }
   const credential = crypto.randomUUID() + crypto.randomUUID();
   const credentialHash = await sha256Hex(credential);
-  await env.DB.prepare("INSERT INTO devices (handle, credential_hash, created_at) VALUES (?, ?, ?)")
-    .bind(handle, credentialHash, Date.now())
+  await env.DB.prepare("INSERT INTO devices (handle, credential_hash, created_at, owner_login) VALUES (?, ?, ?, ?)")
+    .bind(handle, credentialHash, Date.now(), ownerLogin)
     .run();
   return { ok: true, credential };
 }
@@ -131,7 +131,7 @@ function normalizePairingCode(raw: string): string {
 }
 
 async function handleRegister(request: Request, env: Env): Promise<Response> {
-  let body: { handle?: string; setupToken?: string };
+  let body: { handle?: string; setupToken?: string; owner?: string };
   try {
     body = await request.json();
   } catch {
@@ -144,7 +144,11 @@ async function handleRegister(request: Request, env: Env): Promise<Response> {
   if (!handle) {
     return jsonResponse(400, { error: "handle must be 3-63 chars of [a-z0-9-]" });
   }
-  const result = await claimHandle(env, handle);
+  // Setup-token registration has no browser session to name an owner; the
+  // caller supplies one explicitly so the device is still reachable through
+  // the per-owner visitor gate.
+  const ownerLogin = typeof body.owner === "string" && body.owner.trim() ? body.owner.trim() : null;
+  const result = await claimHandle(env, handle, ownerLogin);
   if (!result.ok) return jsonResponse(result.status, { error: result.error });
   return jsonResponse(200, { handle, credential: result.credential, serverUrl: `https://${handle}.${env.APEX_DOMAIN}` });
 }
@@ -339,8 +343,8 @@ async function handleRegisterWeb(request: Request, env: Env): Promise<Response> 
   if (existing) return htmlResponse("handle already taken", 409);
 
   const code = generatePairingCode();
-  await env.DB.prepare("INSERT INTO pairing_codes (code, handle, expires_at) VALUES (?, ?, ?)")
-    .bind(code, handle, Date.now() + PAIRING_CODE_TTL_MS)
+  await env.DB.prepare("INSERT INTO pairing_codes (code, handle, expires_at, owner_login) VALUES (?, ?, ?, ?)")
+    .bind(code, handle, Date.now() + PAIRING_CODE_TTL_MS, login)
     .run();
 
   return htmlResponse(`<!doctype html><html><body style="font-family:system-ui;max-width:600px;margin:40px auto">
@@ -368,14 +372,14 @@ async function handleRedeem(request: Request, env: Env): Promise<Response> {
   const code = normalizePairingCode(body.code || "");
   if (!code) return jsonResponse(400, { error: "code is required" });
 
-  const row = await env.DB.prepare("SELECT handle, expires_at, used_at FROM pairing_codes WHERE code = ?")
+  const row = await env.DB.prepare("SELECT handle, expires_at, used_at, owner_login FROM pairing_codes WHERE code = ?")
     .bind(code)
-    .first<{ handle: string; expires_at: number; used_at: number | null }>();
+    .first<{ handle: string; expires_at: number; used_at: number | null; owner_login: string | null }>();
   if (!row) return jsonResponse(400, { error: "invalid_code" });
   if (row.used_at) return jsonResponse(400, { error: "already_used" });
   if (Date.now() > row.expires_at) return jsonResponse(400, { error: "expired_code" });
 
-  const result = await claimHandle(env, row.handle);
+  const result = await claimHandle(env, row.handle, row.owner_login);
   if (!result.ok) return jsonResponse(result.status, { error: result.error });
 
   await env.DB.prepare("UPDATE pairing_codes SET used_at = ? WHERE code = ?").bind(Date.now(), code).run();
@@ -495,6 +499,25 @@ export default {
     if (!login) {
       const returnTo = encodeURIComponent(request.url);
       return Response.redirect(`https://register.${apex}/auth/github/start?return_to=${returnTo}`, 302);
+    }
+
+    // A session only unlocks the handles its own GitHub login registered —
+    // anyone can hold a valid session (registration is open), so without
+    // this check any GitHub user could drive anyone else's vozen. A device
+    // with no recorded owner (pre-ownership row) is closed, not open: it
+    // stays 403 for everyone until its owner_login is backfilled.
+    const device = await env.DB.prepare("SELECT owner_login FROM devices WHERE handle = ? AND revoked_at IS NULL")
+      .bind(handle)
+      .first<{ owner_login: string | null }>();
+    if (!device) {
+      return jsonResponse(404, { error: "unknown handle" });
+    }
+    if (device.owner_login !== login) {
+      return htmlResponse(
+        `This vozen belongs to a different GitHub account. You are logged in as <b>${login}</b> — ` +
+          `<a href="https://register.${apex}/auth/logout">log out</a> and sign in with the owning account.`,
+        403,
+      );
     }
 
     const id = env.TUNNEL_DO.idFromName(handle);
