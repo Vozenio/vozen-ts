@@ -181,15 +181,18 @@ export class DaemonClient {
     }
   }
 
-  /** Spawns terminalDaemon.ts as a detached subprocess, at most once per
-   * DaemonClient. Detached: no stdio pipes held open, `unref()`'d, and we
-   * never await its exit — verified empirically that this keeps it alive
-   * after this (server) process exits. */
+  /** Spawns the terminal daemon as a detached subprocess, at most once per
+   * DaemonClient. Startup contract: the daemon receives the port as its only
+   * positional argument and must listen on 127.0.0.1 at that port; stdout is
+   * ignored and is not used to announce the port. Detached: no stdio pipes
+   * held open, `unref()`'d, and we never await its exit — verified empirically
+   * that this keeps it alive after this (server) process exits. */
   private spawnDaemonIfNeeded(): void {
     if (this.daemonSpawnAttempted) return;
     this.daemonSpawnAttempted = true;
     const daemonPath = path.join(import.meta.dir, "terminalDaemon.ts");
-    const proc = Bun.spawn(["bun", daemonPath, String(this.port)], {
+    const daemonBin = process.env.VOZEN_TERMINAL_DAEMON_BIN;
+    const proc = Bun.spawn(daemonBin ? [daemonBin, String(this.port)] : ["bun", daemonPath, String(this.port)], {
       stdio: ["ignore", "ignore", "ignore"],
     });
     proc.unref();
